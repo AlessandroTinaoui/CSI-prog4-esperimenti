@@ -1,103 +1,234 @@
+import os
+import sys
+import json
+import pickle
+import logging
+
+import numpy as np
 import pandas as pd
+import flwr as fl
+
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from flwr.client import NumPyClient
-from flwr.common import FitIns, FitRes
-import sys
-import pickle
-import logging
-import flwr as fl
-import numpy as np
-import os
+from flwr.common import FitIns
+
 
 class RandomForestClient(NumPyClient):
     def __init__(self, cid: int, data_path: str):
         self.cid = cid
+
         # Load data
-        self.data = pd.read_csv(data_path, sep=',')
-        
+        self.data = pd.read_csv(data_path, sep=",")
+
         # Configure logging
         self.logger = logging.getLogger(f"client_{self.cid}")
+        self.logger.setLevel(logging.INFO)
         handler = logging.FileHandler(f"client_{self.cid}_log.txt")
         handler.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(message)s")
         handler.setFormatter(formatter)
-        self.logger.addHandler(handler)
-        
+
+        # Evita doppio handler se il client viene istanziato più volte
+        if not self.logger.handlers:
+            self.logger.addHandler(handler)
+
         # Log dataset info
-        self.logger.info(f"Columns in dataset: {self.data.columns}")
+        self.logger.info(f"Columns in dataset: {self.data.columns.tolist()}")
         self.logger.info(f"First few rows:\n{self.data.head()}")
-        
+
+        # Pulizia base
         self.data = self.data.dropna()
 
-        # Drop unnecessary columns
-        cols_to_drop = ["day", "client_id", "user_id", "source_file"]
-        # Drop only existing columns to avoid errors if some are missing
-        cols_to_drop = [c for c in cols_to_drop if c in self.data.columns]
-        
-        self.X = self.data.drop(columns=cols_to_drop + ["label"])
-        self.y = self.data["label"]
+        # Drop unnecessary columns (solo se esistono)
+        self.cols_to_drop = ["day", "client_id", "user_id", "source_file"]
+        self.cols_to_drop = [c for c in self.cols_to_drop if c in self.data.columns]
 
-        # Train/Test split (80/20)
-        split_idx = int(0.8 * len(self.X))
-        self.X_train = self.X.iloc[:split_idx]
-        self.y_train = self.y.iloc[:split_idx]
-        self.X_test = self.X.iloc[split_idx:]
-        self.y_test = self.y.iloc[split_idx:]
+        # Target
+        self.target_col = "label"
+        if self.target_col not in self.data.columns:
+            raise ValueError(f"Target column '{self.target_col}' non trovata nel dataset")
 
-        # Initialize RandomForestRegressor
-        self.model = RandomForestRegressor(n_estimators=50, max_depth=10, random_state=42)
+        # Feature dataframe completo (prima della feature selection)
+        self.X_full = self.data.drop(columns=self.cols_to_drop + [self.target_col])
+        self.y_full = self.data[self.target_col]
 
+        # Feature names (ordine stabile!)
+        self.feature_names_full = self.X_full.columns.tolist()
+
+        # Split Train/Test (80/20) - come nel tuo originale
+        split_idx = int(0.8 * len(self.X_full))
+        self.X_train_full = self.X_full.iloc[:split_idx].copy()
+        self.y_train = self.y_full.iloc[:split_idx].copy()
+        self.X_test_full = self.X_full.iloc[split_idx:].copy()
+        self.y_test = self.y_full.iloc[split_idx:].copy()
+
+        # Modello RF (inizializzazione base)
+        self.model = RandomForestRegressor(
+            n_estimators=50,
+            max_depth=10,
+            random_state=42,
+        )
+
+    # -------------------------
+    # Helper: allena e calcola importanza feature (Round 1)
+    # -------------------------
+    def _train_and_compute_importance(self, X_train_df: pd.DataFrame, y_train: pd.Series):
+        """
+        Calcola feature_importances_ (MDI) senza split extra.
+        """
+        fs_model = RandomForestRegressor(
+            n_estimators=300,
+            max_depth=None,
+            random_state=42,
+            n_jobs=-1,
+            bootstrap=True,
+            oob_score=True,
+            min_samples_leaf=2,
+        )
+        fs_model.fit(X_train_df.values, y_train.values)
+
+        importances = fs_model.feature_importances_
+        oob_score = float(getattr(fs_model, "oob_score_", np.nan))
+        return importances, oob_score
+
+    # -------------------------
+    # FIT
+    # -------------------------
     def fit(self, parameters, ins: FitIns):
-        """Train the Random Forest model."""
-        self.logger.info("Training the model...")
-        self.model.fit(self.X_train, self.y_train)
+        """
+        Round 1 (phase="fs"):
+          - calcola importance + feature_names
+          - NON invia modello (il server in Round 1 ignora il modello)
+        Round >=2 (phase="train"):
+          - riceve selected_features
+          - filtra X_train/X_test
+          - allena RF
+          - serializza modello e lo invia come parameters
+        """
+        config = ins.config if hasattr(ins, "config") else {}
+        phase = config.get("phase", "train")
 
-        # Calculate training MAE
-        y_pred_train = self.model.predict(self.X_train)
+        # -------------------------
+        # ROUND 1: FEATURE SELECTION
+        # -------------------------
+        if phase == "fs":
+            self.logger.info("Round 1: FEATURE SELECTION (calcolo importanze).")
+
+            importances, oob_score = self._train_and_compute_importance(
+                self.X_train_full, self.y_train
+            )
+
+            metrics = {
+                "local_feature_importance": importances.tolist(),
+                "feature_names": json.dumps(self.feature_names_full),
+                "oob_score": float(oob_score),
+            }
+
+            # Non inviamo un modello in parameters (ritorniamo array vuoto)
+            # così il server può ignorare parameters in Round 1.
+            return [], len(self.X_train_full), metrics
+
+        # -------------------------
+        # ROUND >=2: TRAIN (con selected_features)
+        # -------------------------
+        selected = config.get("selected_features", None)
+
+        if selected is None:
+            selected_features = self.feature_names_full
+            self.logger.info("Nessuna selected_features ricevuta: uso tutte le feature.")
+        else:
+            if isinstance(selected, str):
+                selected_features = json.loads(selected)
+            else:
+                selected_features = list(selected)
+
+            self.logger.info(f"Received selected_features (n={len(selected_features)}): {selected_features}")
+
+        # Filtra train/test mantenendo ordine
+        X_train = self.X_train_full[selected_features]
+        X_test = self.X_test_full[selected_features]
+
+        # Allena modello
+        self.logger.info("Training the model (Round >=2)...")
+        self.model = RandomForestRegressor(
+            n_estimators=50,
+            max_depth=10,
+            random_state=42,
+        )
+        self.model.fit(X_train, self.y_train)
+
+        # Training MAE
+        y_pred_train = self.model.predict(X_train)
         mae_train = mean_absolute_error(self.y_train, y_pred_train)
         self.logger.info(f"Model trained. Training MAE: {mae_train:.4f}")
-        
-        # Serialize model
+
+        # Serializza modello (come nel tuo originale)
         model_bytes = pickle.dumps(self.model)
         model_array = np.frombuffer(model_bytes, dtype=np.uint8)
 
-        return [model_array], len(self.X_train), {"train_mae": mae_train}
+        metrics = {
+            "train_mae": float(mae_train),
+            "n_features": int(len(selected_features)),
+        }
 
+        return [model_array], len(X_train), metrics
+
+    # -------------------------
+    # EVALUATE
+    # -------------------------
     def evaluate(self, parameters, ins: FitIns):
-        """Evaluate the model."""
-        model_bytes = np.array(parameters[0], dtype=np.uint8).tobytes()
-    
-        # Deserialize the model
-        model = pickle.loads(model_bytes)
-        
-        if isinstance(model, RandomForestRegressor):
-            print("Successfully deserialized RandomForestRegressor model.")
-            self.model = model
+        """
+        Valutazione: deserializza modello e calcola MAE sul test set filtrato (se selected_features esiste).
+        """
+        config = ins.config if hasattr(ins, "config") else {}
+        selected = config.get("selected_features", None)
+
+        if selected is None:
+            selected_features = self.feature_names_full
         else:
-            print("Deserialized model is not a RandomForestRegressor.")
-            
-        # Calculate evaluation MAE
-        y_pred_test = self.model.predict(self.X_test)
+            if isinstance(selected, str):
+                selected_features = json.loads(selected)
+            else:
+                selected_features = list(selected)
+
+        X_test = self.X_test_full[selected_features]
+
+        # Deserializza modello
+        if parameters and len(parameters) > 0:
+            model_bytes = np.array(parameters[0], dtype=np.uint8).tobytes()
+            model = pickle.loads(model_bytes)
+
+            if isinstance(model, RandomForestRegressor):
+                self.model = model
+            else:
+                self.logger.info("Deserialized model is not a RandomForestRegressor (uso self.model corrente).")
+        else:
+            self.logger.info("Nessun modello ricevuto in evaluate, uso self.model corrente.")
+
+        # Evaluate MAE
+        y_pred_test = self.model.predict(X_test)
         mae_test = mean_absolute_error(self.y_test, y_pred_test)
-        
+
         print(f"Client {self.cid} - Evaluation MAE: {mae_test:.4f}")
         self.logger.info(f"Model evaluation: MAE = {mae_test:.4f}")
-        
-        return float(mae_test), len(self.X_test), {"eval_mae": mae_test}
+
+        return float(mae_test), len(X_test), {"eval_mae": float(mae_test)}
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python client_app.py <client_id>")
         sys.exit(1)
-        
+
     client_id = int(sys.argv[1])
-    # Update path to match the new file structure: group{id}_merged_clean.csv
+
+    # group{id}_merged_clean.csv come nel tuo originale
     data_path = f"clients_data/group{client_id}_merged_clean.csv"
-    
+
     if not os.path.exists(data_path):
         print(f"Data file not found: {data_path}")
         sys.exit(1)
-        
+
     client = RandomForestClient(cid=client_id, data_path=data_path)
     fl.client.start_numpy_client(server_address="localhost:8080", client=client)
