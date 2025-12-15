@@ -196,7 +196,6 @@ def clean_user_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
 # Merge per client (groupX)
 # -----------------------------
 def parse_user_id(filename: str) -> str:
-    # dataset_user_9_train.csv -> "9"
     base = os.path.basename(filename).replace(".csv", "")
     parts = base.split("_")
     if "user" in parts:
