@@ -1,34 +1,37 @@
-import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
+import os
 
-
-def load_data(partition_id: int, num_partitions: int):
-    """Load and partition data for federated learning."""
-    from sklearn.datasets import load_digits
+def load_data(partition_id: int, root_dir: str = "clients_data"):
+    """Load data for a specific client partition."""
+    file_path = os.path.join(root_dir, f"clients_data/group{partition_id}_merged_clean.csv")
     
-    # Carica il dataset
-    data = load_digits()
-    X, y = data.data, data.target
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Data file not found: {file_path}")
+        
+    # Load data
+    data = pd.read_csv(file_path, sep=',')
     
-    # Partiziona i dati tra i client
-    X_parts = np.array_split(X, num_partitions)
-    y_parts = np.array_split(y, num_partitions)
+    # Drop unnecessary columns
+    cols_to_drop = ["day", "client_id", "user_id", "source_file"]
+    cols_to_drop = [c for c in cols_to_drop if c in data.columns]
     
-    X_local = X_parts[partition_id]
-    y_local = y_parts[partition_id]
+    data = data.dropna()
     
-    # Split train/test per questo client
+    X = data.drop(columns=cols_to_drop + ["label"])
+    y = data["label"]
+    
+    # Split train/test (80/20)
     X_train, X_test, y_train, y_test = train_test_split(
-        X_local, y_local, test_size=0.25, random_state=42
+        X, y, test_size=0.2, random_state=42
     )
     
     return X_train, X_test, y_train, y_test
 
-
-def get_model(n_estimators: int = 50, max_depth: int = None):
-    """Create Random Forest classifier."""
-    return RandomForestClassifier(
+def get_model(n_estimators: int = 50, max_depth: int = 10):
+    """Create Random Forest regressor."""
+    return RandomForestRegressor(
         n_estimators=n_estimators,
         max_depth=max_depth,
         random_state=42,

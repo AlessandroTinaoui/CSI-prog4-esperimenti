@@ -1,7 +1,7 @@
 # server/server_flwr.py
 import flwr as fl
-from server.config import SERVER_ADDRESS, NUM_ROUNDS
-from server.strategy import RandomForestAggregation  # Importa la tua strategia personalizzata
+from config import SERVER_ADDRESS, NUM_ROUNDS
+from strategy import RandomForestAggregation  # Importa la tua strategia personalizzata
 
 def main():
     """Avvia il server Flower con la strategia e configurazione scelte."""

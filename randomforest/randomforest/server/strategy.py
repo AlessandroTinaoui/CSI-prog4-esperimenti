@@ -37,6 +37,9 @@ class RandomForestAggregation(FedAvg):
                 except Exception as e:
                     continue
         
+        if not all_models:
+            return None, {}
+
         # Combinazione degli alberi dei modelli
         combined_model = all_models[0][0]
         all_estimators = []
@@ -54,12 +57,12 @@ class RandomForestAggregation(FedAvg):
         # Aggrega le metriche di allenamento
         metrics_aggregated = {}
         if results:
-            total_acc = sum([fit_res.metrics.get("train_accuracy", 0) * fit_res.num_examples 
+            total_mae = sum([fit_res.metrics.get("train_mae", 0) * fit_res.num_examples 
                            for _, fit_res in results])
-            avg_accuracy = total_acc / total_examples if total_examples > 0 else 0
+            avg_mae = total_mae / total_examples if total_examples > 0 else 0
             
             metrics_aggregated = {
-                "train_accuracy": avg_accuracy,
+                "train_mae": avg_mae,
                 "total_trees": combined_model.n_estimators,
             }
         
@@ -77,25 +80,25 @@ class RandomForestAggregation(FedAvg):
             return {}
 
         total_examples = 0
-        total_eval_accuracy = 0
+        total_eval_mae = 0
         
-        # Sum all evaluation accuracies from the clients
+        # Sum all evaluation MAEs from the clients
         for client_proxy, fit_res in results:
             num_examples = fit_res.num_examples
             total_examples += num_examples
             print(f"Client {client_proxy.cid} evaluated on {num_examples} examples.")
-            # Aggregating evaluation accuracy (eval_accuracy)
-            eval_accuracy = fit_res.metrics.get("eval_accuracy", 0)
-            total_eval_accuracy += eval_accuracy * num_examples  # Weighted average based on the number of examples
+            # Aggregating evaluation MAE
+            eval_mae = fit_res.metrics.get("eval_mae", 0)
+            total_eval_mae += eval_mae * num_examples  # Weighted average based on the number of examples
         
-        # Calculate average evaluation accuracy
-        avg_eval_accuracy = total_eval_accuracy / total_examples if total_examples > 0 else 0
+        # Calculate average evaluation MAE
+        avg_eval_mae = total_eval_mae / total_examples if total_examples > 0 else 0
         print(f"Total evaluation examples: {total_examples}")
         # Return the aggregated evaluation metrics
         metrics_aggregated = {
-            "eval_accuracy": avg_eval_accuracy
+            "eval_mae": avg_eval_mae
         }
         
-        print(f"Aggregated evaluation accuracy: {avg_eval_accuracy:.4f}")
+        print(f"Aggregated evaluation MAE: {avg_eval_mae:.4f}")
         
         return 0, metrics_aggregated
