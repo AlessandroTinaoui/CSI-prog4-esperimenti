@@ -173,6 +173,17 @@ class RandomForestAggregation(FedAvg):
         combined_model.estimators_ = all_estimators
         combined_model.n_estimators = len(all_estimators)
 
+
+        # --- SALVA MODELLO GLOBALE SU DISCO (per test finale lato server) ---
+        with open("global_model.pkl", "wb") as f:
+            pickle.dump(combined_model, f)
+
+        # --- SALVA LA LISTA DI FEATURE USATE IN TRAIN ---
+        # (il modello sklearn dopo fit ha feature_names_in_ se X era un DataFrame)
+        if hasattr(combined_model, "feature_names_in_"):
+            with open("global_model_features.json", "w", encoding="utf-8") as f:
+                json.dump({"features": combined_model.feature_names_in_.tolist()}, f, ensure_ascii=False, indent=2)
+
         # Serializza modello aggregato
         model_bytes = pickle.dumps(combined_model)
         model_array = np.frombuffer(model_bytes, dtype=np.uint8)
