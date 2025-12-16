@@ -3,6 +3,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import flwr as fl
+from sklearn.metrics import mean_absolute_error
 
 from config import SERVER_ADDRESS, NUM_ROUNDS
 from strategy import RandomForestAggregation
@@ -14,9 +15,10 @@ def main():
         save_path="selected_features.json",
         fraction_fit=1.0,
         fraction_evaluate=1.0,
-        min_fit_clients=9,
-        min_evaluate_clients=9,
-        min_available_clients=9,
+        min_fit_clients=8,
+        min_evaluate_clients=8,
+        min_available_clients=8,
+
     )
 
     # Avvia FL (bloccante). Quando finisce, continuiamo con il test finale.
@@ -25,13 +27,44 @@ def main():
         config=fl.server.ServerConfig(num_rounds=NUM_ROUNDS),
         strategy=strategy,
     )
+    # 1) carica modello globale salvato dalla strategy
+    with open("global_model.pkl", "rb") as f:
+        model = pickle.load(f)
+    # -------------------------
+    # GLOBAL TEST su HOLDOUT client
+    # -------------------------
+    HOLDOUT_CID = 8
+    holdout_path = f"../clients_data/group{HOLDOUT_CID}_merged_clean.csv"
+
+    holdout = pd.read_csv(holdout_path, sep=",").dropna()
+
+    # target
+    y_holdout = holdout["label"].copy()
+
+    # droppa meta-colonne come nei client
+    cols_to_drop = ["day", "client_id", "user_id", "source_file", "label"]
+    cols_to_drop = [c for c in cols_to_drop if c in holdout.columns]
+    X_holdout = holdout.drop(columns=cols_to_drop)
+
+    # allinea feature al modello globale
+    with open("global_model_features.json", "r", encoding="utf-8") as f:
+        train_features = json.load(f)["features"]
+
+    for c in train_features:
+        if c not in X_holdout.columns:
+            X_holdout[c] = 0
+
+    X_holdout = X_holdout[train_features].fillna(0)
+
+    y_pred_holdout = model.predict(X_holdout)
+    mae_holdout = mean_absolute_error(y_holdout, y_pred_holdout)
+
+    print(f"✅ GLOBAL HOLDOUT MAE (client {HOLDOUT_CID}): {mae_holdout:.4f}")
 
     # -------------------------
     # TEST FINALE SU x_test.csv
     # -------------------------
-    # 1) carica modello globale salvato dalla strategy
-    with open("global_model.pkl", "rb") as f:
-        model = pickle.load(f)
+
 
     # 2) carica x_test.csv
     x_test = pd.read_csv("x_test.csv", sep=";")  # cambia sep se serve

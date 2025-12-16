@@ -5,10 +5,13 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="urllib3")
 
 PY = sys.executable  # python del venv
+HOLDOUT_CID = 8
 
-# Avvia 9 client (0..8)
 clients = []
 for cid in range(9):
+    if cid == HOLDOUT_CID:
+        print(f"Skipping client {cid} (HOLDOUT)")
+        continue
     p = subprocess.Popen([PY, "client_app.py", str(cid)])
     clients.append(p)
     print(f"Started client {cid} (pid={p.pid})")
