@@ -11,7 +11,7 @@ from strategy import RandomForestAggregation
 
 def main():
     strategy = RandomForestAggregation(
-        top_k=15,
+        top_k=50,
         save_path="selected_features.json",
         fraction_fit=1.0,
         fraction_evaluate=1.0,
