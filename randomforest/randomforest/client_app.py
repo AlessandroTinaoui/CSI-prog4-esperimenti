@@ -57,11 +57,15 @@ class RandomForestClient(NumPyClient):
         self.feature_names_full = self.X_full.columns.tolist()
 
         # Split Train/Test (80/20) - come nel tuo originale
-        split_idx = int(0.8 * len(self.X_full))
-        self.X_train_full = self.X_full.iloc[:split_idx].copy()
-        self.y_train = self.y_full.iloc[:split_idx].copy()
-        self.X_test_full = self.X_full.iloc[split_idx:].copy()
-        self.y_test = self.y_full.iloc[split_idx:].copy()
+        from sklearn.model_selection import train_test_split
+
+        self.X_train_full, self.X_test_full, self.y_train, self.y_test = train_test_split(
+            self.X_full,
+            self.y_full,
+            test_size=0.2,
+            random_state=42,
+            shuffle=True,
+        )
 
         # Modello RF (inizializzazione base)
         self.model = RandomForestRegressor(
