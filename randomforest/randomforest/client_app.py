@@ -57,11 +57,15 @@ class RandomForestClient(NumPyClient):
         self.feature_names_full = self.X_full.columns.tolist()
 
         # Split Train/Test (80/20) - come nel tuo originale
-        split_idx = int(0.8 * len(self.X_full))
-        self.X_train_full = self.X_full.iloc[:split_idx].copy()
-        self.y_train = self.y_full.iloc[:split_idx].copy()
-        self.X_test_full = self.X_full.iloc[split_idx:].copy()
-        self.y_test = self.y_full.iloc[split_idx:].copy()
+        from sklearn.model_selection import train_test_split
+
+        self.X_train_full, self.X_test_full, self.y_train, self.y_test = train_test_split(
+            self.X_full,
+            self.y_full,
+            test_size=0.2,
+            random_state=42,
+            shuffle=True,
+        )
 
         # Modello RF (inizializzazione base)
         self.model = RandomForestRegressor(
@@ -150,12 +154,44 @@ class RandomForestClient(NumPyClient):
         X_test = self.X_test_full[selected_features]
 
         # Allena modello
-        self.logger.info("Training the model (Round >=2)...")
-        self.model = RandomForestRegressor(
-            n_estimators=50,
-            max_depth=10,
-            random_state=42,
+        # Allena modello (warm-start: parte dal globale e aggiunge alberi)
+        self.logger.info("Training the model (Round >=2) - warm start...")
+
+        TREES_PER_ROUND = 200  # prova 100 / 200 / 300
+
+        # 1) deserializza il modello globale se presente
+        global_model = None
+        if parameters and len(parameters) > 0 and parameters[0] is not None:
+            try:
+                model_bytes = np.array(parameters[0], dtype=np.uint8).tobytes()
+                global_model = pickle.loads(model_bytes)
+            except Exception:
+                global_model = None
+
+        # 2) usa il modello globale come base, altrimenti crea un RF “vuoto”
+        if isinstance(global_model, RandomForestRegressor):
+            self.model = global_model
+        else:
+            self.model = RandomForestRegressor(
+                n_estimators=0,
+                random_state=42 + self.cid,
+                n_jobs=-1,
+            )
+
+        # 3) iperparametri più “generalizzanti”
+        self.model.set_params(
+            warm_start=True,
+            n_jobs=-1,
+            bootstrap=True,
+            max_samples=0.8,
+            max_features=0.7,  # prova 0.5 / 0.7 / "sqrt"
+            min_samples_leaf=2,  # prova 1 / 2 / 5
+            min_samples_split=4,
+            max_depth=None,
         )
+
+        # 4) aggiunge alberi a ogni round (questo è il punto chiave)
+        self.model.n_estimators = int(self.model.n_estimators) + TREES_PER_ROUND
         self.model.fit(X_train, self.y_train)
 
         # Training MAE
