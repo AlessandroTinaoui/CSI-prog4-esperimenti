@@ -1,24 +1,25 @@
 import os
 import sys
 import json
-import pickle
 import logging
 
 import numpy as np
 import pandas as pd
 import flwr as fl
+import xgboost as xgb
 
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from flwr.client import NumPyClient
 from flwr.common import FitIns
+from xgboost import XGBRegressor
 
 
-class RandomForestClient(NumPyClient):
+class XGBoostClient(NumPyClient):
     def __init__(self, cid: int, data_path: str):
         self.cid = cid
 
         # Load data
+        print(data_path)
         self.data = pd.read_csv(data_path, sep=",")
 
         # Configure logging
@@ -68,7 +69,7 @@ class RandomForestClient(NumPyClient):
         )
 
         # Modello RF (inizializzazione base)
-        self.model = RandomForestRegressor(
+        self.model = XGBRegressor(
             n_estimators=50,
             max_depth=10,
             random_state=42,
@@ -78,23 +79,27 @@ class RandomForestClient(NumPyClient):
     # Helper: allena e calcola importanza feature (Round 1)
     # -------------------------
     def _train_and_compute_importance(self, X_train_df: pd.DataFrame, y_train: pd.Series):
-        """
-        Calcola feature_importances_ (MDI) senza split extra.
-        """
-        fs_model = RandomForestRegressor(
-            n_estimators=300,
-            max_depth=None,
-            random_state=42,
+        """Allena un piccolo XGBoost e ritorna (importance, oob_score_placeholder)."""
+        model = xgb.XGBRegressor(
+            n_estimators=200,
+            max_depth=5,
+            learning_rate=0.1,
+            subsample=0.8,
+            colsample_bytree=0.8,
+            reg_lambda=1.0,
+            random_state=42 + self.cid,
             n_jobs=1,
-            bootstrap=True,
-            oob_score=True,
-            min_samples_leaf=2,
+            objective="reg:squarederror",
+            verbosity=0,
         )
-        fs_model.fit(X_train_df.values, y_train.values)
+        model.fit(X_train_df, y_train)
 
-        importances = fs_model.feature_importances_
-        oob_score = float(getattr(fs_model, "oob_score_", np.nan))
+        # feature_importances_ (gain-based in XGBoost sklearn wrapper)
+        importances = np.array(model.feature_importances_, dtype=float)
+        # placeholder (non esiste OOB per XGBoost)
+        oob_score = float("nan")
         return importances, oob_score
+
 
     # -------------------------
     # FIT
@@ -153,55 +158,33 @@ class RandomForestClient(NumPyClient):
         X_train = self.X_train_full[selected_features]
         X_test = self.X_test_full[selected_features]
 
-        # Allena modello
-        # Allena modello (warm-start: parte dal globale e aggiunge alberi)
-        self.logger.info("Training the model (Round >=2) - warm start...")
+        # -------------------------
+        # Allena XGBoost (da zero ogni round)
+        # -------------------------
+        self.logger.info("Training XGBoost model (Round >=2)...")
 
-        TREES_PER_ROUND = 200  # prova 100 / 200 / 300
-
-        # 1) deserializza il modello globale se presente
-        global_model = None
-        if parameters and len(parameters) > 0 and parameters[0] is not None:
-            try:
-                model_bytes = np.array(parameters[0], dtype=np.uint8).tobytes()
-                global_model = pickle.loads(model_bytes)
-            except Exception:
-                global_model = None
-
-        # 2) usa il modello globale come base, altrimenti crea un RF “vuoto”
-        if isinstance(global_model, RandomForestRegressor):
-            self.model = global_model
-        else:
-            self.model = RandomForestRegressor(
-                n_estimators=0,
-                random_state=42 + self.cid,
-                n_jobs=1,
-            )
-
-        # 3) iperparametri più “generalizzanti”
-        self.model.set_params(
-            warm_start=True,
-            n_jobs=1,
-            bootstrap=True,
-            max_samples=0.8,
-            max_features=0.7,  # prova 0.5 / 0.7 / "sqrt"
-            min_samples_leaf=2,  # prova 1 / 2 / 5
-            min_samples_split=4,
-            max_depth=None,
+        self.model = xgb.XGBRegressor(
+            n_estimators=400,
+            max_depth=6,
+            learning_rate=0.05,
+            subsample=0.8,
+            colsample_bytree=0.8,
+            reg_lambda=1.0,
+            random_state=42 + self.cid,
+            n_jobs=1,  # più stabile in ambienti condivisi
+            objective="reg:squarederror",
+            verbosity=0,
         )
 
-        # 4) aggiunge alberi a ogni round (questo è il punto chiave)
-        self.model.n_estimators = int(self.model.n_estimators) + TREES_PER_ROUND
         self.model.fit(X_train, self.y_train)
 
-        # Training MAE
+        # Evaluate train MAE (solo per logging/metriche FL)
         y_pred_train = self.model.predict(X_train)
         mae_train = mean_absolute_error(self.y_train, y_pred_train)
-        self.logger.info(f"Model trained. Training MAE: {mae_train:.4f}")
 
-        # Serializza modello (come nel tuo originale)
-        model_bytes = pickle.dumps(self.model)
-        model_array = np.frombuffer(model_bytes, dtype=np.uint8)
+        # Serializza booster come bytes (save_raw) e invia come uint8 ndarray
+        raw = self.model.get_booster().save_raw()
+        model_array = np.frombuffer(raw, dtype=np.uint8)
 
         metrics = {
             "train_mae": float(mae_train),
@@ -209,6 +192,7 @@ class RandomForestClient(NumPyClient):
         }
 
         return [model_array], len(X_train), metrics
+
 
     # -------------------------
     # EVALUATE
@@ -229,20 +213,11 @@ class RandomForestClient(NumPyClient):
                 selected_features = list(selected)
 
         X_test = self.X_test_full[selected_features]
+        # Valuto il modello locale allenato nell'ultimo fit (il server non invia un modello globale)
+        if self.model is None:
+            self.logger.info("Nessun modello locale disponibile in evaluate (fit non ancora eseguito?).")
+            return float("nan"), len(X_test), {"eval_mae": float("nan")}
 
-        # Deserializza modello
-        if parameters and len(parameters) > 0:
-            model_bytes = np.array(parameters[0], dtype=np.uint8).tobytes()
-            model = pickle.loads(model_bytes)
-
-            if isinstance(model, RandomForestRegressor):
-                self.model = model
-            else:
-                self.logger.info("Deserialized model is not a RandomForestRegressor (uso self.model corrente).")
-        else:
-            self.logger.info("Nessun modello ricevuto in evaluate, uso self.model corrente.")
-
-        # Evaluate MAE
         y_pred_test = self.model.predict(X_test)
         mae_test = mean_absolute_error(self.y_test, y_pred_test)
 
@@ -260,11 +235,13 @@ if __name__ == "__main__":
     client_id = int(sys.argv[1])
 
     # group{id}_merged_clean.csv come nel tuo originale
-    data_path = f"clients_data/group{client_id}_merged_clean.csv"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(BASE_DIR, "clients_data", f"group{client_id}_merged_clean.csv")
+    print("Reading:", data_path)
 
     if not os.path.exists(data_path):
         print(f"Data file not found: {data_path}")
         sys.exit(1)
 
-    client = RandomForestClient(cid=client_id, data_path=data_path)
+    client = XGBoostClient(cid=client_id, data_path=data_path)
     fl.client.start_numpy_client(server_address="localhost:8080", client=client)
