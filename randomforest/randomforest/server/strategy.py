@@ -35,7 +35,9 @@ class RandomForestAggregation(FedAvg):
         self.selected_features: Optional[List[str]] = None
 
     # -------------------------
-    # 1) CONFIGURE_FIT: manda phase e (dal round 2) selected_features
+    # 1) CONFIGURE_FIT
+    # - Round 1: FS
+    # - Round >=2: TRAIN
     # -------------------------
     def configure_fit(self, server_round, parameters, client_manager):
         fit_instructions = super().configure_fit(server_round, parameters, client_manager)
@@ -47,6 +49,8 @@ class RandomForestAggregation(FedAvg):
             for client_proxy, fit_ins in fit_instructions:
                 fit_ins.config["phase"] = "fs"
                 fit_ins.config["top_k"] = str(self.top_k)
+                # >>> FIX: passa anche il server_round al client <<<
+                fit_ins.config["server_round"] = str(server_round)
                 new_instructions.append((client_proxy, fit_ins))
             return new_instructions
 
@@ -55,6 +59,8 @@ class RandomForestAggregation(FedAvg):
             fit_ins.config["phase"] = "train"
             if self.selected_features is not None:
                 fit_ins.config["selected_features"] = json.dumps(self.selected_features)
+            # >>> FIX: passa anche il server_round al client <<<
+            fit_ins.config["server_round"] = str(server_round)
             new_instructions.append((client_proxy, fit_ins))
 
         return new_instructions
@@ -81,6 +87,7 @@ class RandomForestAggregation(FedAvg):
             importances_list = []
             weights = []
             feature_names = None
+
             total_examples = 0
 
             for _, fit_res in results:
@@ -108,38 +115,30 @@ class RandomForestAggregation(FedAvg):
                 # Se non arrivano importanze, fallback: non seleziono nulla
                 self.feature_names = None
                 self.selected_features = None
-                return None, {"fs_status": 0.0}
+                return None, {"fs_done": 0.0}
 
+            importances_mat = np.vstack(importances_list)  # shape (num_clients, num_features)
             weights = np.array(weights, dtype=float)
             weights = weights / weights.sum()
 
-            agg_imp = np.zeros_like(importances_list[0], dtype=float)
-            for imp, w in zip(importances_list, weights):
-                agg_imp += imp * w
+            agg_imp = (importances_mat * weights[:, None]).sum(axis=0)
 
-            # Top-k
-            k = min(self.top_k, len(feature_names))
-            idx = np.argsort(agg_imp)[::-1][:k]
+            # seleziona top_k feature
+            top_idx = np.argsort(-agg_imp)[: self.top_k]
+            selected = [feature_names[i] for i in top_idx]
 
             self.feature_names = feature_names
-            self.selected_features = [feature_names[i] for i in idx]
+            self.selected_features = selected
 
-            # salva
+            # salva su file
             with open(self.save_path, "w", encoding="utf-8") as f:
-                json.dump(
-                    {"top_k": k, "selected_features": self.selected_features},
-                    f,
-                    ensure_ascii=False,
-                    indent=2,
-                )
+                json.dump({"selected_features": selected}, f, ensure_ascii=False, indent=2)
 
-            # Non serve mandare parameters nel round 1 (non stiamo aggregando modelli)
-            metrics = {
-                "fs_status": 1.0,
-                "top_k": float(k),
-                "total_examples_fs": float(total_examples),
+            metrics_aggregated: Dict[str, Scalar] = {
+                "fs_done": 1.0,
+                "n_selected_features": float(len(selected)),
             }
-            return None, metrics
+            return None, metrics_aggregated
 
         # =========================
         # ROUND >=2: MODEL AGGREGATION (tuo codice originale, sistemato)
@@ -170,9 +169,15 @@ class RandomForestAggregation(FedAvg):
         for model, _ in all_models:
             all_estimators.extend(model.estimators_)
 
+        # >>> FIX: Limita dimensione modello globale (evita esplosione di alberi con molti round) <<<
+        MAX_GLOBAL_TREES = 2000  # prova 1000 / 2000 / 4000
+        if len(all_estimators) > MAX_GLOBAL_TREES:
+            rng = np.random.default_rng(42)
+            idx = rng.choice(len(all_estimators), size=MAX_GLOBAL_TREES, replace=False)
+            all_estimators = [all_estimators[i] for i in idx]
+
         combined_model.estimators_ = all_estimators
         combined_model.n_estimators = len(all_estimators)
-
 
         # --- SALVA MODELLO GLOBALE SU DISCO (per test finale lato server) ---
         with open("global_model.pkl", "wb") as f:
@@ -182,7 +187,12 @@ class RandomForestAggregation(FedAvg):
         # (il modello sklearn dopo fit ha feature_names_in_ se X era un DataFrame)
         if hasattr(combined_model, "feature_names_in_"):
             with open("global_model_features.json", "w", encoding="utf-8") as f:
-                json.dump({"features": combined_model.feature_names_in_.tolist()}, f, ensure_ascii=False, indent=2)
+                json.dump(
+                    {"features": combined_model.feature_names_in_.tolist()},
+                    f,
+                    ensure_ascii=False,
+                    indent=2,
+                )
 
         # Serializza modello aggregato
         model_bytes = pickle.dumps(combined_model)
@@ -208,15 +218,15 @@ class RandomForestAggregation(FedAvg):
         return parameters, metrics_aggregated
 
     # -------------------------
-    # 3) AGGREGATE_EVALUATE (fix: firma corretta)
+    # 3) AGGREGATE_EVALUATE
+    # (tieni la tua logica attuale: media pesata delle metriche)
     # -------------------------
     def aggregate_evaluate(
         self,
         server_round: int,
-        results: List[Tuple[ClientProxy, FitRes]],
-        failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
-    ) -> Tuple[Optional[float], Dict[str, Scalar]]:
-
+        results,
+        failures,
+    ):
         if not results:
             return None, {}
 
