@@ -106,7 +106,7 @@ def main():
     if HOLDOUT_CID <= 8:
 
         # Percorso dinamico basato su posizione server
-        holdout_path = "/home/alessandro/Desktop/CSI-prog4 esperimenti/xgboostmodel/clients_data/group"+str(HOLDOUT_CID)+"_merged_clean.csv"
+        holdout_path = f"../clients_data/group{HOLDOUT_CID}_merged_clean.csv"
         print(holdout_path)
         if holdout_path:
             holdout = pd.read_csv(holdout_path, sep=",").dropna()
