@@ -71,7 +71,7 @@ class XGBoostClient(NumPyClient):
 
     def _train_and_compute_importance(self, X_train_df: pd.DataFrame, y_train: pd.Series) -> np.ndarray:
         model = xgb.XGBRegressor(
-            n_estimators=200,
+            n_estimators=400,
             max_depth=5,
             learning_rate=0.1,
             subsample=0.8,
