@@ -1,28 +1,19 @@
 import io
 import json
 import os
-import pickle
 import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import flwr as fl
 import xgboost as xgb
 from sklearn.metrics import mean_absolute_error
 
 from config import HOLDOUT_CID, NUM_ROUNDS, SERVER_ADDRESS, LOCAL_BOOST_ROUND, TOP_K_FEATURES
 from strategy import XGBoostTreeAppendStrategy
 
-# -------------------------------------------------------------------
-# Config + Strategy
-# -------------------------------------------------------------------
-from config import HOLDOUT_CID, NUM_ROUNDS, SERVER_ADDRESS  # noqa: E402
-from strategy import XGBoostEnsembleAggregation  # noqa: E402
 
-
-# -------------------------
-# Utils
-# -------------------------
 def load_semicolon_csv_keep_rows(path: str) -> pd.DataFrame:
     if not os.path.exists(path):
         print(f"⚠️ File non trovato: {path}")
@@ -54,7 +45,6 @@ def load_semicolon_csv_keep_rows(path: str) -> pd.DataFrame:
 
 
 def clean_dataframe_soft(df: pd.DataFrame) -> pd.DataFrame:
-    """Pulizia 'soft': non droppa righe, solo sistemazioni colonne/inf."""
     df = df.loc[:, ~df.columns.astype(str).str.match(r"^Unnamed")]
     df.columns = [str(c).strip() for c in df.columns]
     df = df.loc[:, ~df.columns.duplicated()]
@@ -152,34 +142,18 @@ def main():
         print(f"⚠️ File x_test.csv non trovato in {test_path}")
         return
 
-    # ✅ Preprocessing uguale al train ma "infer": NON deve droppare righe.
-    # (Funziona solo se nel tuo client_dataset_setup.py hai implementato mode="infer")
-    cfg_infer = CleanConfig(
-        label_col="label",
-        day_col="day",
-        min_non_null_frac=0.40,
-        debug=False,
-        mode="infer",
-        use_ts_features=True,
-    )
+    x_test = load_semicolon_csv_keep_rows(str(test_path))
+    x_test = clean_dataframe_soft(x_test)
 
-    # Se x_test è separato da ';' e con colonna "Unnamed: 0", usa read_user_csv del tuo preprocessing.
-    # Se invece è veramente ';' con problemi di parsing, usa load_semicolon_csv_keep_rows.
-    x_test = read_user_csv(str(test_path))
-    x_test = clean_user_df(x_test, cfg_infer)
-
-    # id output
     if "id" in x_test.columns:
         ids = pd.to_numeric(x_test["id"], errors="coerce").fillna(0).astype(int).to_numpy()
     else:
         ids = np.arange(len(x_test), dtype=int)
 
-    # features
     X = x_test.copy()
     X = X.drop(columns=[c for c in ["id", "label", "date"] if c in X.columns], errors="ignore")
     X = clean_dataframe_soft(X)
 
-    # allinea alle train_features
     for c in train_features:
         if c not in X.columns:
             X[c] = np.nan
