@@ -39,7 +39,7 @@ class XGBoostClient(NumPyClient):
         self.logger.info(f"First few rows:\n{self.data.head()}")
 
         # Pulizia base
-        self.data = self.data.dropna()
+        self.data = self.data.replace([np.inf, -np.inf], np.nan)
 
         # Drop unnecessary columns (solo se esistono)
         self.cols_to_drop = ["day", "client_id", "user_id", "source_file"]
@@ -243,5 +243,5 @@ if __name__ == "__main__":
     # Avvio client
     client = XGBoostClient(cid=client_id, data_path=data_path)
 
-    # Importante: root_certificates=None per connessioni insicure (localhost)
-    fl.client.start_numpy_client(server_address="localhost:8080", client=client)
+    server_addr = sys.argv[3] if len(sys.argv) > 3 else "127.0.0.1:8080"
+    fl.client.start_numpy_client(server_address=server_addr, client=client)

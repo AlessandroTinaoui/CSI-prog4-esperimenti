@@ -25,7 +25,8 @@ def main():
             continue
 
         csv_path = os.path.join(DATA_DIR, f"group{client_id}_merged_clean.csv")
-        cmd = [sys.executable, "client_app.py", str(client_id), csv_path]
+        SERVER_ADDR = "127.0.0.1:8080"
+        cmd = [sys.executable, "client_app.py", str(client_id), csv_path, SERVER_ADDR]
 
         # >>>> QUESTA È LA FIX PER IL DUMP <<<<
         # Scriviamo stdout/stderr su file invece che nel terminale
