@@ -1,21 +1,20 @@
-import json
-import pickle
 import io
+import json
 import os
 import sys
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import flwr as fl
 import xgboost as xgb
-from pathlib import Path
 from sklearn.metrics import mean_absolute_error
 
-from config import SERVER_ADDRESS, NUM_ROUNDS, HOLDOUT_CID
-from strategy import XGBoostEnsembleAggregation
+from config import HOLDOUT_CID, NUM_ROUNDS, SERVER_ADDRESS, LOCAL_BOOST_ROUND, TOP_K_FEATURES
+from strategy import XGBoostTreeAppendStrategy
 
 
 def load_semicolon_csv_keep_rows(path: str) -> pd.DataFrame:
-    """Carica CSV robusto."""
     if not os.path.exists(path):
         print(f"⚠️ File non trovato: {path}")
         return pd.DataFrame()
@@ -32,12 +31,13 @@ def load_semicolon_csv_keep_rows(path: str) -> pd.DataFrame:
     fixed_lines = [";".join(header)]
 
     for line in lines[1:]:
-        if line is None: line = ""
+        if line is None:
+            line = ""
         parts = line.split(";")
         if len(parts) < ncol:
             parts = parts + [""] * (ncol - len(parts))
         elif len(parts) > ncol:
-            parts = parts[: ncol - 1] + [";".join(parts[ncol - 1:])]
+            parts = parts[: ncol - 1] + [";".join(parts[ncol - 1 :])]
         fixed_lines.append(";".join(parts))
 
     text = "\n".join(fixed_lines)
@@ -52,19 +52,27 @@ def clean_dataframe_soft(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def _load_global_booster(global_model_path: Path) -> xgb.Booster:
+    raw = global_model_path.read_bytes()
+    bst = xgb.Booster()
+    bst.load_model(bytearray(raw))
+    return bst
+
+
 def main():
-    # Definisce percorsi assoluti
-    BASE_DIR = Path(__file__).resolve().parent
-    GLOBAL_ENSEMBLE_PATH = BASE_DIR / "global_ensemble.pkl"
-    GLOBAL_FEATURES_PATH = BASE_DIR / "global_model_features.json"
+    base_dir = Path(__file__).resolve().parent
+    global_model_path = base_dir / "global_model.json"
+    global_features_path = base_dir / "global_model_features.json"
 
-    # Pulisce vecchi file
-    if GLOBAL_ENSEMBLE_PATH.exists(): GLOBAL_ENSEMBLE_PATH.unlink()
-    if GLOBAL_FEATURES_PATH.exists(): GLOBAL_FEATURES_PATH.unlink()
+    for p in [global_model_path, global_features_path]:
+        if p.exists():
+            p.unlink()
 
-    strategy = XGBoostEnsembleAggregation(
-        top_k=20,
+    strategy = XGBoostTreeAppendStrategy(
+        top_k=TOP_K_FEATURES,
         save_path="selected_features.json",
+        local_boost_round=LOCAL_BOOST_ROUND,
+        global_model_path="global_model.json",
         fraction_fit=1.0,
         fraction_evaluate=1.0,
         min_fit_clients=8,
@@ -83,73 +91,55 @@ def main():
         print(f"❌ Errore durante il training FL: {e}")
         sys.exit(1)
 
-    print("\n  FL terminato. Inizio fase di test...")
+    print("\n✅ FL terminato. Inizio fase di test...")
 
-    # Verifica esistenza file prodotti
-    if not GLOBAL_ENSEMBLE_PATH.exists() or not GLOBAL_FEATURES_PATH.exists():
-        print("❌ ERRORE: I file del modello globale (pkl/json) non sono stati creati.")
-        print("   Verifica che i client non siano crashati e che la Strategy abbia salvato i file.")
+    if not global_model_path.exists() or not global_features_path.exists():
+        print("❌ ERRORE: file global_model.json / global_model_features.json non creati.")
         sys.exit(1)
 
-    # 1) Carica ensemble
-    with open(GLOBAL_ENSEMBLE_PATH, "rb") as f:
-        ensemble_items = pickle.load(f)
-    print(f"✅ Ensemble caricato: {len(ensemble_items)} booster.")
+    booster = _load_global_booster(global_model_path)
+    print("✅ Modello globale caricato.")
 
-    # 2) Carica features
-    with open(GLOBAL_FEATURES_PATH, "r", encoding="utf-8") as f:
-        train_features = json.load(f)["features"]
+    train_features = json.loads(global_features_path.read_text(encoding="utf-8"))["features"]
 
     # -------------------------
     # GLOBAL TEST su HOLDOUT
     # -------------------------
     if HOLDOUT_CID <= 8:
-
-        # Percorso dinamico basato su posizione server
-        holdout_path = f"../clients_data/group{HOLDOUT_CID}_merged_clean.csv"
-        print(holdout_path)
-        if holdout_path:
+        holdout_path = base_dir / "../clients_data" / f"group{HOLDOUT_CID}_merged_clean.csv"
+        if holdout_path.exists():
             holdout = pd.read_csv(holdout_path, sep=",").dropna()
             y_holdout = holdout["label"].copy()
+
             cols_to_drop = ["day", "client_id", "user_id", "source_file", "label"]
             cols_to_drop = [c for c in cols_to_drop if c in holdout.columns]
             X_holdout = holdout.drop(columns=cols_to_drop)
 
-            # Allineamento features
             for c in train_features:
                 if c not in X_holdout.columns:
                     X_holdout[c] = 0
             X_holdout = X_holdout[train_features].fillna(0)
 
-            # Predizione (FIX: allinea feature_names al booster)
-            preds = []
-            weights = []
-            for item in ensemble_items:
-                booster = xgb.Booster()
-                booster.load_model(bytearray(item["raw"]))  # bytes -> bytearray (più robusto)
+            model_feats = booster.feature_names
+            if model_feats:
+                for c in model_feats:
+                    if c not in X_holdout.columns:
+                        X_holdout[c] = 0
+                X_holdout = X_holdout[model_feats]
 
-                model_feats = booster.feature_names  # ordine feature del modello
-                X_aligned = X_holdout[model_feats]  # riordina X in modo identico
-
-                dmat = xgb.DMatrix(X_aligned, feature_names=model_feats)
-                preds.append(booster.predict(dmat))
-                weights.append(float(item.get("weight", 1.0)))
-
-            if weights:
-                weights = np.array(weights, dtype=float)
-                weights /= weights.sum()
-                y_pred_holdout = np.average(np.vstack(preds), axis=0, weights=weights)
-                mae_holdout = mean_absolute_error(y_holdout, y_pred_holdout)
-                print(f"📊 GLOBAL HOLDOUT MAE (client {HOLDOUT_CID}): {mae_holdout:.4f}")
-            else:
-                print(" Errore: pesi ensemble vuoti.")
+            dmat = xgb.DMatrix(X_holdout, feature_names=model_feats or train_features)
+            y_pred_holdout = booster.predict(dmat)
+            mae_holdout = mean_absolute_error(y_holdout, y_pred_holdout)
+            print(f"📊 GLOBAL HOLDOUT MAE (client {HOLDOUT_CID}): {mae_holdout:.4f}")
+        else:
+            print(f"⚠️ Holdout non trovato: {holdout_path}")
 
     # -------------------------
     # TEST FINALE SU x_test.csv
     # -------------------------
-    test_path = BASE_DIR / "x_test.csv"
+    test_path = base_dir / "x_test.csv"
     if not test_path.exists():
-        print(f" File x_test.csv non trovato in {test_path}")
+        print(f"⚠️ File x_test.csv non trovato in {test_path}")
         return
 
     x_test = load_semicolon_csv_keep_rows(str(test_path))
@@ -167,33 +157,23 @@ def main():
     for c in train_features:
         if c not in X.columns:
             X[c] = np.nan
-
     X = X[train_features]
     X = X.replace([np.inf, -np.inf], np.nan).fillna(0)
 
-    # FIX: allinea feature_names al booster, per evitare mismatch
-    preds = []
-    weights = []
-    for item in ensemble_items:
-        booster = xgb.Booster()
-        booster.load_model(bytearray(item["raw"]))
+    model_feats = booster.feature_names
+    if model_feats:
+        for c in model_feats:
+            if c not in X.columns:
+                X[c] = 0
+        X = X[model_feats]
 
-        model_feats = booster.feature_names
-        X_aligned = X[model_feats]
+    dmat = xgb.DMatrix(X, feature_names=model_feats or train_features)
+    y_pred = booster.predict(dmat)
 
-        dmat = xgb.DMatrix(X_aligned, feature_names=model_feats)
-        preds.append(booster.predict(dmat))
-        weights.append(float(item.get("weight", 1.0)))
-
-    if weights:
-        weights = np.array(weights, dtype=float)
-        weights /= weights.sum()
-        y_pred = np.average(np.vstack(preds), axis=0, weights=weights)
-        y_pred = np.rint(y_pred).astype(int)
-
-        out = pd.DataFrame({"id": ids, "label": y_pred})
-        out.to_csv("predictions.csv", index=False)
-        print("Creato predictions.csv")
+    y_pred_int = np.rint(y_pred).astype(int)
+    out = pd.DataFrame({"id": ids, "label": y_pred_int})
+    out.to_csv("predictions.csv", index=False)
+    print("✅ Creato predictions.csv")
 
 
 if __name__ == "__main__":
