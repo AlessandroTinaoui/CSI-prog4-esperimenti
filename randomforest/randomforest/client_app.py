@@ -85,7 +85,7 @@ class RandomForestClient(NumPyClient):
             n_estimators=300,
             max_depth=None,
             random_state=42,
-            n_jobs=-1,
+            n_jobs=1,
             bootstrap=True,
             oob_score=True,
             min_samples_leaf=2,
@@ -175,13 +175,13 @@ class RandomForestClient(NumPyClient):
             self.model = RandomForestRegressor(
                 n_estimators=0,
                 random_state=42 + self.cid,
-                n_jobs=-1,
+                n_jobs=1,
             )
 
         # 3) iperparametri più “generalizzanti”
         self.model.set_params(
             warm_start=True,
-            n_jobs=-1,
+            n_jobs=1,
             bootstrap=True,
             max_samples=0.8,
             max_features=0.7,  # prova 0.5 / 0.7 / "sqrt"
