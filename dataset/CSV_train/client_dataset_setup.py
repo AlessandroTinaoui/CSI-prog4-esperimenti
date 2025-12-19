@@ -27,6 +27,7 @@ class CleanConfig:
 
     use_ts_features: bool = True
     debug: bool = True           # ✅ stampa info
+    mode: str = "train"  # "train" oppure "infer"
 
 
 # -----------------------------
@@ -66,10 +67,15 @@ def _coerce_numeric_features(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame
 # Pulizia
 # -----------------------------
 def drop_invalid_labels(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
+    # In inferenza/test la label può non esserci
+    if cfg.label_col not in df.columns:
+        return df
+
     out = df.dropna(subset=[cfg.label_col]).copy()
     if cfg.drop_label_zero:
         out = out[out[cfg.label_col] != 0]
     return out
+
 
 
 def drop_low_info_days(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
@@ -128,9 +134,10 @@ def clean_user_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
 
     out = _coerce_numeric_features(out, cfg)
 
-    # 3️⃣ pulizia righe
-    out = drop_invalid_labels(out, cfg)
-    out = drop_low_info_days(out, cfg)
+    # 3️⃣ pulizia righe (solo training)
+    if cfg.mode == "train":
+        out = drop_invalid_labels(out, cfg)
+        out = drop_low_info_days(out, cfg)
 
     # 4️⃣ outlier → NaN
     out = handle_outliers_iqr(out, cfg)
@@ -206,3 +213,5 @@ if __name__ == "__main__":
     )
 
     build_clients(BASE_DIR, OUT_DIR, cfg)
+
+
