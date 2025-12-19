@@ -43,19 +43,9 @@ def drop_time_series_columns(df: pd.DataFrame, cfg) -> pd.DataFrame:
     name_keywords = ["time_series", "timeseries", "_ts", "series"]
     cols_by_name = [c for c in out.columns if any(k in c.lower() for k in name_keywords)]
 
-    # euristica su colonne object: stringhe mediamente molto lunghe
-    object_cols = [c for c in out.columns if out[c].dtype == "object"]
-    cols_by_len = []
-    for c in object_cols:
-        s = out[c].dropna() #prende valori non Nan
-        if s.empty: #se colonna tutta Nan salta
-            continue
-        # calcola lunghezza media solo su stringhe
-        s = s.astype(str) #converte tutto in stringa
-        if s.map(len).mean() > 200:   # calcola la lunghezza di ogni cella, fa media lunghezze e se maggiore di 200 messa in cols_by_len
-            cols_by_len.append(c)
+
 #unione delle colonne da eliminare
-    to_drop = sorted(set(cols_by_name + cols_by_len))#cols BY name:concatena set: elimina duplicati, sorted:ordine stabile
+    to_drop = sorted(set(cols_by_name))#cols BY name:concatena set: elimina duplicati, sorted:ordine stabile
     if to_drop:
         out = out.drop(columns=to_drop, errors="ignore") #drop elimina
 
@@ -271,7 +261,7 @@ if __name__ == "__main__":
         min_non_null_frac=0.70,
         knn_k=3,
         iqr_k=1.5,
-        winsorize_iqr=False
+        winsorize_iqr=True
     )
 
     build_clients(BASE_DIR, OUT_DIR, cfg)

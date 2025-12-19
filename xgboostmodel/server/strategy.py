@@ -1,5 +1,6 @@
 import json
 import pickle
+from pathlib import Path
 from typing import List, Tuple, Dict, Optional, Union, Any
 
 import numpy as np
@@ -23,7 +24,7 @@ class XGBoostEnsembleAggregation(FedAvg):
 
     def __init__(
         self,
-        top_k: int = 15,
+        top_k: int = 20,
         save_path: str = "selected_features.json",
         **kwargs: Any,
     ):
@@ -52,6 +53,7 @@ class XGBoostEnsembleAggregation(FedAvg):
                 # >>> FIX: passa anche il server_round al client <<<
                 fit_ins.config["server_round"] = str(server_round)
                 new_instructions.append((client_proxy, fit_ins))
+
             return new_instructions
 
         # Round >= 2: training con feature fissate
@@ -70,11 +72,14 @@ class XGBoostEnsembleAggregation(FedAvg):
     # - Round 1: aggrega importanze e decide features
     # - Round >=2: aggrega i modelli combinando gli alberi (tuo metodo)
     # -------------------------
+    # -------------------------
+    # 2) AGGREGATE_FIT
+    # -------------------------
     def aggregate_fit(
-        self,
-        server_round: int,
-        results: List[Tuple[ClientProxy, FitRes]],
-        failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
+            self,
+            server_round: int,
+            results: List[Tuple[ClientProxy, FitRes]],
+            failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
 
         if not results:
@@ -84,105 +89,90 @@ class XGBoostEnsembleAggregation(FedAvg):
         # ROUND 1: FEATURE SELECTION
         # =========================
         if server_round == 1:
+            print(f"[SERVER] Round 1: Feature Selection su {len(results)} client...")
+
             importances_list = []
             weights = []
             feature_names = None
-
             total_examples = 0
 
+            # --- 1. ESTRAZIONE DATI DAI CLIENT ---
             for _, fit_res in results:
-                m = fit_res.metrics or {}
+                # Se il client ha fallito o non ha mandato metriche, saltiamo
+                if not fit_res.metrics:
+                    continue
+
                 n = fit_res.num_examples
                 total_examples += n
+                m = fit_res.metrics
 
+                # Controlliamo che ci siano le chiavi giuste
                 if "local_feature_importance" not in m or "feature_names" not in m:
                     continue
 
-                local_imp = np.array(m["local_feature_importance"], dtype=float)
-                local_names = json.loads(m["feature_names"])
+                # Deserializziamo i JSON inviati dal client
+                try:
+                    local_imp = np.array(json.loads(m["local_feature_importance"]), dtype=float)
+                    local_names = json.loads(m["feature_names"])
+                except (json.JSONDecodeError, TypeError):
+                    continue
 
+                # Al primo giro, salviamo i nomi delle feature
                 if feature_names is None:
                     feature_names = local_names
                 else:
-                    # Se per qualche motivo i nomi non coincidono, qui potresti gestire mismatch
-                    # (per ora assumiamo che siano uguali)
-                    pass
+                    # Controllo di sicurezza: i nomi devono coincidere
+                    if local_names != feature_names:
+                        # Se differiscono, per ora ignoriamo questo client per evitare crash
+                        continue
 
                 importances_list.append(local_imp)
                 weights.append(n)
 
+            # --- 2. CALCOLO IMPORTANZA GLOBALE ---
             if not importances_list or feature_names is None:
-                # Se non arrivano importanze, fallback: non seleziono nulla
+                print("ATTENZIONE: Nessuna feature importance ricevuta. Salto la selezione.")
                 self.feature_names = None
                 self.selected_features = None
-                return None, {"fs_done": 0.0}
+                return ndarrays_to_parameters([]), {"fs_done": 0.0}
 
-            importances_mat = np.vstack(importances_list)  # shape (num_clients, num_features)
+
+            # Stack delle importanze (num_clients x num_features)
+            importances_mat = np.vstack(importances_list)
+
+            # Normalizzazione pesi (in base al numero di esempi)
             weights = np.array(weights, dtype=float)
-            weights = weights / weights.sum()
+            if weights.sum() > 0:
+                weights = weights / weights.sum()
+            else:
+                # Fallback se pesi zero (improbabile)
+                weights = np.ones(len(weights)) / len(weights)
 
+            # Media pesata delle importanze
             agg_imp = (importances_mat * weights[:, None]).sum(axis=0)
 
-            # seleziona top_k feature
+            # --- 3. SELEZIONE TOP-K ---
+            # Indici delle feature ordinate per importanza decrescente
             top_idx = np.argsort(-agg_imp)[: self.top_k]
             selected = [feature_names[i] for i in top_idx]
 
             self.feature_names = feature_names
             self.selected_features = selected
 
-            # salva su file
-            with open(self.save_path, "w", encoding="utf-8") as f:
+            print(f"✅ Selezionate {len(selected)} feature su {len(feature_names)} disponibili.")
+
+            # --- 4. SALVATAGGIO SU DISCO (FIX PERCORSI) ---
+            # Usiamo il percorso del file corrente per essere sicuri
+            STRATEGY_DIR = Path(__file__).resolve().parent
+
+            # Salva selected_features.json (usato dalla strategy)
+            save_path_abs = STRATEGY_DIR / self.save_path
+            with open(save_path_abs, "w", encoding="utf-8") as f:
                 json.dump({"selected_features": selected}, f, ensure_ascii=False, indent=2)
 
-            metrics_aggregated: Dict[str, Scalar] = {
-                "fs_done": 1.0,
-                "n_selected_features": float(len(selected)),
-            }
-            return None, metrics_aggregated
-
-        # =========================
-        # ROUND >=2: ENSEMBLE AGGREGATION (XGBoost boosters)
-        # =========================
-        # Ogni client invia un booster XGBoost serializzato via save_raw().
-        # Non facciamo merge degli alberi (boosting è sequenziale), ma costruiamo un ensemble:
-        # - salviamo la lista di booster (bytes) + pesi (num_examples)
-        # - lato server (server_flwr.py) facciamo la media pesata delle predizioni
-
-        ensemble_items: List[Dict[str, Any]] = []
-        total_examples = 0
-
-        for _, fit_res in results:
-            num_examples = fit_res.num_examples
-            total_examples += num_examples
-
-            params = parameters_to_ndarrays(fit_res.parameters)
-            if len(params) == 0 or params[0].size == 0:
-                # client potrebbe non inviare nulla (es. round di sola FS)
-                continue
-
-            raw_bytes = np.array(params[0], dtype=np.uint8).tobytes()
-            ensemble_items.append({"raw": raw_bytes, "weight": int(num_examples)})
-
-        # Se nessun client ha mandato un modello, non aggiorniamo nulla
-        if not ensemble_items:
-            empty_parameters = ndarrays_to_parameters([])
-            return empty_parameters, {"ensemble_size": 0.0}
-
-        # Limita dimensione ensemble per evitare crescita infinita
-        MAX_GLOBAL_BOOSTERS = 200  # prova 50 / 100 / 200
-        if len(ensemble_items) > MAX_GLOBAL_BOOSTERS:
-            rng = np.random.default_rng(42)
-            idx = rng.choice(len(ensemble_items), size=MAX_GLOBAL_BOOSTERS, replace=False)
-            ensemble_items = [ensemble_items[i] for i in idx]
-
-        # --- SALVA ENSEMBLE SU DISCO (per test finale lato server) ---
-        with open("global_ensemble.pkl", "wb") as f:
-            pickle.dump(ensemble_items, f)
-
-        # --- SALVA LA LISTA DI FEATURE USATE IN TRAIN ---
-        # Qui usiamo le selected_features determinate al Round 1.
-        if self.selected_features is not None:
-            with open("global_model_features.json", "w", encoding="utf-8") as f:
+            # Salva global_model_features.json (usato dal server per il test finale)
+            global_feat_path = STRATEGY_DIR / "global_model_features.json"
+            with open(global_feat_path, "w", encoding="utf-8") as f:
                 json.dump(
                     {"features": list(self.selected_features)},
                     f,
@@ -190,31 +180,71 @@ class XGBoostEnsembleAggregation(FedAvg):
                     indent=2,
                 )
 
-        # Non inviamo un modello globale ai client (ensemble rimane lato server)
-        parameters = ndarrays_to_parameters([])
+            print(f"[SERVER] File salvati: {global_feat_path}")
 
-        # Aggrega metriche training
-        total_mae = 0.0
+            metrics_aggregated: Dict[str, Scalar] = {
+                "fs_done": 1.0,
+                "n_selected_features": float(len(selected)),
+            }
+            # Round 1 non ritorna parametri modello, solo metriche
+            return ndarrays_to_parameters([]), metrics_aggregated
+
+        # =========================
+        # ROUND >=2: ENSEMBLE AGGREGATION (XGBoost boosters)
+        # =========================
+        ensemble_items: List[Dict[str, Any]] = []
+        total_examples = 0
+        total_train_mae = 0.0
+
         for _, fit_res in results:
-            total_mae += float((fit_res.metrics or {}).get("train_mae", 0.0)) * fit_res.num_examples
+            num_examples = fit_res.num_examples
+            total_examples += num_examples
 
-        avg_mae = total_mae / total_examples if total_examples > 0 else 0.0
+            # Accumula MAE per logging
+            if fit_res.metrics and "train_mae" in fit_res.metrics:
+                total_train_mae += float(fit_res.metrics["train_mae"]) * num_examples
+
+            params = parameters_to_ndarrays(fit_res.parameters)
+            if len(params) == 0 or params[0].size == 0:
+                continue
+
+            # Recupera il modello raw (bytes)
+            raw_bytes = np.array(params[0], dtype=np.uint8).tobytes()
+            ensemble_items.append({"raw": raw_bytes, "weight": int(num_examples)})
+
+        if not ensemble_items:
+            print("⚠️ Nessun modello ricevuto in questo round.")
+            return ndarrays_to_parameters([]), {"ensemble_size": 0.0}
+
+        # Limitiamo la dimensione dell'ensemble se necessario
+        MAX_GLOBAL_BOOSTERS = 1000
+        if len(ensemble_items) > MAX_GLOBAL_BOOSTERS:
+            rng = np.random.default_rng(42)
+            idx = rng.choice(len(ensemble_items), size=MAX_GLOBAL_BOOSTERS, replace=False)
+            ensemble_items = [ensemble_items[i] for i in idx]
+
+        # --- SALVA ENSEMBLE SU DISCO ---
+        STRATEGY_DIR = Path(__file__).resolve().parent
+        GLOBAL_ENSEMBLE_PATH = STRATEGY_DIR / "global_ensemble.pkl"
+
+        with open(GLOBAL_ENSEMBLE_PATH, "wb") as f:
+            pickle.dump(ensemble_items, f)
+
+        avg_mae = total_train_mae / total_examples if total_examples > 0 else 0.0
 
         metrics_aggregated: Dict[str, Scalar] = {
             "train_mae": float(avg_mae),
             "ensemble_size": float(len(ensemble_items)),
         }
 
-        # aggiungo info su feature selection
         if self.selected_features is not None:
             metrics_aggregated["n_selected_features"] = float(len(self.selected_features))
 
-        return parameters, metrics_aggregated
-
-
+        # Ritorniamo parametri vuoti perché l'aggregazione è salvata su disco (ensemble)
+        # Flower richiede comunque un oggetto Parameters
+        return ndarrays_to_parameters([]), metrics_aggregated
     # -------------------------
     # 3) AGGREGATE_EVALUATE
-    # (tieni la tua logica attuale: media pesata delle metriche)
     # -------------------------
     def aggregate_evaluate(
         self,
@@ -223,7 +253,7 @@ class XGBoostEnsembleAggregation(FedAvg):
         failures,
     ):
         if not results:
-            return None, {}
+            return ndarrays_to_parameters([]), {}
 
         total_examples = 0
         total_eval_mae = 0.0
@@ -237,5 +267,4 @@ class XGBoostEnsembleAggregation(FedAvg):
         avg_eval_mae = total_eval_mae / total_examples if total_examples > 0 else 0.0
 
         metrics_aggregated = {"eval_mae": float(avg_eval_mae)}
-        # loss (float) può essere None se non lo usi
-        return None, metrics_aggregated
+        return ndarrays_to_parameters([]), metrics_aggregated

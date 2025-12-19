@@ -7,7 +7,7 @@ import flwr as fl
 from sklearn.decomposition import non_negative_factorization
 from sklearn.metrics import mean_absolute_error
 
-from config import SERVER_ADDRESS, NUM_ROUNDS
+from config import SERVER_ADDRESS, NUM_ROUNDS, HOLDOUT_CID
 from strategy import RandomForestAggregation
 
 
@@ -88,8 +88,7 @@ def main():
     # -------------------------
     # GLOBAL TEST su HOLDOUT client
     # -------------------------
-    HOLDOUT_CID = 8
-    if HOLDOUT_CID > 8:
+    if HOLDOUT_CID <= 8:
         holdout_path = f"../clients_data/group{HOLDOUT_CID}_merged_clean.csv"
 
         # NB: lascio come nel tuo codice (dropna) per non cambiare la tua metrica holdout

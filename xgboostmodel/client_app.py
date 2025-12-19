@@ -7,10 +7,10 @@ import numpy as np
 import pandas as pd
 import flwr as fl
 import xgboost as xgb
+from sklearn.exceptions import NotFittedError
 
 from sklearn.metrics import mean_absolute_error
 from flwr.client import NumPyClient
-from flwr.common import FitIns
 from xgboost import XGBRegressor
 
 
@@ -57,7 +57,7 @@ class XGBoostClient(NumPyClient):
         # Feature names (ordine stabile!)
         self.feature_names_full = self.X_full.columns.tolist()
 
-        # Split Train/Test (80/20) - come nel tuo originale
+        # Split Train/Test (80/20)
         from sklearn.model_selection import train_test_split
 
         self.X_train_full, self.X_test_full, self.y_train, self.y_test = train_test_split(
@@ -68,12 +68,14 @@ class XGBoostClient(NumPyClient):
             shuffle=True,
         )
 
-        # Modello RF (inizializzazione base)
+        # Modello base
         self.model = XGBRegressor(
             n_estimators=50,
             max_depth=10,
             random_state=42,
         )
+        self.selected_features = None
+        self.model_features = None
 
     # -------------------------
     # Helper: allena e calcola importanza feature (Round 1)
@@ -94,33 +96,29 @@ class XGBoostClient(NumPyClient):
         )
         model.fit(X_train_df, y_train)
 
-        # feature_importances_ (gain-based in XGBoost sklearn wrapper)
         importances = np.array(model.feature_importances_, dtype=float)
-        # placeholder (non esiste OOB per XGBoost)
-        oob_score = float("nan")
+        oob_score = float("nan")  # placeholder
         return importances, oob_score
 
-
     # -------------------------
-    # FIT
+    # FIT (NumPyClient expects: fit(parameters, config_dict))
     # -------------------------
-    def fit(self, parameters, ins: FitIns):
+    def fit(self, parameters, config):
         """
         Round 1 (phase="fs"):
           - calcola importance + feature_names
-          - NON invia modello (il server in Round 1 ignora il modello)
+          - NON invia modello
         Round >=2 (phase="train"):
           - riceve selected_features
           - filtra X_train/X_test
-          - allena RF
-          - serializza modello e lo invia come parameters
+          - allena XGBoost
+          - serializza booster e lo invia come parameters
         """
-        config = ins.config if hasattr(ins, "config") else {}
-        phase = config.get("phase", "train")
+        phase = (config or {}).get("phase", "train")
 
-        # -------------------------
-        # ROUND 1: FEATURE SELECTION
-        # -------------------------
+        # ---------------------------#
+        # ROUND 1: FEATURE SELECTION #
+        # ---------------------------#
         if phase == "fs":
             self.logger.info("Round 1: FEATURE SELECTION (calcolo importanze).")
 
@@ -129,22 +127,21 @@ class XGBoostClient(NumPyClient):
             )
 
             metrics = {
-                "local_feature_importance": importances.tolist(),
+                "local_feature_importance": json.dumps(importances.tolist()),
                 "feature_names": json.dumps(self.feature_names_full),
                 "oob_score": float(oob_score),
             }
 
-            # Non inviamo un modello in parameters (ritorniamo array vuoto)
-            # così il server può ignorare parameters in Round 1.
+            # Non invio modello (parameters vuoti)
             return [], len(self.X_train_full), metrics
 
         # -------------------------
         # ROUND >=2: TRAIN (con selected_features)
         # -------------------------
-        selected = config.get("selected_features", None)
+        selected = (config or {}).get("selected_features", None)
 
         if selected is None:
-            selected_features = self.feature_names_full
+            selected_features = list(self.feature_names_full)
             self.logger.info("Nessuna selected_features ricevuta: uso tutte le feature.")
         else:
             if isinstance(selected, str):
@@ -152,33 +149,42 @@ class XGBoostClient(NumPyClient):
             else:
                 selected_features = list(selected)
 
-            self.logger.info(f"Received selected_features (n={len(selected_features)}): {selected_features}")
+            # ✅ MODIFICA NECESSARIA:
+            # riordina secondo l'ordine stabile del dataset per evitare mismatch XGBoost
+            selected_set = set(selected_features)
+            selected_features = [f for f in self.feature_names_full if f in selected_set]
+
+            self.logger.info(
+                f"Received selected_features (n={len(selected_features)}): {selected_features}"
+            )
+
+        # ✅ MODIFICA NECESSARIA:
+        # salva le feature usate dal modello per usarle IDENTICHE in evaluate()
+        self.selected_features = list(selected_features)
+        self.model_features = list(selected_features)
 
         # Filtra train/test mantenendo ordine
-        X_train = self.X_train_full[selected_features]
-        X_test = self.X_test_full[selected_features]
+        X_train = self.X_train_full[self.selected_features]
+        X_test = self.X_test_full[self.selected_features]
 
-        # -------------------------
         # Allena XGBoost (da zero ogni round)
-        # -------------------------
         self.logger.info("Training XGBoost model (Round >=2)...")
 
         self.model = xgb.XGBRegressor(
-            n_estimators=400,
-            max_depth=6,
-            learning_rate=0.05,
+            n_estimators=200,
+            max_depth=10,
+            learning_rate=0.7,
             subsample=0.8,
             colsample_bytree=0.8,
             reg_lambda=1.0,
             random_state=42 + self.cid,
-            n_jobs=1,  # più stabile in ambienti condivisi
+            n_jobs=1,
             objective="reg:squarederror",
             verbosity=0,
         )
-
         self.model.fit(X_train, self.y_train)
 
-        # Evaluate train MAE (solo per logging/metriche FL)
+        # Metriche train
         y_pred_train = self.model.predict(X_train)
         mae_train = mean_absolute_error(self.y_train, y_pred_train)
 
@@ -188,60 +194,54 @@ class XGBoostClient(NumPyClient):
 
         metrics = {
             "train_mae": float(mae_train),
-            "n_features": int(len(selected_features)),
+            "n_features": int(len(self.selected_features)),
         }
 
         return [model_array], len(X_train), metrics
 
-
     # -------------------------
-    # EVALUATE
+    # EVALUATE (NumPyClient expects: evaluate(parameters, config_dict))
     # -------------------------
-    def evaluate(self, parameters, ins: FitIns):
-        """
-        Valutazione: deserializza modello e calcola MAE sul test set filtrato (se selected_features esiste).
-        """
-        config = ins.config if hasattr(ins, "config") else {}
-        selected = config.get("selected_features", None)
-
-        if selected is None:
-            selected_features = self.feature_names_full
-        else:
-            if isinstance(selected, str):
-                selected_features = json.loads(selected)
-            else:
-                selected_features = list(selected)
-
+    def evaluate(self, parameters, config):
+        # ✅ MODIFICA NECESSARIA: usa le stesse feature (e nello stesso ordine) del fit
+        selected_features = self.selected_features or self.feature_names_full
         X_test = self.X_test_full[selected_features]
-        # Valuto il modello locale allenato nell'ultimo fit (il server non invia un modello globale)
+
         if self.model is None:
-            self.logger.info("Nessun modello locale disponibile in evaluate (fit non ancora eseguito?).")
             return float("nan"), len(X_test), {"eval_mae": float("nan")}
 
-        y_pred_test = self.model.predict(X_test)
+        try:
+            y_pred_test = self.model.predict(X_test)
+        except NotFittedError:
+            return float("nan"), len(X_test), {"eval_mae": float("nan")}
+
         mae_test = mean_absolute_error(self.y_test, y_pred_test)
-
-        print(f"Client {self.cid} - Evaluation MAE: {mae_test:.4f}")
-        self.logger.info(f"Model evaluation: MAE = {mae_test:.4f}")
-
         return float(mae_test), len(X_test), {"eval_mae": float(mae_test)}
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python client_app.py <client_id>")
+        print("Usage: python client_app.py <client_id> [optional_data_path]")
         sys.exit(1)
 
     client_id = int(sys.argv[1])
 
-    # group{id}_merged_clean.csv come nel tuo originale
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    data_path = os.path.join(BASE_DIR, "clients_data", f"group{client_id}_merged_clean.csv")
-    print("Reading:", data_path)
+    # Se run_all.py passa il path, usalo. Altrimenti calcolalo.
+    if len(sys.argv) > 2:
+        data_path = sys.argv[2]
+    else:
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        data_path = os.path.join(BASE_DIR, "clients_data", f"group{client_id}_merged_clean.csv")
+
+    print(f"Client {client_id} loading data from: {data_path}")
 
     if not os.path.exists(data_path):
-        print(f"Data file not found: {data_path}")
+        print(f"ERRORE: Data file not found: {data_path}")
+        # Importante: exit code != 0 per segnalare l'errore
         sys.exit(1)
 
+    # Avvio client
     client = XGBoostClient(cid=client_id, data_path=data_path)
+
+    # Importante: root_certificates=None per connessioni insicure (localhost)
     fl.client.start_numpy_client(server_address="localhost:8080", client=client)
