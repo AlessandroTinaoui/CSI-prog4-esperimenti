@@ -114,10 +114,16 @@ def clean_user_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
     # 1️⃣ Time series → feature
     if cfg.use_ts_features:
         ts_cfg = TSFeatureConfig(
-            ts_cols=None,
+            ts_cols=None,  # lascia None per inferenza automatica
             drop_original_ts_cols=True,
             drop_negative_values=True
         )
+
+        # DEBUG: quali colonne TS trova davvero
+        if cfg.debug:
+            from extract_ts_features import infer_ts_columns
+            guessed = infer_ts_columns(out, ts_cfg)
+            print("    TS cols inferred:", guessed)
 
         before_cols = set(out.columns)
         out = extract_ts_features(out, ts_cfg)
