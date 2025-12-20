@@ -4,10 +4,9 @@ import subprocess
 import time
 
 # Configurazione manuale se config.py fallisce
-try:
-    from config import HOLDOUT_CID
-except ImportError:
-    HOLDOUT_CID = 10
+
+from server.config import HOLDOUT_CID
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "clients_data")
