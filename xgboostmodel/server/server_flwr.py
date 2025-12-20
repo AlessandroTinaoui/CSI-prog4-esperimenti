@@ -135,31 +135,32 @@ def main():
             print(f"⚠️ Holdout non trovato: {holdout_path}")
 
     # -------------------------
-    # TEST FINALE SU x_test.csv
+    # TEST FINALE SU x_test_clean.csv (già pulito)
     # -------------------------
-    test_path = base_dir / "x_test.csv"
+    test_path = base_dir / "x_test_clean.csv"
     if not test_path.exists():
-        print(f"⚠️ File x_test.csv non trovato in {test_path}")
+        print(f"⚠️ File x_test_clean.csv non trovato in {test_path}")
         return
 
-    x_test = load_semicolon_csv_keep_rows(str(test_path))
-    x_test = clean_dataframe_soft(x_test)
+    # Se è già pulito e con separatore standard:
+    x_test = pd.read_csv(test_path)
 
+    # ID (se presente) altrimenti indice
     if "id" in x_test.columns:
         ids = pd.to_numeric(x_test["id"], errors="coerce").fillna(0).astype(int).to_numpy()
     else:
         ids = np.arange(len(x_test), dtype=int)
 
-    X = x_test.copy()
-    X = X.drop(columns=[c for c in ["id", "label", "date"] if c in X.columns], errors="ignore")
-    X = clean_dataframe_soft(X)
+    # Feature matrix
+    X = x_test.drop(columns=[c for c in ["id", "label", "date"] if c in x_test.columns], errors="ignore")
 
+    # Allinea alle feature selezionate durante FL
     for c in train_features:
         if c not in X.columns:
-            X[c] = np.nan
+            X[c] = 0
     X = X[train_features]
-    X = X.replace([np.inf, -np.inf], np.nan).fillna(0)
 
+    # Allinea alle feature effettive del booster (se presenti)
     model_feats = booster.feature_names
     if model_feats:
         for c in model_feats:

@@ -13,4 +13,4 @@ TOP_K_FEATURES = 30
 
 # Quanti alberi XGBoost aggiunge ogni client ad ogni round (round >= 2).
 # Con 9 client e non-IID, valori piccoli (1-2) sono spesso più stabili.
-LOCAL_BOOST_ROUND = 2
+LOCAL_BOOST_ROUND = 1

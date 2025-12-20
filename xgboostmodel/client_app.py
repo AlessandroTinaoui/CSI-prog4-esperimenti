@@ -17,7 +17,7 @@ def _bytes_from_ndarrays(parameters: List[np.ndarray]) -> Optional[bytes]:
     if not parameters:
         return None
     arr = parameters[0]
-    if arr.size == 0:
+    if arr is None or getattr(arr, "size", 0) == 0:
         return None
     return np.array(arr, dtype=np.uint8).tobytes()
 
@@ -32,7 +32,7 @@ class XGBoostClient(NumPyClient):
     """
     - Round 1 (phase="fs"): invia feature importances (no model)
     - Round >=2 (phase="train"): riceve modello globale (JSON bytes) + selected_features,
-      continua l'addestramento per `local_boost_round` e invia il modello aggiornato (global+new trees).
+      continua l'addestramento e invia il modello aggiornato (global+new trees).
     """
 
     def __init__(self, cid: int, data_path: str):
@@ -71,7 +71,7 @@ class XGBoostClient(NumPyClient):
 
     def _train_and_compute_importance(self, X_train_df: pd.DataFrame, y_train: pd.Series) -> np.ndarray:
         model = xgb.XGBRegressor(
-            n_estimators=400,
+            n_estimators=100,
             max_depth=5,
             learning_rate=0.1,
             subsample=0.8,
@@ -79,7 +79,8 @@ class XGBoostClient(NumPyClient):
             reg_lambda=1.0,
             random_state=42 + self.cid,
             n_jobs=1,
-            objective="reg:squarederror",
+            objective="reg:absoluteerror",
+            eval_metric="mae",
             verbosity=0,
         )
         model.fit(X_train_df, y_train)
@@ -125,8 +126,9 @@ class XGBoostClient(NumPyClient):
 
         xgb_params: Dict[str, object] = {
             "objective": "reg:squarederror",
-            "max_depth": 6,
-            "eta": 0.1,
+            "eval_metric": "mae",
+            "max_depth": 4,
+            "eta": 0.03,
             "subsample": 0.8,
             "colsample_bytree": 0.8,
             "lambda": 1.0,
@@ -134,12 +136,23 @@ class XGBoostClient(NumPyClient):
             "verbosity": 0,
         }
 
+        #early stop
+        max_local_rounds = 50
+        early_stop=xgb.callback.EarlyStopping(
+            rounds = 5,
+            metric_name = "mae",
+            data_name = "valid",
+            maximize = False,
+            save_best = True,
+        )
+
         bst = xgb.train(
             params=xgb_params,
             dtrain=dtrain,
-            num_boost_round=local_boost_round,
+            num_boost_round=max_local_rounds,
             xgb_model=booster_in,
-            evals=[(dtrain, "train"), (dtest, "test")],
+            evals=[(dtest, "valid")],
+            callbacks=[early_stop],
             verbose_eval=False,
         )
 
