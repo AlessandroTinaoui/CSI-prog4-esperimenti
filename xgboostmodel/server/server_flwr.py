@@ -1,40 +1,20 @@
-# server_flwr.py
-from __future__ import annotations
-
 import io
 import json
 import os
-import pickle
 import sys
 from pathlib import Path
 
-import flwr as fl
 import numpy as np
 import pandas as pd
+import flwr as fl
 import xgboost as xgb
 from sklearn.metrics import mean_absolute_error
 
-# -------------------------------------------------------------------
-# Import preprocessing da dataset/CSV_train (client_dataset_setup.py)
-# -------------------------------------------------------------------
-PROJECT_ROOT = Path(__file__).resolve().parents[2]  # .../CSI-prog4-esperimenti
-PREP_DIR = PROJECT_ROOT / "dataset" / "CSV_train"
-sys.path.insert(0, str(PREP_DIR))
-
-from client_dataset_setup import CleanConfig, clean_user_df, read_user_csv  # noqa: E402
-
-# -------------------------------------------------------------------
-# Config + Strategy
-# -------------------------------------------------------------------
-from config import HOLDOUT_CID, NUM_ROUNDS, SERVER_ADDRESS  # noqa: E402
-from strategy import XGBoostEnsembleAggregation  # noqa: E402
+from config import HOLDOUT_CID, NUM_ROUNDS, SERVER_ADDRESS, LOCAL_BOOST_ROUND, TOP_K_FEATURES
+from strategy import XGBoostTreeAppendStrategy
 
 
-# -------------------------
-# Utils
-# -------------------------
 def load_semicolon_csv_keep_rows(path: str) -> pd.DataFrame:
-    """Carica CSV ';' in modo robusto senza perdere righe anche se ci sono ';' dentro celle."""
     if not os.path.exists(path):
         print(f"⚠️ File non trovato: {path}")
         return pd.DataFrame()
@@ -65,7 +45,6 @@ def load_semicolon_csv_keep_rows(path: str) -> pd.DataFrame:
 
 
 def clean_dataframe_soft(df: pd.DataFrame) -> pd.DataFrame:
-    """Pulizia 'soft': non droppa righe, solo sistemazioni colonne/inf."""
     df = df.loc[:, ~df.columns.astype(str).str.match(r"^Unnamed")]
     df.columns = [str(c).strip() for c in df.columns]
     df = df.loc[:, ~df.columns.duplicated()]
@@ -73,60 +52,27 @@ def clean_dataframe_soft(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def predict_ensemble(ensemble_items: list[dict], X: pd.DataFrame) -> np.ndarray:
-    """Predizione con ensemble di booster, riallineando le feature per ogni booster."""
-    preds = []
-    weights = []
-
-    for item in ensemble_items:
-        booster = xgb.Booster()
-        booster.load_model(bytearray(item["raw"]))
-
-        model_feats = booster.feature_names or list(X.columns)
-
-        # aggiungi feature mancanti (robustezza)
-        for f in model_feats:
-            if f not in X.columns:
-                X[f] = 0
-
-        X_aligned = X[model_feats].replace([np.inf, -np.inf], np.nan).fillna(0)
-        dmat = xgb.DMatrix(X_aligned, feature_names=model_feats)
-
-        preds.append(booster.predict(dmat))
-        weights.append(float(item.get("weight", 1.0)))
-
-    if len(preds) == 0:
-        return np.array([])
-
-    weights = np.array(weights, dtype=float)
-    if weights.sum() == 0:
-        weights = np.ones_like(weights, dtype=float)
-    weights /= weights.sum()
-
-    y_pred = np.average(np.vstack(preds), axis=0, weights=weights)
-    return y_pred
+def _load_global_booster(global_model_path: Path) -> xgb.Booster:
+    raw = global_model_path.read_bytes()
+    bst = xgb.Booster()
+    bst.load_model(bytearray(raw))
+    return bst
 
 
-# -------------------------
-# Main
-# -------------------------
 def main():
-    BASE_DIR = Path(__file__).resolve().parent
+    base_dir = Path(__file__).resolve().parent
+    global_model_path = base_dir / "global_model.json"
+    global_features_path = base_dir / "global_model_features.json"
 
-    # questi file li crea la tua strategy (quindi devono combaciare con la strategy)
-    GLOBAL_ENSEMBLE_PATH = BASE_DIR / "global_ensemble.pkl"
-    GLOBAL_FEATURES_PATH = BASE_DIR / "global_model_features.json"
+    for p in [global_model_path, global_features_path]:
+        if p.exists():
+            p.unlink()
 
-    # pulisci vecchi file
-    if GLOBAL_ENSEMBLE_PATH.exists():
-        GLOBAL_ENSEMBLE_PATH.unlink()
-    if GLOBAL_FEATURES_PATH.exists():
-        GLOBAL_FEATURES_PATH.unlink()
-
-    # Strategy
-    strategy = XGBoostEnsembleAggregation(
-        top_k=20,
+    strategy = XGBoostTreeAppendStrategy(
+        top_k=TOP_K_FEATURES,
         save_path="selected_features.json",
+        local_boost_round=LOCAL_BOOST_ROUND,
+        global_model_path="global_model.json",
         fraction_fit=1.0,
         fraction_evaluate=1.0,
         min_fit_clients=8,
@@ -147,114 +93,86 @@ def main():
 
     print("\n✅ FL terminato. Inizio fase di test...")
 
-    # Verifica file prodotti
-    if not GLOBAL_ENSEMBLE_PATH.exists() or not GLOBAL_FEATURES_PATH.exists():
-        print("❌ ERRORE: I file del modello globale (pkl/json) non sono stati creati.")
-        print("   Verifica che i client non siano crashati e che la Strategy abbia salvato i file.")
+    if not global_model_path.exists() or not global_features_path.exists():
+        print("❌ ERRORE: file global_model.json / global_model_features.json non creati.")
         sys.exit(1)
 
-    # Carica ensemble
-    with open(GLOBAL_ENSEMBLE_PATH, "rb") as f:
-        ensemble_items = pickle.load(f)
-    print(f"✅ Ensemble caricato: {len(ensemble_items)} booster.")
+    booster = _load_global_booster(global_model_path)
+    print("✅ Modello globale caricato.")
 
-    # Carica features globali
-    with open(GLOBAL_FEATURES_PATH, "r", encoding="utf-8") as f:
-        train_features = json.load(f)["features"]
-    train_features = list(train_features)
+    train_features = json.loads(global_features_path.read_text(encoding="utf-8"))["features"]
 
     # -------------------------
     # GLOBAL TEST su HOLDOUT
     # -------------------------
-    if 0 <= HOLDOUT_CID <= 8:
-        holdout_path = (BASE_DIR / ".." / "clients_data" / f"group{HOLDOUT_CID}_merged_clean.csv").resolve()
-        print("[SERVER] Holdout path:", holdout_path)
+    if HOLDOUT_CID <= 8:
+        holdout_path = base_dir / "../clients_data" / f"group{HOLDOUT_CID}_merged_clean.csv"
+        if holdout_path.exists():
+            holdout = pd.read_csv(holdout_path, sep=",").dropna()
+            y_holdout = holdout["label"].copy()
 
-        if not holdout_path.exists():
-            print("⚠️ Holdout non trovato, salto MAE holdout.")
-        else:
-            df_holdout = pd.read_csv(holdout_path, sep=",")
+            cols_to_drop = ["day", "client_id", "user_id", "source_file", "label"]
+            cols_to_drop = [c for c in cols_to_drop if c in holdout.columns]
+            X_holdout = holdout.drop(columns=cols_to_drop)
 
-            if "label" not in df_holdout.columns:
-                print("⚠️ Holdout senza colonna label, salto MAE holdout.")
-            else:
-                # ✅ NON fare dropna() totale: al massimo richiedi label non NaN
-                df_holdout = df_holdout.dropna(subset=["label"])
+            for c in train_features:
+                if c not in X_holdout.columns:
+                    X_holdout[c] = 0
+            X_holdout = X_holdout[train_features].fillna(0)
 
-                cols_to_drop = ["day", "client_id", "user_id", "source_file", "label"]
-                cols_to_drop = [c for c in cols_to_drop if c in df_holdout.columns]
-
-                y_holdout = df_holdout["label"].to_numpy()
-                X_holdout = df_holdout.drop(columns=cols_to_drop, errors="ignore")
-
-                # allinea alle train_features globali
-                for c in train_features:
+            model_feats = booster.feature_names
+            if model_feats:
+                for c in model_feats:
                     if c not in X_holdout.columns:
                         X_holdout[c] = 0
-                X_holdout = X_holdout[train_features].replace([np.inf, -np.inf], np.nan).fillna(0)
+                X_holdout = X_holdout[model_feats]
 
-                print("[SERVER] Holdout rows:", len(df_holdout))
-                print("[SERVER] X_holdout shape:", X_holdout.shape)
-                print("[SERVER] y_holdout shape:", y_holdout.shape)
-
-                y_pred_holdout = predict_ensemble(ensemble_items, X_holdout.copy())
-
-                if len(y_holdout) == 0 or len(y_pred_holdout) == 0:
-                    print("⚠️ HOLDOUT vuoto o predizioni vuote: salto MAE holdout.")
-                else:
-                    mae_holdout = mean_absolute_error(y_holdout, y_pred_holdout)
-                    print(f"📊 GLOBAL HOLDOUT MAE (client {HOLDOUT_CID}): {mae_holdout:.4f}")
+            dmat = xgb.DMatrix(X_holdout, feature_names=model_feats or train_features)
+            y_pred_holdout = booster.predict(dmat)
+            mae_holdout = mean_absolute_error(y_holdout, y_pred_holdout)
+            print(f"📊 GLOBAL HOLDOUT MAE (client {HOLDOUT_CID}): {mae_holdout:.4f}")
+        else:
+            print(f"⚠️ Holdout non trovato: {holdout_path}")
 
     # -------------------------
     # TEST FINALE SU x_test.csv
     # -------------------------
-    test_path = (BASE_DIR / "x_test.csv").resolve()
+    test_path = base_dir / "x_test.csv"
     if not test_path.exists():
-        print(f"❌ File x_test.csv non trovato in {test_path}")
+        print(f"⚠️ File x_test.csv non trovato in {test_path}")
         return
 
-    # ✅ Preprocessing uguale al train ma "infer": NON deve droppare righe.
-    # (Funziona solo se nel tuo client_dataset_setup.py hai implementato mode="infer")
-    cfg_infer = CleanConfig(
-        label_col="label",
-        day_col="day",
-        min_non_null_frac=0.40,
-        debug=False,
-        mode="infer",
-        use_ts_features=True,
-    )
+    x_test = load_semicolon_csv_keep_rows(str(test_path))
+    x_test = clean_dataframe_soft(x_test)
 
-    # Se x_test è separato da ';' e con colonna "Unnamed: 0", usa read_user_csv del tuo preprocessing.
-    # Se invece è veramente ';' con problemi di parsing, usa load_semicolon_csv_keep_rows.
-    x_test = read_user_csv(str(test_path))
-    x_test = clean_user_df(x_test, cfg_infer)
-
-    # id output
     if "id" in x_test.columns:
         ids = pd.to_numeric(x_test["id"], errors="coerce").fillna(0).astype(int).to_numpy()
     else:
         ids = np.arange(len(x_test), dtype=int)
 
-    # features
     X = x_test.copy()
     X = X.drop(columns=[c for c in ["id", "label", "date"] if c in X.columns], errors="ignore")
     X = clean_dataframe_soft(X)
 
-    # allinea alle train_features
     for c in train_features:
         if c not in X.columns:
-            X[c] = 0
-    X = X[train_features].replace([np.inf, -np.inf], np.nan).fillna(0)
+            X[c] = np.nan
+    X = X[train_features]
+    X = X.replace([np.inf, -np.inf], np.nan).fillna(0)
 
-    # predict ensemble
-    y_pred = predict_ensemble(ensemble_items, X.copy())
-    if y_pred.size == 0:
-        print("❌ Errore: predizioni vuote su x_test.csv")
-        return
+    model_feats = booster.feature_names
+    if model_feats:
+        for c in model_feats:
+            if c not in X.columns:
+                X[c] = 0
+        X = X[model_feats]
 
-    y_pred = np.rint(y_pred).astype(int)
-    out = pd.DataFrame({"id": ids, "label": y_pred})
-    out.to_csv(BASE_DIR / "predictions.csv", index=False)
+    dmat = xgb.DMatrix(X, feature_names=model_feats or train_features)
+    y_pred = booster.predict(dmat)
+
+    y_pred_int = np.rint(y_pred).astype(int)
+    out = pd.DataFrame({"id": ids, "label": y_pred_int})
+    out.to_csv("predictions.csv", index=False)
     print("✅ Creato predictions.csv")
 
 
