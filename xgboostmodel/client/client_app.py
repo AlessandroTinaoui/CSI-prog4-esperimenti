@@ -4,6 +4,9 @@ import json
 import logging
 from pathlib import Path
 from typing import Dict, List, Optional
+
+from xgboostmodel.client.model_params import ES_MAXIMIZE, ES_SAVE_BEST, ES_DATA_NAME, ES_ROUNDS
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]  # xgboostmodel/
 LOGS_DIR = PROJECT_ROOT / "logs"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -19,6 +22,7 @@ from flwr.client import NumPyClient
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 
+import model_params as mp
 
 def _bytes_from_ndarrays(parameters: List[np.ndarray]) -> Optional[bytes]:
     if not parameters:
@@ -69,26 +73,24 @@ class XGBoostClient(NumPyClient):
         self.X_train_full, self.X_test_full, self.y_train, self.y_test = train_test_split(
             self.X_full,
             self.y_full,
-            test_size=0.01,
-            random_state=42,
-            shuffle=True,
+            test_size=0.2,
         )
 
         self.selected_features: Optional[List[str]] = None
 
     def _train_and_compute_importance(self, X_train_df: pd.DataFrame, y_train: pd.Series) -> np.ndarray:
         model = xgb.XGBRegressor(
-            n_estimators=100,
-            max_depth=5,
-            learning_rate=0.1,
-            subsample=0.8,
-            colsample_bytree=0.8,
-            reg_lambda=1.0,
-            random_state=42 + self.cid,
-            n_jobs=1,
-            objective="reg:absoluteerror",
-            eval_metric="mae",
-            verbosity=0,
+            n_estimators=mp.N_ESTIMATORS,
+            max_depth=mp.MAX_DEPTH,
+            learning_rate=mp.LEARNING_RATE,
+            subsample=mp.SUBSAMPLE,
+            colsample_bytree=mp.COLSAMPLE_BYTREE,
+            reg_lambda=mp.REG_LAMBDA,
+            random_state=mp.RANDOM_STATE + self.cid,
+            n_jobs=mp.N_JOBS,
+            objective=mp.OBJECTIVE,
+            eval_metric=mp.EVAL_METRIC,
+            verbosity=mp.VERBOSITY,
         )
         model.fit(X_train_df, y_train)
         return np.array(model.feature_importances_, dtype=float)
@@ -132,33 +134,32 @@ class XGBoostClient(NumPyClient):
                 booster_in = None
 
         xgb_params: Dict[str, object] = {
-            "objective": "reg:squarederror",
-            "eval_metric": "mae",
-            "max_depth": 4,
-            "eta": 0.03,
-            "subsample": 0.8,
-            "colsample_bytree": 0.8,
-            "lambda": 1.0,
-            "seed": 42 + self.cid,
-            "verbosity": 0,
+            "objective": mp.OBJECTIVE,
+            "eval_metric": mp.EVAL_METRIC,
+            "max_depth": mp.MAX_DEPTH,
+            "eta": mp.LEARNING_RATE,
+            "subsample": mp.SUBSAMPLE,
+            "colsample_bytree": mp.COLSAMPLE_BYTREE,
+            "lambda": mp.REG_LAMBDA,
+            "seed": mp.RANDOM_STATE + self.cid,
+            "verbosity": mp.VERBOSITY,
         }
 
         #early stop
-        max_local_rounds = 50
         early_stop=xgb.callback.EarlyStopping(
-            rounds = 5,
+            rounds = ES_ROUNDS,
             metric_name = "mae",
-            data_name = "valid",
-            maximize = False,
-            save_best = True,
+            data_name = mp.ES_DATA_NAME,
+            maximize = mp.ES_MAXIMIZE,
+            save_best = mp.ES_SAVE_BEST,
         )
 
         bst = xgb.train(
             params=xgb_params,
             dtrain=dtrain,
-            num_boost_round=max_local_rounds,
+            num_boost_round=mp.MAX_LOCAL_ROUNDS,
             xgb_model=booster_in,
-            evals=[(dtest, "valid")],
+            evals=[(dtest, mp.ES_DATA_NAME)],
             callbacks=[early_stop],
             verbose_eval=False,
         )
