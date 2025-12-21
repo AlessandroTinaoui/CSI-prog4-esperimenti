@@ -126,8 +126,8 @@ def main():
 
         y_pred_holdout = model.predict(X_holdout)
         mae_holdout = mean_absolute_error(y_holdout, y_pred_holdout)
-        print(f"✅ GLOBAL HOLDOUT MAE (client {HOLDOUT_CID}): {mae_holdout:.4f}")
-
+        print(f"MEA valutato sul client {HOLDOUT_CID}")
+        print(f"FINAL_MAE: {mae_holdout}")
 
     # -------------------------
     # TEST FINALE SU x_test.csv
