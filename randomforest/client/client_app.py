@@ -19,6 +19,14 @@ from dataset.dataset_cfg import get_train_path
 
 TRAIN_PATH = get_train_path()
 
+from rf_params import (
+    RF_INIT_PARAMS,
+    RF_FS_PARAMS,
+    RF_TRAIN_BASE_PARAMS,
+    TREES_PER_ROUND,
+)
+
+
 class RandomForestClient(NumPyClient):
     def __init__(self, cid: int, data_path: str):
         self.cid = cid
@@ -76,11 +84,8 @@ class RandomForestClient(NumPyClient):
         )
 
         # Modello RF (inizializzazione base)
-        self.model = RandomForestRegressor(
-            n_estimators=50,
-            max_depth=10,
-            random_state=42,
-        )
+        self.model = RandomForestRegressor(**RF_INIT_PARAMS)
+
 
     # -------------------------
     # Helper: allena e calcola importanza feature (Round 1)
@@ -89,15 +94,8 @@ class RandomForestClient(NumPyClient):
         """
         Calcola feature_importances_ (MDI) senza split extra.
         """
-        fs_model = RandomForestRegressor(
-            n_estimators=300,
-            max_depth=None,
-            random_state=42,
-            n_jobs=1,
-            bootstrap=True,
-            oob_score=True,
-            min_samples_leaf=2,
-        )
+        fs_model = RandomForestRegressor(**RF_FS_PARAMS)
+
         fs_model.fit(X_train_df.values, y_train.values)
 
         importances = fs_model.feature_importances_
@@ -165,8 +163,6 @@ class RandomForestClient(NumPyClient):
         # Allena modello (warm-start: parte dal globale e aggiunge alberi)
         self.logger.info("Training the model (Round >=2) - warm start...")
 
-        TREES_PER_ROUND = 200  # prova 100 / 200 / 300
-
         # 1) deserializza il modello globale se presente
         global_model = None
         if parameters and len(parameters) > 0 and parameters[0] is not None:
@@ -186,23 +182,13 @@ class RandomForestClient(NumPyClient):
                 n_jobs=1,
             )
 
-        # 3) iperparametri più “generalizzanti”
-        self.model.set_params(
-            warm_start=True,
-            n_jobs=1,
-            bootstrap=True,
-            max_samples=0.8,
-            max_features=0.7,  # prova 0.5 / 0.7 / "sqrt"
-            min_samples_leaf=2,  # prova 1 / 2 / 5
-            min_samples_split=4,
-            max_depth=None,
-        )
+        self.model.set_params(**RF_TRAIN_BASE_PARAMS)
 
         # 4) aggiunge alberi a ogni round (questo è il punto chiave)
         if hasattr(self.model, "feature_names_in_"):
             X_train = X_train.reindex(columns=list(self.model.feature_names_in_))
 
-        self.model.n_estimators = int(self.model.n_estimators) + TREES_PER_ROUND
+        self.model.n_estimators += TREES_PER_ROUND
         self.model.fit(X_train, self.y_train)
 
         # Training MAE
