@@ -138,7 +138,8 @@ def main():
             dmat = xgb.DMatrix(X_holdout, feature_names=model_feats or train_features)
             y_pred_holdout = booster.predict(dmat)
             mae_holdout = mean_absolute_error(y_holdout, y_pred_holdout)
-            print(f"📊 GLOBAL HOLDOUT MAE (client {HOLDOUT_CID}): {mae_holdout:.4f}")
+            print(f"MEA valutato sul client {HOLDOUT_CID}")
+            print(f"FINAL_MAE: {mae_holdout}")
         else:
             print(f"⚠️ Holdout non trovato: {holdout_path}")
 
