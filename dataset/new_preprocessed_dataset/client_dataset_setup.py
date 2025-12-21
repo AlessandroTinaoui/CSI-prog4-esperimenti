@@ -33,7 +33,7 @@ class CleanConfig:
     mode: str = "train"  # "train" oppure "infer"
 
     # --- NaN imputation (metodi slide) ---
-    nan_method: str = "linear"          # "linear" (come richiesto)
+    nan_method: str = "median"          # "linear" (come richiesto)
     nan_fill_limit: Optional[int] = 3   # riempi max 3 NaN consecutivi (consigliato)
 
 
@@ -82,13 +82,13 @@ def _coerce_numeric_features(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame
 def impute_missing_values(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
     out = df.copy()
 
-    # imputiamo SOLO le colonne numeriche "originali" (non ts__, non __clean, non flag)
+    # imputiamo SOLO le colonne numeriche "originali"
     feat = _select_numeric_original_cols_for_low_info(out, cfg)
     if not feat:
         return out
 
-    # importantissimo: per interpolazione serve ordine temporale
-    if cfg.day_col and cfg.day_col in out.columns:
+    # (ordinare per day serve solo a metodi temporali come linear)
+    if cfg.day_col and cfg.day_col in out.columns and cfg.nan_method in {"linear"}:
         out = out.sort_values(cfg.day_col)
 
     if cfg.nan_method == "linear":
@@ -101,10 +101,14 @@ def impute_missing_values(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
         out[feat] = out[feat].ffill(limit=cfg.nan_fill_limit)
     elif cfg.nan_method == "bfill":
         out[feat] = out[feat].bfill(limit=cfg.nan_fill_limit)
+    elif cfg.nan_method == "median":
+        med = out[feat].median(numeric_only=True).fillna(0.0)
+        out[feat] = out[feat].fillna(med)
     else:
         raise ValueError(f"Unknown nan_method: {cfg.nan_method}")
 
     return out
+
 
 def fill_remaining_nans(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
     out = df.copy()
@@ -199,20 +203,17 @@ def clean_user_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
     if cfg.mode not in {"train", "infer"}:
         raise ValueError(f"cfg.mode must be 'train' or 'infer', got: {cfg.mode}")
 
-    # 1️⃣ Time series → feature
+    # 1️⃣ TS features
     if cfg.use_ts_features:
         ts_cfg = TSFeatureConfig(
-            ts_cols=None,  # lascia None per inferenza automatica
+            ts_cols=None,
             drop_original_ts_cols=True,
-            drop_negative_values=True,  # ✅ sempre (train e test)
-
-            # ✅ nuove regole: se troppi negativi => TS ignorata (used=0, feature NaN)
+            drop_negative_values=True,
             add_quality_features=True,
-            max_neg_frac_raw=0.50,  # es: >50% negativi nella raw => non usare la TS
-            min_valid_points=5  # min punti validi dopo pulizia (negativi rimossi)
+            max_neg_frac_raw=0.50,
+            min_valid_points=5
         )
 
-        # DEBUG: quali colonne TS trova davvero
         if cfg.debug:
             from extract_ts_features import infer_ts_columns
             guessed = infer_ts_columns(out, ts_cfg)
@@ -222,9 +223,8 @@ def clean_user_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
         out = extract_ts_features(out, ts_cfg)
         after_cols = set(out.columns)
 
-        ts_features = [c for c in after_cols - before_cols if c.startswith("ts__")]
-
         if cfg.debug:
+            ts_features = [c for c in after_cols - before_cols if c.startswith("ts__")]
             print(f"    TS features create: {len(ts_features)}")
 
     # 2️⃣ conversione numerica
@@ -233,18 +233,22 @@ def clean_user_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
 
     out = _coerce_numeric_features(out, cfg)
 
-
-    out = impute_missing_values(out, cfg)
-
-    # 3️⃣ pulizia righe (solo training)
+    # 3️⃣ pulizia righe (solo training) PRIMA dell’imputazione
     if cfg.mode == "train":
         out = drop_invalid_labels(out, cfg)
         out = drop_low_info_days(out, cfg)
 
-    # 4️⃣ outlier → NaN
+    # 4️⃣ imputazione NaN con mediana (per-user, prima del merge)
+    out = impute_missing_values(out, cfg)
+
+    # 5️⃣ outlier
     out = handle_outliers_iqr(out, cfg)
 
+    # 6️⃣ fill rimanenti (di solito ridondante se usi median, ma ok come safety)
     out = fill_remaining_nans(out, cfg)
+
+    # 7️⃣ rimuovi colonne booleane e colonne "vecchie"
+    out = finalize_clean_columns(out, cfg)
 
     if cfg.debug:
         n_nan = out.isna().sum().sum()
@@ -255,7 +259,6 @@ def clean_user_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
         )
 
     return out.reset_index(drop=True)
-
 
 # -----------------------------
 # Merge per client
@@ -313,7 +316,37 @@ def build_x_test(x_test_path: str, out_path: str, cfg: CleanConfig):
 
     print(f"✔ SALVATO X_TEST: {df_clean.shape[0]} righe | {df_clean.shape[1]} colonne -> {out_path}")
 
+def finalize_clean_columns(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
+    out = df.copy()
 
+    orig_cols = _select_numeric_original_cols_for_low_info(out, cfg)
+
+    # sovrascrivi le colonne originali con la versione pulita
+    for c in orig_cols:
+        clean_c = f"{c}__clean"
+        if clean_c in out.columns:
+            out[c] = out[clean_c]
+
+    # ✅ colonne da rimuovere ESPLICITAMENTE (solo quelle richieste)
+    cols_to_drop_explicit = {
+        "ts__resp_time_series__nan_frac_raw",
+        "ts__stress_time_series__nan_frac_raw",
+        "ts__hr_time_series__neg_frac_raw",
+        "ts__hr_time_series__neg_count_raw",
+        "act_activeTime",
+        "ts__hr_time_series__used"
+    }
+
+    # elimina colonne di appoggio + quelle esplicite
+    drop_cols = [
+        c for c in out.columns
+        if c.endswith("__is_outlier")
+        or c.endswith("__clean")
+        or c in cols_to_drop_explicit
+    ]
+
+    out = out.drop(columns=drop_cols, errors="ignore")
+    return out
 
 if __name__ == "__main__":
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))  # = .../dataset
@@ -331,7 +364,7 @@ if __name__ == "__main__":
         debug=True,
         mode="train",
         outlier_strategy="clean_col",
-        nan_method="linear",
+        nan_method="median",
         nan_fill_limit=3
     )
     build_clients(TRAIN_BASE_DIR, TRAIN_OUT_DIR, cfg_train)
@@ -348,7 +381,7 @@ if __name__ == "__main__":
         debug=True,
         mode="infer",        # ✅ mai drop righe
         outlier_strategy="clean_col",
-        nan_method="linear",
+        nan_method="median",
         nan_fill_limit=3
     )
     build_x_test(X_TEST_PATH, X_TEST_OUT, cfg_test)

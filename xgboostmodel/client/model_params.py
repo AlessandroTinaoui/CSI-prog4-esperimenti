@@ -1,0 +1,20 @@
+#model parameters
+N_ESTIMATORS = 100
+MAX_DEPTH = 5
+LEARNING_RATE = 0.1
+SUBSAMPLE = 0.8
+COLSAMPLE_BYTREE = 0.8
+REG_LAMBDA = 1.0
+RANDOM_STATE = 42
+N_JOBS = 1
+OBJECTIVE = "reg:absoluteerror"
+EVAL_METRIC = "mae"
+VERBOSITY = 0
+
+
+#early stopping
+MAX_LOCAL_ROUNDS = 50
+ES_ROUNDS = 5
+ES_DATA_NAME = "valid"
+ES_MAXIMIZE = False
+ES_SAVE_BEST = True
