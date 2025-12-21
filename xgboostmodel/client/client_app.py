@@ -69,7 +69,7 @@ class XGBoostClient(NumPyClient):
         self.X_train_full, self.X_test_full, self.y_train, self.y_test = train_test_split(
             self.X_full,
             self.y_full,
-            test_size=0.2,
+            test_size=0.01,
             random_state=42,
             shuffle=True,
         )
