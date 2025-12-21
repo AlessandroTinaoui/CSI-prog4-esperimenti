@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
 from sklearn.model_selection import train_test_split
 import os
 
@@ -29,11 +29,17 @@ def load_data(partition_id: int, root_dir: str = "clients_data"):
     
     return X_train, X_test, y_train, y_test
 
-def get_model(n_estimators: int = 50, max_depth: int = 10):
-    """Create Random Forest regressor."""
-    return RandomForestRegressor(
+def get_model(n_estimators: int = 400, max_depth: int = 6):
+    """Create XGBoost regressor."""
+    return xgb.XGBRegressor(
         n_estimators=n_estimators,
         max_depth=max_depth,
+        learning_rate=0.05,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        reg_lambda=1.0,
         random_state=42,
-        n_jobs=-1
+        n_jobs=1,
+        objective="reg:squarederror",
+        verbosity=0,
     )

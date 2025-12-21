@@ -195,6 +195,124 @@ def clean_user_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
     return out.reset_index(drop=True)
 
 
+def _coerce_numeric_features_no_label(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
+    """
+    Versione di coercizione numerica che NON presume che label esista.
+    Converte in numerico tutte le colonne non escluse (id/day/source_file).
+    """
+    out = df.copy()
+    exclude = {"client_id", "user_id", "source_file"}
+    if cfg.day_col:
+        exclude.add(cfg.day_col)
+    # NOTA: non escludiamo cfg.label_col perché in x_train potrebbe non esserci
+
+    for c in out.columns:
+        if c in exclude:
+            continue
+        out[c] = pd.to_numeric(out[c], errors="ignore")
+    return out
+
+
+def _select_numeric_feature_cols_no_label(df: pd.DataFrame, cfg: CleanConfig) -> List[str]:
+    """
+    Seleziona feature numeriche come _select_numeric_feature_cols,
+    ma non richiede label e non la usa come esclusione se non presente.
+    """
+    exclude = {"client_id", "user_id", "source_file"}
+    if cfg.day_col:
+        exclude.add(cfg.day_col)
+    # se la label esiste, la escludo
+    if cfg.label_col in df.columns:
+        exclude.add(cfg.label_col)
+
+    cols = []
+    for c in df.columns:
+        if c in exclude:
+            continue
+        if pd.api.types.is_numeric_dtype(df[c]):
+            cols.append(c)
+    return cols
+
+
+def handle_outliers_iqr_no_label(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
+    """
+    Stessa logica di handle_outliers_iqr ma selezione feature robusta anche senza label.
+    """
+    out = df.copy()
+    feat = _select_numeric_feature_cols_no_label(out, cfg)
+
+    for c in feat:
+        s = out[c]
+        if s.dropna().shape[0] < 5:
+            continue
+
+        q1 = s.quantile(0.25)
+        q3 = s.quantile(0.75)
+        iqr = q3 - q1
+        if pd.isna(iqr) or iqr == 0:
+            continue
+
+        lo = q1 - cfg.iqr_k * iqr
+        hi = q3 + cfg.iqr_k * iqr
+
+        if cfg.winsorize_iqr:
+            out[c] = s.clip(lo, hi)
+        else:
+            out.loc[(s < lo) | (s > hi), c] = np.nan
+
+    return out
+
+
+def knn_impute_no_label(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
+    """
+    Stessa logica di knn_impute ma selezione feature robusta anche senza label.
+    """
+    out = df.copy()
+    feat = _select_numeric_feature_cols_no_label(out, cfg)
+    if not feat:
+        return out
+
+    if cfg.drop_all_nan_features:
+        all_nan = [c for c in feat if out[c].isna().all()]
+        if all_nan:
+            out = out.drop(columns=all_nan)
+            feat = [c for c in feat if c not in all_nan]
+            if not feat:
+                return out
+
+    imputer = KNNImputer(n_neighbors=cfg.knn_k, weights="distance")
+    out[feat] = imputer.fit_transform(out[feat].astype(float))
+    return out
+
+
+def preprocess_x_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
+    """
+    Preprocessing per x_train:
+    - UGUALE alla pipeline dei dataset
+    - MA NON elimina righe (no drop_invalid_labels, no drop_low_info_days)
+
+    Funziona sia con che senza label.
+    """
+    out = df.copy()
+
+    out = drop_time_series_columns(out, cfg)
+
+    if cfg.day_col and cfg.day_col in out.columns:
+        out[cfg.day_col] = pd.to_numeric(out[cfg.day_col], errors="ignore")
+
+    out = _coerce_numeric_features_no_label(out, cfg)
+
+    # niente drop righe
+
+    out = handle_outliers_iqr_no_label(out, cfg)
+    out = knn_impute_no_label(out, cfg)
+
+    if cfg.day_col and cfg.day_col in out.columns:
+        out = out.sort_values(cfg.day_col)
+
+    return out.reset_index(drop=True)
+
+
 # -----------------------------
 # Merge per client (groupX)
 # -----------------------------
@@ -209,16 +327,16 @@ def parse_user_id(filename: str) -> str:
     return base
 
 #legge tutti i group, unisce e pulisce i CSV e ritorna la lista di tuple
-def build_clients(base_dir: str, out_dir: str, cfg: CleanConfig) -> List[Tuple[str, str]]:
+def build_clients(TRAIN_BASE_DIR: str, TRAIN_OUT_DIR: str, cfg: CleanConfig) -> List[Tuple[str, str]]:
     """
-    base_dir contiene group0, group1, ...
+    TRAIN_BASE_DIR contiene group0, group1, ...
     dentro ogni group: dataset_user_*_train.csv
     """
-    os.makedirs(out_dir, exist_ok=True)#crea la cartella out_dir
+    os.makedirs(TRAIN_OUT_DIR, exist_ok=True)#crea la cartella TRAIN_OUT_DIR
 
-    group_dirs = sorted([d for d in glob.glob(os.path.join(base_dir, "group*")) if os.path.isdir(d)])
+    group_dirs = sorted([d for d in glob.glob(os.path.join(TRAIN_BASE_DIR, "group*")) if os.path.isdir(d)])
     if not group_dirs:
-        raise FileNotFoundError(f"Nessuna cartella group* trovata in: {base_dir}")
+        raise FileNotFoundError(f"Nessuna cartella group* trovata in: {TRAIN_BASE_DIR}")
 
     saved: List[Tuple[str, str]] = []
 
@@ -247,7 +365,7 @@ def build_clients(base_dir: str, out_dir: str, cfg: CleanConfig) -> List[Tuple[s
         if cfg.day_col and cfg.day_col in merged.columns:
             merged = merged.sort_values([cfg.day_col, "user_id"]).reset_index(drop=True)
 
-        out_path = os.path.join(out_dir, f"{client_id}_merged_clean.csv") #costruisce il percorso file
+        out_path = os.path.join(TRAIN_OUT_DIR, f"{client_id}_merged_clean.csv") #costruisce il percorso file
         merged.to_csv(out_path, index=False) #salva il csv senza colonna indice
 
         print(f"[OK] {client_id}: {len(user_files)} utenti -> {merged.shape[0]} righe, {merged.shape[1]} colonne | {out_path}")
@@ -262,8 +380,9 @@ if __name__ == "__main__":
 
     # Nel tuo caso: .../dataset/CSV_train/client_dataset_setup.py
     # e i group sono in: .../dataset/CSV_train/CSV_train/group0...
-    BASE_DIR = os.path.join(SCRIPT_DIR, "CSV_train")
-    OUT_DIR = os.path.join(SCRIPT_DIR, "CSV_train_clean")
+    TRAIN_BASE_DIR = os.path.join(SCRIPT_DIR, "../raw_dataset")  # <- vedi la tua struttura annidata
+    TRAIN_OUT_DIR  = os.path.join(SCRIPT_DIR, "clients_dataset")
+
 #configurazione di pulizia
     cfg = CleanConfig(
         label_col="label",
@@ -274,4 +393,20 @@ if __name__ == "__main__":
         winsorize_iqr=False
     )
 
-    build_clients(BASE_DIR, OUT_DIR, cfg)
+    build_clients(TRAIN_BASE_DIR, TRAIN_OUT_DIR, cfg)
+
+    # -----------------------------
+    # Preprocessing X_test.csv (senza eliminare righe)
+    # -----------------------------
+    X_TEST_PATH = os.path.join(SCRIPT_DIR, "../raw_dataset/x_test.csv")  # <- cambia path se diverso
+    X_TEST_OUT  = os.path.join(SCRIPT_DIR, "x_test_clean.csv")
+
+    if os.path.exists(X_TEST_PATH):
+        xdf = read_user_csv(X_TEST_PATH)
+        xdf_clean = preprocess_x_df(xdf, cfg)
+        xdf_clean.to_csv(X_TEST_OUT, index=False)
+        print(f"[OK] x_test: {xdf.shape[0]} righe -> {xdf_clean.shape[0]} righe, "
+              f"{xdf_clean.shape[1]} colonne | {X_TEST_OUT}")
+    else:
+        print(f"[WARN] x_test.csv non trovato: {X_TEST_PATH}")
+

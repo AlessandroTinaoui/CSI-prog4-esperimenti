@@ -1,11 +1,11 @@
 import subprocess
 import sys
 import warnings
+from randomforest.server.config import HOLDOUT_CID
 
 warnings.filterwarnings("ignore", category=UserWarning, module="urllib3")
 
 PY = sys.executable  # python del venv
-HOLDOUT_CID = 8
 
 clients = []
 for cid in range(9):

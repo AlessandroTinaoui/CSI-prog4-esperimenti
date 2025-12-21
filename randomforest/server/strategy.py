@@ -13,7 +13,6 @@ from flwr.common import (
 from flwr.server.client_proxy import ClientProxy
 from flwr.server.strategy import FedAvg
 
-
 class RandomForestAggregation(FedAvg):
     """
     Strategia FL per Random Forest:
@@ -180,13 +179,13 @@ class RandomForestAggregation(FedAvg):
         combined_model.n_estimators = len(all_estimators)
 
         # --- SALVA MODELLO GLOBALE SU DISCO (per test finale lato server) ---
-        with open("global_model.pkl", "wb") as f:
+        with open("../results/global_model.pkl", "wb") as f:
             pickle.dump(combined_model, f)
 
         # --- SALVA LA LISTA DI FEATURE USATE IN TRAIN ---
         # (il modello sklearn dopo fit ha feature_names_in_ se X era un DataFrame)
         if hasattr(combined_model, "feature_names_in_"):
-            with open("global_model_features.json", "w", encoding="utf-8") as f:
+            with open("../results/global_model_features.json", "w", encoding="utf-8") as f:
                 json.dump(
                     {"features": combined_model.feature_names_in_.tolist()},
                     f,

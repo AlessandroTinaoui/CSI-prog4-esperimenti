@@ -12,7 +12,12 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from flwr.client import NumPyClient
 from flwr.common import FitIns
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+from dataset.dataset_cfg import get_train_path
+
+TRAIN_PATH = get_train_path()
 
 class RandomForestClient(NumPyClient):
     def __init__(self, cid: int, data_path: str):
@@ -20,11 +25,14 @@ class RandomForestClient(NumPyClient):
 
         # Load data
         self.data = pd.read_csv(data_path, sep=",")
+        log_dir = "../clients_log"
+        os.makedirs(log_dir, exist_ok=True)
+        log_path = os.path.join(log_dir, f"client_{self.cid}_log.txt")
 
         # Configure logging
         self.logger = logging.getLogger(f"client_{self.cid}")
         self.logger.setLevel(logging.INFO)
-        handler = logging.FileHandler(f"client_{self.cid}_log.txt")
+        handler = logging.FileHandler(log_path)
         handler.setLevel(logging.INFO)
         formatter = logging.Formatter("%(asctime)s - %(message)s")
         handler.setFormatter(formatter)
@@ -85,7 +93,7 @@ class RandomForestClient(NumPyClient):
             n_estimators=300,
             max_depth=None,
             random_state=42,
-            n_jobs=-1,
+            n_jobs=1,
             bootstrap=True,
             oob_score=True,
             min_samples_leaf=2,
@@ -175,13 +183,13 @@ class RandomForestClient(NumPyClient):
             self.model = RandomForestRegressor(
                 n_estimators=0,
                 random_state=42 + self.cid,
-                n_jobs=-1,
+                n_jobs=1,
             )
 
         # 3) iperparametri più “generalizzanti”
         self.model.set_params(
             warm_start=True,
-            n_jobs=-1,
+            n_jobs=1,
             bootstrap=True,
             max_samples=0.8,
             max_features=0.7,  # prova 0.5 / 0.7 / "sqrt"
@@ -191,6 +199,9 @@ class RandomForestClient(NumPyClient):
         )
 
         # 4) aggiunge alberi a ogni round (questo è il punto chiave)
+        if hasattr(self.model, "feature_names_in_"):
+            X_train = X_train.reindex(columns=list(self.model.feature_names_in_))
+
         self.model.n_estimators = int(self.model.n_estimators) + TREES_PER_ROUND
         self.model.fit(X_train, self.y_train)
 
@@ -242,6 +253,10 @@ class RandomForestClient(NumPyClient):
         else:
             self.logger.info("Nessun modello ricevuto in evaluate, uso self.model corrente.")
 
+        # allinea X_test alle feature con cui il modello è stato fit-tato
+        if hasattr(self.model, "feature_names_in_"):
+            X_test = X_test.reindex(columns=list(self.model.feature_names_in_))
+
         # Evaluate MAE
         y_pred_test = self.model.predict(X_test)
         mae_test = mean_absolute_error(self.y_test, y_pred_test)
@@ -260,7 +275,7 @@ if __name__ == "__main__":
     client_id = int(sys.argv[1])
 
     # group{id}_merged_clean.csv come nel tuo originale
-    data_path = f"clients_data/group{client_id}_merged_clean.csv"
+    data_path = os.path.join( f"{BASE_DIR}/../{TRAIN_PATH}/group{client_id}_merged_clean.csv")
 
     if not os.path.exists(data_path):
         print(f"Data file not found: {data_path}")
