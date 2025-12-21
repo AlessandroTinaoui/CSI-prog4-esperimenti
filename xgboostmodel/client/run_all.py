@@ -5,17 +5,17 @@ import time
 
 # Configurazione manuale se config.py fallisce
 
-from server.config import HOLDOUT_CID
-
+from xgboostmodel.server.config import HOLDOUT_CID
+from dataset.dataset_cfg import get_train_path
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "clients_data")
+DATA_DIR = os.path.join(BASE_DIR, "../../" + get_train_path())
 client_ps = []
-
+print(DATA_DIR)
 
 def main():
-    if not os.path.exists("logs"):
-        os.makedirs("logs")
+    if not os.path.exists("../logs"):
+        os.makedirs("../logs")
 
     print("--- AVVIO SISTEMA FEDERATED ---")
 
@@ -23,12 +23,12 @@ def main():
         if client_id == HOLDOUT_CID:
             continue
 
-        csv_path = os.path.join(DATA_DIR, f"group{client_id}_merged_clean.csv")
+        csv_path = os.path.join(DATA_DIR, "group"+str(client_id)+"_merged_clean.csv")
         cmd = [sys.executable, "client_app.py", str(client_id), csv_path]
 
         # >>>> QUESTA È LA FIX PER IL DUMP <<<<
         # Scriviamo stdout/stderr su file invece che nel terminale
-        log_file = open(f"logs/client_{client_id}.log", "w")
+        log_file = open(f"../logs/client_{client_id}.log", "w")
 
         p = subprocess.Popen(
             cmd,

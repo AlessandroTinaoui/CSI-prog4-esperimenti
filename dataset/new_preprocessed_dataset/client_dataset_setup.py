@@ -321,8 +321,8 @@ if __name__ == "__main__":
     # =================
     # TRAIN (a gruppi)
     # =================
-    TRAIN_BASE_DIR = os.path.join(SCRIPT_DIR, "CSV_train")  # <- vedi la tua struttura annidata
-    TRAIN_OUT_DIR  = os.path.join(SCRIPT_DIR, "CSV_train_clean")
+    TRAIN_BASE_DIR = os.path.join(SCRIPT_DIR, "../raw_dataset")  # <- vedi la tua struttura annidata
+    TRAIN_OUT_DIR  = os.path.join(SCRIPT_DIR, "clients_dataset")
 
     cfg_train = CleanConfig(
         label_col="label",
@@ -339,7 +339,7 @@ if __name__ == "__main__":
     # =================
     # X_TEST (file singolo)
     # =================
-    X_TEST_PATH = os.path.join(SCRIPT_DIR, "x_test.csv")
+    X_TEST_PATH = os.path.join(SCRIPT_DIR, "../raw_dataset/x_test.csv")
     X_TEST_OUT  = os.path.join(SCRIPT_DIR, "x_test_clean.csv")
 
     cfg_test = CleanConfig(

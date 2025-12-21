@@ -137,8 +137,14 @@ class XGBoostTreeAppendStrategy(FedAvg):
         self._global_model_bytes: Optional[bytes] = None
         self._global_model_dict: Optional[Dict[str, Any]] = None
 
-        self._strategy_dir = Path(__file__).resolve().parent
-        self._global_model_path = self._strategy_dir / global_model_path
+        # Root progetto: xgboostmodel/
+        self._project_root = Path(__file__).resolve().parents[1]
+        self._results_dir = self._project_root / "results"
+        self._results_dir.mkdir(parents=True, exist_ok=True)
+
+        # File in results/ (prende solo il nome, anche se passi "results/xxx")
+        self._global_model_path = self._results_dir / Path(global_model_path).name
+        self._save_path_abs = self._results_dir / Path(save_path).name
 
     def initialize_parameters(self, client_manager) -> Optional[Parameters]:
         # Start with empty parameters: round 1 is feature selection anyway.
@@ -237,12 +243,12 @@ class XGBoostTreeAppendStrategy(FedAvg):
             self.feature_names = feature_names
             self.selected_features = selected
 
-            # Salvataggi (feature list)
-            save_path_abs = self._strategy_dir / self.save_path
+            # Salvataggi (feature list) -> in xgboostmodel/results/
+            save_path_abs = self._save_path_abs
             with open(save_path_abs, "w", encoding="utf-8") as f:
                 json.dump({"selected_features": selected}, f, ensure_ascii=False, indent=2)
 
-            global_feat_path = self._strategy_dir / "global_model_features.json"
+            global_feat_path = self._results_dir / "global_model_features.json"
             with open(global_feat_path, "w", encoding="utf-8") as f:
                 json.dump({"features": list(self.selected_features)}, f, ensure_ascii=False, indent=2)
 

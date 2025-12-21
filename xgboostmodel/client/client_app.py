@@ -2,7 +2,14 @@ import os
 import sys
 import json
 import logging
+from pathlib import Path
 from typing import Dict, List, Optional
+PROJECT_ROOT = Path(__file__).resolve().parents[1]  # xgboostmodel/
+LOGS_DIR = PROJECT_ROOT / "logs"
+LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+CLIENTS_DATA_DIR = Path(__file__).resolve().parent / "clients_data"  # xgboostmodel/client/clients_data
+
 
 import numpy as np
 import pandas as pd
@@ -42,7 +49,7 @@ class XGBoostClient(NumPyClient):
         self.logger = logging.getLogger(f"client_{self.cid}")
         self.logger.setLevel(logging.INFO)
         if not self.logger.handlers:
-            handler = logging.FileHandler(f"client_{self.cid}_log.txt")
+            handler = logging.FileHandler(LOGS_DIR / f"client_{self.cid}_log.txt")
             handler.setLevel(logging.INFO)
             formatter = logging.Formatter("%(asctime)s - %(message)s")
             handler.setFormatter(formatter)
@@ -206,8 +213,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 2:
         data_path = sys.argv[2]
     else:
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        data_path = os.path.join(base_dir, "clients_data", f"group{client_id}_merged_clean.csv")
+        data_path = str(CLIENTS_DATA_DIR / f"group{client_id}_merged_clean.csv")
 
     if not os.path.exists(data_path):
         print(f"ERRORE: Data file not found: {data_path}")

@@ -1,7 +1,7 @@
 import subprocess
 import sys
 import warnings
-from server.config import HOLDOUT_CID
+from randomforest.server.config import HOLDOUT_CID
 
 warnings.filterwarnings("ignore", category=UserWarning, module="urllib3")
 

@@ -13,6 +13,13 @@ from sklearn.metrics import mean_absolute_error
 from config import HOLDOUT_CID, NUM_ROUNDS, SERVER_ADDRESS, LOCAL_BOOST_ROUND, TOP_K_FEATURES
 from strategy import XGBoostTreeAppendStrategy
 
+from dataset.dataset_cfg import get_train_path, get_test_path
+TRAIN_PATH = get_train_path()
+TEST_PATH = get_test_path()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]  # xgboostmodel/
+RESULTS_DIR = PROJECT_ROOT / "results"
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 def load_semicolon_csv_keep_rows(path: str) -> pd.DataFrame:
     if not os.path.exists(path):
@@ -60,9 +67,8 @@ def _load_global_booster(global_model_path: Path) -> xgb.Booster:
 
 
 def main():
-    base_dir = Path(__file__).resolve().parent
-    global_model_path = base_dir / "global_model.json"
-    global_features_path = base_dir / "global_model_features.json"
+    global_model_path = RESULTS_DIR / "global_model.json"
+    global_features_path = RESULTS_DIR / "global_model_features.json"
 
     for p in [global_model_path, global_features_path]:
         if p.exists():
@@ -94,6 +100,8 @@ def main():
     print("\n✅ FL terminato. Inizio fase di test...")
 
     if not global_model_path.exists() or not global_features_path.exists():
+        print(global_model_path)
+        print(global_features_path)
         print("❌ ERRORE: file global_model.json / global_model_features.json non creati.")
         sys.exit(1)
 
@@ -106,7 +114,7 @@ def main():
     # GLOBAL TEST su HOLDOUT
     # -------------------------
     if HOLDOUT_CID <= 8:
-        holdout_path = base_dir / "../clients_data" / f"group{HOLDOUT_CID}_merged_clean.csv"
+        holdout_path = BASE_DIR / "../"/ TRAIN_PATH / f"group{HOLDOUT_CID}_merged_clean.csv"
         if holdout_path.exists():
             holdout = pd.read_csv(holdout_path, sep=",").dropna()
             y_holdout = holdout["label"].copy()
@@ -137,7 +145,7 @@ def main():
     # -------------------------
     # TEST FINALE SU x_test_clean.csv (già pulito)
     # -------------------------
-    test_path = base_dir / "x_test_clean.csv"
+    test_path = BASE_DIR / "../" / TEST_PATH
     if not test_path.exists():
         print(f"⚠️ File x_test_clean.csv non trovato in {test_path}")
         return
@@ -173,7 +181,7 @@ def main():
 
     y_pred_int = np.rint(y_pred).astype(int)
     out = pd.DataFrame({"id": ids, "label": y_pred_int})
-    out.to_csv("predictions.csv", index=False)
+    out.to_csv("../results/predictions.csv", index=False)
     print("✅ Creato predictions.csv")
 
 
