@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from statistics import mean
 
-N = 3
+N = 1
 
 @dataclass(frozen=True)
 class ModelPaths:
@@ -42,6 +42,11 @@ MODELS = {
         name="randomforest",
         server_dir=Path("randomforest") / "server",
         client_dir=Path("randomforest") / "client",
+    ),
+    "extratree": ModelPaths(
+        name="extratree",
+        server_dir=Path("extratreemodel") / "server",
+        client_dir=Path("extratreemodel") / "client",
     ),
 }
 
@@ -160,7 +165,7 @@ def save_csv(rows: list[dict], out_path: Path) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Orchestratore training FL + summary MAE.")
-    parser.add_argument("--model", choices=sorted(MODELS.keys()), default="randomforest",
+    parser.add_argument("--model", choices=sorted(MODELS.keys()), default="extratree",
                         help="Modello da allenare (default: randomforest).")
     parser.add_argument("--repeats", type=int, default=N,
                         help="N: ripetizioni per ogni HOLDOUT_CID (default: 1).")
