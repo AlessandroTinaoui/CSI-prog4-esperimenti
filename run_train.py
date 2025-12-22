@@ -129,12 +129,43 @@ def run_one_training(
     py = sys.executable
 
     server_cmd = [py, "-u", "server_flwr.py"]
-    server_proc = popen_logged(server_cmd, server_log, cwd=m.server_dir)
+    BASE_PORT = 20000
+    PORT_OFFSET = 50
+
+    port = BASE_PORT + cid + rep * PORT_OFFSET
+    server_address = f"127.0.0.1:{port}"
+
+    env = os.environ.copy()
+    env["HOLDOUT_CID"] = str(cid)
+    env["FL_SERVER_ADDRESS"] = server_address
+
+    server_cmd = [py, "-u", "server_flwr.py"] + extra_server_args
+    server_proc = subprocess.Popen(
+        server_cmd,
+        cwd=str(m.server_dir),
+        env=env,
+        stdout=open(server_log, "w", encoding="utf-8", buffering=1),
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
 
     time.sleep(server_start_wait)
 
-    client_cmd = [py, "-u", "run_all.py"]
-    client_proc = popen_logged(client_cmd, client_log, cwd=m.client_dir)
+    client_cmd = [py, "-u", "run_all.py"] + extra_client_args
+    client_proc = subprocess.Popen(
+        client_cmd,
+        cwd=str(m.client_dir),
+        env=env,
+        stdout=open(client_log, "w", encoding="utf-8", buffering=1),
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+
+    client_rc = client_proc.wait()
+
+    time.sleep(0.5)
+    terminate_process(server_proc)
+    time.sleep(0.5)
 
     client_rc = client_proc.wait()
 

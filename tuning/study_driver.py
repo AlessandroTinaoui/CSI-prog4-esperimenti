@@ -26,8 +26,10 @@ MODEL_REGISTRY = {
         "server": "randomforest/server/server_flwr.py",
         "client": "randomforest/client/run_all.py",
     },
-    # in futuro:
-    # "decisiontree": {...}
+    "extratree": {
+        "server": "extratreemodel/server/server_flwr.py",
+        "client": "extratreemodel/client/run_all.py",
+    },
 }
 
 
@@ -37,7 +39,7 @@ def main() -> None:
     # 🔧 modello
     ap.add_argument(
         "--model",
-        default="xgboostmodel",
+        default="extratree",
         choices=MODEL_REGISTRY.keys(),
         help="Modello da usare (sceglie automaticamente server/client)",
 

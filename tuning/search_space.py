@@ -7,9 +7,9 @@ from typing import Any, Dict
 def _server_space(trial) -> Dict[str, Any]:
     # Parametri lato server (comuni a tutti i modelli)
     return {
-        "NUM_ROUNDS": trial.suggest_int("server.NUM_ROUNDS", 5, 25),
-        "TOP_K_FEATURES": trial.suggest_int("server.TOP_K_FEATURES", 10, 100),
-        "LOCAL_BOOST_ROUND": trial.suggest_int("server.LOCAL_BOOST_ROUND", 1, 5),
+        "NUM_ROUNDS": trial.suggest_int("server.NUM_ROUNDS", 2, 2),
+        "TOP_K_FEATURES": trial.suggest_int("server.TOP_K_FEATURES", 10, 50),
+        "LOCAL_BOOST_ROUND": trial.suggest_int("server.LOCAL_BOOST_ROUND", 1, 3),
         # HOLDOUT_CID lo imposta il runner holdout (non qui)
     }
 

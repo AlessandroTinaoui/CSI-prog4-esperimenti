@@ -10,6 +10,9 @@ import time
 from pathlib import Path
 from statistics import mean
 
+BASE_PORT = 18080
+PORT_OFFSET = 20
+
 
 FINAL_MAE_RE = re.compile(r"FINAL_MAE:\s*([0-9]*\.?[0-9]+)")
 
@@ -73,6 +76,7 @@ def run_one(server_py: str, client_py: str, env: dict, cwd: Path, server_log: Pa
 
     # Attendi client
     rc_client = pc.wait()
+    time.sleep(0.5)
     # Attendi server
     rc_server = ps.wait()
 
@@ -116,6 +120,11 @@ def main():
 
     for rep in range(args.repeats):
         for cid in holdouts:
+            port = BASE_PORT + cid + rep * PORT_OFFSET
+            server_address = f"127.0.0.1:{port}"
+
+            env = os.environ.copy()
+
             # Config runtime per questo holdout (non tocchi il base trial_config)
             runtime_cfg = json.loads(json.dumps(base_cfg))
             runtime_cfg.setdefault("server", {})
@@ -129,7 +138,9 @@ def main():
 
             env = os.environ.copy()
             env["TRIAL_CONFIG_PATH"] = str(runtime_cfg_path)
-            env["HOLDOUT_CID"] = str(cid)  # override forte (opzionale)
+            env["HOLDOUT_CID"] = str(cid)
+            env["FL_SERVER_ADDRESS"] = server_address
+
             env["RUN_DIR"] = str(run_dir)
 
             server_log = logs_dir / "server.log"
