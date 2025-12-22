@@ -104,6 +104,7 @@ def main() -> None:
     # OBJECTIVE
     # =========================
     def objective(trial: optuna.Trial) -> float:
+        trial.set_user_attr("model", args.model)
         params = suggest_params(trial)
 
         trial_dir = runs_root / f"{args.study_name}_{args.model}" / f"trial_{trial.number:04d}"
