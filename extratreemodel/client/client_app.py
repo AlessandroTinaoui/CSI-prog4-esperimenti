@@ -5,7 +5,9 @@ import logging
 import pickle
 from pathlib import Path
 from typing import List, Optional
-from extratreemodel.server.config import EXTRA_TREES_PARAMS
+
+from extratreemodel.server.config import SERVER_ADDRESS
+from model_params import EXTRA_TREES_PARAMS
 
 
 import numpy as np
@@ -185,4 +187,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     client = ExtraTreesClient(cid=client_id, data_path=data_path)
-    fl.client.start_numpy_client(server_address="127.0.0.1:8080", client=client)
+    fl.client.start_numpy_client(server_address=SERVER_ADDRESS, client=client)
