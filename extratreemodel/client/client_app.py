@@ -5,6 +5,8 @@ import logging
 import pickle
 from pathlib import Path
 from typing import List, Optional
+from extratreemodel.server.config import EXTRA_TREES_PARAMS
+
 
 import numpy as np
 import pandas as pd
@@ -30,18 +32,15 @@ def _bytes_from_ndarrays(parameters: List[np.ndarray]) -> Optional[bytes]:
     return np.array(arr, dtype=np.uint8).tobytes()
 
 
+from sklearn.ensemble import ExtraTreesRegressor
+
 def _make_extratrees(random_state: int) -> ExtraTreesRegressor:
-    # max_features DEVE essere float/int/None/"sqrt"/"log2" (non stringa)
     return ExtraTreesRegressor(
-        n_estimators=300,
-        max_depth=None,
         random_state=random_state,
         n_jobs=1,
-        max_features=1.0,
-        bootstrap=False,
-        min_samples_split=2,
-        min_samples_leaf=1,
+        **EXTRA_TREES_PARAMS,
     )
+
 
 
 class ExtraTreesClient(NumPyClient):
