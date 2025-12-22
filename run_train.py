@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from statistics import mean
 
-N = 3
+N = 1
 
 @dataclass(frozen=True)
 class ModelPaths:

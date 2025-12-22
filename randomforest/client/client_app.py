@@ -78,7 +78,7 @@ class RandomForestClient(NumPyClient):
         self.X_train_full, self.X_test_full, self.y_train, self.y_test = train_test_split(
             self.X_full,
             self.y_full,
-            test_size=0.2,
+            test_size=0.01,
             random_state=42,
             shuffle=True,
         )
@@ -157,7 +157,6 @@ class RandomForestClient(NumPyClient):
 
         # Filtra train/test mantenendo ordine
         X_train = self.X_train_full[selected_features]
-        X_test = self.X_test_full[selected_features]
 
         # Allena modello
         # Allena modello (warm-start: parte dal globale e aggiunge alberi)
