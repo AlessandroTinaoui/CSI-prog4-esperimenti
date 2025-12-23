@@ -5,10 +5,9 @@ import sys
 import json
 import logging
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 import numpy as np
-import pandas as pd
 import flwr as fl
 from flwr.client import NumPyClient
 from sklearn.metrics import mean_absolute_error
@@ -27,7 +26,7 @@ from nnmodel.data import (
     ScalerStats,
 )
 
-# -------- Paths/logs (stile simile al tuo) --------
+# -------- Paths/logs --------
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 LOGS_DIR = PROJECT_ROOT / "logs"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -38,6 +37,7 @@ CLIENTS_DATA_DIR = Path(__file__).resolve().parent / "clients_data"
 def get_model_params(model: nn.Module) -> List[np.ndarray]:
     return [val.detach().cpu().numpy() for _, val in model.state_dict().items()]
 
+
 def set_model_params(model: nn.Module, params: List[np.ndarray]) -> None:
     state_dict = model.state_dict()
     keys = list(state_dict.keys())
@@ -45,6 +45,7 @@ def set_model_params(model: nn.Module, params: List[np.ndarray]) -> None:
         raise ValueError(f"Param mismatch: got {len(params)} arrays, expected {len(keys)}")
     new_state = {k: torch.tensor(v) for k, v in zip(keys, params)}
     model.load_state_dict(new_state, strict=True)
+
 
 def train_one_client(
     model: nn.Module,
@@ -56,8 +57,8 @@ def train_one_client(
 ):
     model.train()
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-    loss_fn = nn.SmoothL1Loss(beta=1.0)
-    # Huber loss (più robusta degli outlier, spesso migliore per MAE)
+    # Huber loss: robusta e spesso migliore per MAE
+    loss_fn = nn.SmoothL1Loss(beta=2.0)
 
     for _ in range(epochs):
         for xb, yb in loader:
@@ -70,20 +71,27 @@ def train_one_client(
             loss.backward()
             opt.step()
 
-def eval_one_client(
+
+def eval_one_client_real_mae(
     model: nn.Module,
     X: np.ndarray,
-    y: np.ndarray,
+    y_real: np.ndarray,
     clip_min: float,
     clip_max: float,
     device: torch.device,
+    y_mean: float,
+    y_std: float,
 ) -> float:
+    """Valuta MAE in scala reale (0..100) anche se il modello predice y normalizzata."""
     model.eval()
     with torch.no_grad():
         xb = torch.tensor(X, dtype=torch.float32, device=device)
-        pred = model(xb).detach().cpu().numpy()
+        pred_norm = model(xb).detach().cpu().numpy()
+
+    # de-normalizza
+    pred = pred_norm * y_std + y_mean
     pred = np.clip(pred, clip_min, clip_max)
-    return float(mean_absolute_error(y, pred))
+    return float(mean_absolute_error(y_real, pred))
 
 
 class NNClient(NumPyClient):
@@ -101,12 +109,13 @@ class NNClient(NumPyClient):
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
 
-        # Load raw (preprocessed) CSV
+        # Load CSV pre-processato
         X_df, y_sr = load_csv_dataset(data_path, label_col="label")
         self.feature_names_local = list(X_df.columns)
 
         X_tr_df, X_te_df, y_tr, y_te = split_train_test(
-            X_df, y_sr,
+            X_df,
+            y_sr,
             test_size=self.cfg["TEST_SIZE"],
             random_state=self.cfg["RANDOM_STATE"],
             shuffle=self.cfg["SHUFFLE_SPLIT"],
@@ -136,7 +145,6 @@ class NNClient(NumPyClient):
     # Flower required
     def get_parameters(self, config):
         if self.model is None:
-            # temporaneo: model verrà creato quando conosciamo input_dim (dopo features globali)
             return []
         return get_model_params(self.model)
 
@@ -144,90 +152,120 @@ class NNClient(NumPyClient):
         phase = (config or {}).get("phase", "train")
 
         # -------------------------
-        # ROUND 1: SCALER STATS
+        # ROUND 1: SCALER STATS (X) + STATS TARGET (Y)
         # -------------------------
         if phase == "scaler":
-            # invia feature_names + n, sum, sumsq su TRAIN
             feat_names = self.feature_names_local
             n, s, ssq = local_sums_for_scaler(self.X_train_df.fillna(0.0), feat_names)
+
+            # ✅ stats y (solo somme, niente dati grezzi)
+            ytr64 = self.y_train.astype(np.float64)
+            y_n = int(ytr64.shape[0])
+            y_sum = float(np.sum(ytr64))
+            y_sumsq = float(np.sum(ytr64 * ytr64))
 
             metrics = {
                 "feature_names": json.dumps(feat_names),
                 "n": int(n),
                 "sum": json.dumps(s.tolist()),
                 "sumsq": json.dumps(ssq.tolist()),
+                # y stats federate
+                "y_n": y_n,
+                "y_sum": y_sum,
+                "y_sumsq": y_sumsq,
             }
-            self.logger.info("Phase=scaler: sent n/sum/sumsq")
+            self.logger.info("Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq")
             return [], n, metrics
 
         # -------------------------
         # ROUND >=2: TRAIN
         # -------------------------
-        # Ricevi feature list + scaler dal server
         gf = json.loads(config["global_features"])
         mean = np.array(json.loads(config["scaler_mean"]), dtype=np.float32)
         std = np.array(json.loads(config["scaler_std"]), dtype=np.float32)
 
+        # ✅ y global mean/std (federati)
+        y_mean = float(config.get("y_mean", 0.0))
+        y_std = float(config.get("y_std", 1.0))
+        if y_std <= 1e-12:
+            y_std = 1.0
+
         self.global_features = list(gf)
         self.scaler = ScalerStats(mean=mean, std=std)
 
-        # Allinea + standardizza
+        # Allinea + standardizza X
         Xtr = ensure_feature_order_and_fill(self.X_train_df.copy(), self.global_features)
         Xte = ensure_feature_order_and_fill(self.X_test_df.copy(), self.global_features)
-
         Xtr = apply_standardization(Xtr, self.scaler)
         Xte = apply_standardization(Xte, self.scaler)
 
-        # Build model (input_dim noto ora)
+        # Build model
         self._build_model_if_needed(input_dim=Xtr.shape[1])
 
         # Set global params
         if parameters and len(parameters) > 0:
             set_model_params(self.model, parameters)
 
-        # Dataloader
+        # ✅ y normalizzata per la loss
+        ytr_norm = (self.y_train - y_mean) / y_std
+
         ds = TensorDataset(
             torch.tensor(Xtr, dtype=torch.float32),
-            torch.tensor(self.y_train, dtype=torch.float32),
+            torch.tensor(ytr_norm, dtype=torch.float32),
         )
         loader = DataLoader(ds, batch_size=self.cfg["BATCH_SIZE"], shuffle=True)
 
         train_one_client(
-            self.model, loader,
+            self.model,
+            loader,
             epochs=self.cfg["LOCAL_EPOCHS"],
             lr=self.cfg["LR"],
             weight_decay=self.cfg["WEIGHT_DECAY"],
             device=self.device,
         )
 
-        # Train MAE (monitor)
-        mae_train = eval_one_client(
-            self.model, Xtr, self.y_train,
-            clip_min=self.cfg["CLIP_MIN"], clip_max=self.cfg["CLIP_MAX"],
+        # Monitor MAE in scala reale (de-normalizza pred)
+        mae_train = eval_one_client_real_mae(
+            self.model,
+            Xtr,
+            self.y_train,
+            clip_min=self.cfg["CLIP_MIN"],
+            clip_max=self.cfg["CLIP_MAX"],
             device=self.device,
+            y_mean=y_mean,
+            y_std=y_std,
         )
 
-        metrics = {"train_mae": float(mae_train)}
+        metrics = {"train_mae_real": float(mae_train)}
         return get_model_params(self.model), len(Xtr), metrics
 
     def evaluate(self, parameters, config):
-        if self.global_features is None or self.scaler is None:
-            # se evaluate viene chiamato prima del train vero
-            return float("nan"), 0, {"eval_mae": float("nan")}
+        if self.global_features is None or self.scaler is None or self.model is None:
+            return float("nan"), 0, {"eval_mae_real": float("nan")}
 
-        # Set params
         if parameters and len(parameters) > 0:
             set_model_params(self.model, parameters)
+
+        # y global mean/std (federati)
+        y_mean = float(config.get("y_mean", 0.0))
+        y_std = float(config.get("y_std", 1.0))
+        if y_std <= 1e-12:
+            y_std = 1.0
 
         Xte = ensure_feature_order_and_fill(self.X_test_df.copy(), self.global_features)
         Xte = apply_standardization(Xte, self.scaler)
 
-        mae = eval_one_client(
-            self.model, Xte, self.y_test,
-            clip_min=self.cfg["CLIP_MIN"], clip_max=self.cfg["CLIP_MAX"],
+        mae = eval_one_client_real_mae(
+            self.model,
+            Xte,
+            self.y_test,
+            clip_min=self.cfg["CLIP_MIN"],
+            clip_max=self.cfg["CLIP_MAX"],
             device=self.device,
+            y_mean=y_mean,
+            y_std=y_std,
         )
-        return float(mae), len(Xte), {"eval_mae": float(mae)}
+        return float(mae), len(Xte), {"eval_mae_real": float(mae)}
 
 
 if __name__ == "__main__":
@@ -246,7 +284,6 @@ if __name__ == "__main__":
         print(f"ERRORE: Data file not found: {data_path}")
         sys.exit(1)
 
-    # Config “client-side” (stessa per tutti)
     from nnmodel.server.config import (
         TEST_SIZE, RANDOM_STATE, SHUFFLE_SPLIT,
         LOCAL_EPOCHS, BATCH_SIZE, LR, WEIGHT_DECAY,

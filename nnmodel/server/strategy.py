@@ -1,4 +1,4 @@
-# strategy.py  (ADATTATA)
+# strategy.py
 
 from __future__ import annotations
 import json
@@ -13,7 +13,6 @@ from flwr.server.strategy import FedAvg
 import torch
 
 from nnmodel.model import MLPRegressor
-
 from nnmodel.server.config import (
     RESULTS_DIRNAME, GLOBAL_FEATURES_JSON, GLOBAL_SCALER_JSON,
     HIDDEN_SIZES, DROPOUT
@@ -31,6 +30,10 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         self.scaler_mean: Optional[np.ndarray] = None
         self.scaler_std: Optional[np.ndarray] = None
 
+        # ✅ y global mean/std
+        self.y_mean: Optional[float] = None
+        self.y_std: Optional[float] = None
+
     def configure_fit(self, server_round: int, parameters: Parameters, client_manager):
         fit_instructions = super().configure_fit(server_round, parameters, client_manager)
         out = []
@@ -41,14 +44,17 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 out.append((cp, ins))
             return out
 
-        if self.global_features is None or self.scaler_mean is None or self.scaler_std is None:
-            raise RuntimeError("Scaler non inizializzato: round 1 non ha prodotto mean/std.")
+        if (self.global_features is None or self.scaler_mean is None or self.scaler_std is None
+                or self.y_mean is None or self.y_std is None):
+            raise RuntimeError("Artifacts non inizializzati: round 1 non ha prodotto scaler/target stats.")
 
         for cp, ins in fit_instructions:
             ins.config["phase"] = "train"
             ins.config["global_features"] = json.dumps(self.global_features)
             ins.config["scaler_mean"] = json.dumps(self.scaler_mean.tolist())
             ins.config["scaler_std"] = json.dumps(self.scaler_std.tolist())
+            ins.config["y_mean"] = str(self.y_mean)
+            ins.config["y_std"] = str(self.y_std)
             out.append((cp, ins))
         return out
 
@@ -59,10 +65,16 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         if server_round == 1:
             return []
 
+        if (self.global_features is None or self.scaler_mean is None or self.scaler_std is None
+                or self.y_mean is None or self.y_std is None):
+            return []
+
         for cp, ins in eval_instructions:
             ins.config["global_features"] = json.dumps(self.global_features)
             ins.config["scaler_mean"] = json.dumps(self.scaler_mean.tolist())
             ins.config["scaler_std"] = json.dumps(self.scaler_std.tolist())
+            ins.config["y_mean"] = str(self.y_mean)
+            ins.config["y_std"] = str(self.y_std)
             out.append((cp, ins))
         return out
 
@@ -77,24 +89,42 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             return None, {}
 
         # -------------------------
-        # ROUND 1: build global scaler
+        # ROUND 1: build global scaler (X) + target stats (Y)
         # -------------------------
         if server_round == 1:
             feats_union = set()
             per_client = []
+
+            # accumulo anche y stats federate
+            YN = 0
+            YSUM = 0.0
+            YSUMSQ = 0.0
+
             for _, fit_res in results:
                 m = fit_res.metrics or {}
+
                 if "feature_names" not in m:
                     continue
+
                 feat_names = json.loads(m["feature_names"])
                 feats_union.update(feat_names)
                 per_client.append((feat_names, m))
+
+                # y stats (se presenti)
+                if "y_n" in m and "y_sum" in m and "y_sumsq" in m:
+                    yn = int(m["y_n"])
+                    ysum = float(m["y_sum"])
+                    ysumsq = float(m["y_sumsq"])
+                    YN += yn
+                    YSUM += ysum
+                    YSUMSQ += ysumsq
 
             global_features = sorted(list(feats_union))
             d = len(global_features)
             if d == 0:
                 raise RuntimeError("Nessuna feature ricevuta in round 1.")
 
+            # global scaler X
             N = 0
             SUM = np.zeros(d, dtype=np.float64)
             SUMSQ = np.zeros(d, dtype=np.float64)
@@ -113,7 +143,7 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 N += n
 
             if N <= 1:
-                raise RuntimeError("Troppi pochi esempi aggregati per calcolare std.")
+                raise RuntimeError("Troppi pochi esempi aggregati per calcolare std (X).")
 
             mean = SUM / N
             var = (SUMSQ / N) - (mean * mean)
@@ -129,16 +159,29 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 encoding="utf-8",
             )
             (self.results_dir / GLOBAL_SCALER_JSON).write_text(
-                json.dumps(
-                    {"mean": self.scaler_mean.tolist(), "std": self.scaler_std.tolist()},
-                    indent=2,
-                ),
+                json.dumps({"mean": self.scaler_mean.tolist(), "std": self.scaler_std.tolist()}, indent=2),
                 encoding="utf-8",
             )
 
-            # ---- Crea pesi iniziali globali coerenti per il round 2 ----
-            # (così tutti i client partono dagli stessi pesi, non random diversi)
-            torch.manual_seed(0)  # deterministico
+            # ✅ global target y mean/std (federato)
+            if YN <= 1:
+                self.y_mean = 0.0
+                self.y_std = 1.0
+            else:
+                y_mean = YSUM / YN
+                y_var = (YSUMSQ / YN) - (y_mean * y_mean)
+                y_var = float(max(y_var, 1e-12))
+                self.y_mean = float(y_mean)
+                self.y_std = float(np.sqrt(y_var))
+
+            # salva anche su file per server_flwr.py
+            (self.results_dir / "global_target.json").write_text(
+                json.dumps({"y_mean": self.y_mean, "y_std": self.y_std}, indent=2),
+                encoding="utf-8",
+            )
+
+            # ---- pesi iniziali coerenti per round 2 ----
+            torch.manual_seed(0)
             init_model = MLPRegressor(
                 input_dim=d,
                 hidden_sizes=HIDDEN_SIZES,
@@ -150,15 +193,14 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 "scaler_done": 1.0,
                 "n_features": float(d),
                 "N": float(N),
+                "Y_N": float(YN),
             }
 
-
         # -------------------------
-        # ROUND >=2: normal FedAvg aggregation + SAVE MODEL
+        # ROUND >=2: normal FedAvg + SAVE MODEL
         # -------------------------
         aggregated_parameters, aggregated_metrics = super().aggregate_fit(server_round, results, failures)
 
-        # ✅ Salva sempre dal round 2 in poi (sovrascrive: avrai sempre l’ultimo modello)
         if aggregated_parameters is not None and server_round >= 2:
             nds = parameters_to_ndarrays(aggregated_parameters)
             if len(nds) > 0:

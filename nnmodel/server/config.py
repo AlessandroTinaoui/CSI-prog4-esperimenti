@@ -7,7 +7,7 @@ SERVER_ADDRESS = "127.0.0.1:8080"
 NUM_ROUNDS = 600
 
 # Holdout client (0..8) da tenere fuori dal training (come fai già) :contentReference[oaicite:4]{index=4}
-HOLDOUT_CID = 3  # metti 9 o 10 per disattivare
+HOLDOUT_CID = 2  # metti 9 o 10 per disattivare
 
 # Federated settings
 FRACTION_FIT = 1.0
