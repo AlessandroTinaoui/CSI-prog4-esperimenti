@@ -56,7 +56,8 @@ def train_one_client(
 ):
     model.train()
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-    loss_fn = nn.MSELoss()
+    loss_fn = nn.SmoothL1Loss(beta=1.0)
+    # Huber loss (più robusta degli outlier, spesso migliore per MAE)
 
     for _ in range(epochs):
         for xb, yb in loader:

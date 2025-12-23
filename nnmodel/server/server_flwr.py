@@ -127,7 +127,7 @@ def main():
     if HOLDOUT_CID <= 8:
         holdout_path = BASE_DIR / "../" / TRAIN_PATH / f"group{HOLDOUT_CID}_merged_clean.csv"
         if holdout_path.exists():
-            holdout = pd.read_csv(holdout_path, sep=",").dropna()
+            holdout = pd.read_csv(holdout_path, sep=",")
 
             if "label" not in holdout.columns:
                 print(f"⚠️ Holdout senza label: {holdout_path}")
@@ -171,9 +171,11 @@ def main():
     Xt = _align_and_standardize(X, global_features, mean, std)
     y_pred = _predict(model, Xt)
 
-    # output in int come fai tu (rint) :contentReference[oaicite:8]{index=8}
-    y_pred_int = np.rint(y_pred).astype(int)
-    out = pd.DataFrame({"id": ids, "label": y_pred_int})
+    # Kaggle: NON arrotondare a int. Tieni float (opzionale: clip nel range)
+    y_pred = np.asarray(y_pred, dtype=np.float32)
+    y_pred = np.clip(y_pred, 0.0, 100.0)  # se il tuo sleep score è 0-100
+
+    out = pd.DataFrame({"id": ids, "label": y_pred})
     out.to_csv("../results/predictions.csv", index=False)
     print("✅ Creato predictions.csv")
 

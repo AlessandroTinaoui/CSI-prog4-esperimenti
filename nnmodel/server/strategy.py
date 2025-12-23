@@ -10,9 +10,15 @@ from flwr.common import FitRes, Parameters, Scalar, ndarrays_to_parameters, para
 from flwr.server.client_proxy import ClientProxy
 from flwr.server.strategy import FedAvg
 
+import torch
+
+from nnmodel.model import MLPRegressor
+
 from nnmodel.server.config import (
-    RESULTS_DIRNAME, GLOBAL_FEATURES_JSON, GLOBAL_SCALER_JSON
+    RESULTS_DIRNAME, GLOBAL_FEATURES_JSON, GLOBAL_SCALER_JSON,
+    HIDDEN_SIZES, DROPOUT
 )
+
 
 class FedAvgNNWithGlobalScaler(FedAvg):
     def __init__(self, project_root: Path, **kwargs: Any):
@@ -130,11 +136,22 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 encoding="utf-8",
             )
 
-            return ndarrays_to_parameters([]), {
+            # ---- Crea pesi iniziali globali coerenti per il round 2 ----
+            # (così tutti i client partono dagli stessi pesi, non random diversi)
+            torch.manual_seed(0)  # deterministico
+            init_model = MLPRegressor(
+                input_dim=d,
+                hidden_sizes=HIDDEN_SIZES,
+                dropout=DROPOUT,
+            )
+            init_params = [val.detach().cpu().numpy() for _, val in init_model.state_dict().items()]
+
+            return ndarrays_to_parameters(init_params), {
                 "scaler_done": 1.0,
                 "n_features": float(d),
                 "N": float(N),
             }
+
 
         # -------------------------
         # ROUND >=2: normal FedAvg aggregation + SAVE MODEL

@@ -21,7 +21,7 @@ def load_csv_dataset(
     label_col: str = "label",
     drop_cols: Optional[List[str]] = None,
 ):
-    df = pd.read_csv(csv_path, sep=",").dropna()
+    df = pd.read_csv(csv_path, sep=",")
     drop_cols = drop_cols or DROP_COLS_BASE
     drop_cols = [c for c in drop_cols if c in df.columns]
 
