@@ -61,6 +61,11 @@ MODELS = {
         server_dir=Path("extratreemodel") / "server",
         client_dir=Path("extratreemodel") / "client",
     ),
+    "nnmodel": ModelPaths(
+        name="nnmodel",
+        server_dir=Path("nnmodel") / "server",
+        client_dir=Path("nnmodel") / "client",
+    ),
 }
 
 HOLDOUT_PATTERN = re.compile(r"^\s*HOLDOUT_CID\s*=\s*(.+?)\s*$", re.MULTILINE)
