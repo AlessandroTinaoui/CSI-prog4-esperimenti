@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import signal
 import subprocess
@@ -11,7 +12,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from statistics import mean
 
+import json
+import hashlib
+from datetime import datetime
+
 N = 1
+
 
 @dataclass(frozen=True)
 class ModelPaths:
@@ -33,8 +39,15 @@ class ModelPaths:
 
 
 MODELS = {
+    # mantengo "xgboost" se ti serve ancora da CLI legacy
     "xgboost": ModelPaths(
         name="xgboost",
+        server_dir=Path("xgboostmodel") / "server",
+        client_dir=Path("xgboostmodel") / "client",
+    ),
+    # alias coerente con Optuna/search_space/study_driver
+    "xgboostmodel": ModelPaths(
+        name="xgboostmodel",
         server_dir=Path("xgboostmodel") / "server",
         client_dir=Path("xgboostmodel") / "client",
     ),
@@ -53,6 +66,48 @@ MODELS = {
 HOLDOUT_PATTERN = re.compile(r"^\s*HOLDOUT_CID\s*=\s*(.+?)\s*$", re.MULTILINE)
 FINAL_MAE_PATTERN = re.compile(r"FINAL_MAE:\s*([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)")
 
+def log_trial_config_debug(logs_dir: Path, model_name: str, cid: int, rep: int) -> None:
+    """
+    Scrive su file:
+      - TRIAL_CONFIG_PATH visto dal processo
+      - esistenza file
+      - sha256 contenuto
+      - primi 200 char
+    """
+    logs_dir.mkdir(parents=True, exist_ok=True)
+    out = logs_dir / "trial_config_debug.txt"
+
+    cfg_path = os.environ.get("TRIAL_CONFIG_PATH", "")
+    ts = datetime.now().isoformat(timespec="seconds")
+
+    lines = []
+    lines.append(f"[{ts}] model={model_name} cid={cid} rep={rep}")
+    lines.append(f"TRIAL_CONFIG_PATH={cfg_path!r}")
+
+    if not cfg_path:
+        lines.append("STATUS: MISSING_ENV")
+        lines.append("-" * 80)
+        out.write_text("\n".join(lines) + "\n", encoding="utf-8") if not out.exists() else out.open("a", encoding="utf-8").write("\n".join(lines) + "\n")
+        return
+
+    p = Path(cfg_path)
+    lines.append(f"EXISTS={p.exists()}  ABS={p.resolve() if p.exists() else p}")
+
+    if p.exists():
+        content = p.read_text(encoding="utf-8", errors="replace")
+        sha = hashlib.sha256(content.encode("utf-8", errors="replace")).hexdigest()
+        preview = content[:200].replace("\n", "\\n")
+        lines.append(f"SHA256={sha}")
+        lines.append(f"PREVIEW_200={preview!r}")
+    else:
+        lines.append("STATUS: PATH_NOT_FOUND")
+
+    lines.append("-" * 80)
+
+    # append safe
+    with out.open("a", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
 
 def ensure_paths(m: ModelPaths) -> None:
     for p in [m.server_dir, m.client_dir, m.server_script, m.client_script, m.server_config]:
@@ -70,19 +125,6 @@ def replace_holdout_cid(config_path: Path, cid: int) -> str:
     updated = HOLDOUT_PATTERN.sub(f"HOLDOUT_CID = {cid}", original)
     config_path.write_text(updated, encoding="utf-8")
     return original
-
-
-def popen_logged(cmd: list[str], log_file: Path, cwd: Path | None = None) -> subprocess.Popen:
-    log_file.parent.mkdir(parents=True, exist_ok=True)
-    f = open(log_file, "w", encoding="utf-8", buffering=1)  # line-buffered
-    return subprocess.Popen(
-        cmd,
-        cwd=str(cwd) if cwd else None,
-        stdout=f,
-        stderr=subprocess.STDOUT,
-        text=True,
-        bufsize=1,
-    )
 
 
 def terminate_process(proc: subprocess.Popen, timeout: float = 10.0) -> None:
@@ -107,7 +149,6 @@ def extract_final_mae_from_log(server_log: Path) -> float | None:
     matches = FINAL_MAE_PATTERN.findall(text)
     if not matches:
         return None
-    # prende l'ultimo, in caso di più stampe
     return float(matches[-1])
 
 
@@ -126,50 +167,63 @@ def run_one_training(
     server_log = logs_dir / f"{m.name}_cid{cid}_rep{rep}_server.log"
     client_log = logs_dir / f"{m.name}_cid{cid}_rep{rep}_client.log"
 
+    log_trial_config_debug(logs_dir=logs_dir, model_name=m.name, cid=cid, rep=rep)
+
     py = sys.executable
 
-    server_cmd = [py, "-u", "server_flwr.py"]
     BASE_PORT = 20000
     PORT_OFFSET = 50
-
     port = BASE_PORT + cid + rep * PORT_OFFSET
     server_address = f"127.0.0.1:{port}"
 
     env = os.environ.copy()
     env["HOLDOUT_CID"] = str(cid)
     env["FL_SERVER_ADDRESS"] = server_address
+    # TRIAL_CONFIG_PATH arriva da env esterno (Optuna/study_driver): lo preserviamo
+    # RUN_DIR arriva da env esterno: lo preserviamo
 
     server_cmd = [py, "-u", "server_flwr.py"] + extra_server_args
-    server_proc = subprocess.Popen(
-        server_cmd,
-        cwd=str(m.server_dir),
-        env=env,
-        stdout=open(server_log, "w", encoding="utf-8", buffering=1),
-        stderr=subprocess.STDOUT,
-        text=True,
-    )
-
-    time.sleep(server_start_wait)
-
     client_cmd = [py, "-u", "run_all.py"] + extra_client_args
-    client_proc = subprocess.Popen(
-        client_cmd,
-        cwd=str(m.client_dir),
-        env=env,
-        stdout=open(client_log, "w", encoding="utf-8", buffering=1),
-        stderr=subprocess.STDOUT,
-        text=True,
-    )
 
-    client_rc = client_proc.wait()
+    server_log.parent.mkdir(parents=True, exist_ok=True)
+    client_log.parent.mkdir(parents=True, exist_ok=True)
 
-    time.sleep(0.5)
-    terminate_process(server_proc)
-    time.sleep(0.5)
+    sf = open(server_log, "w", encoding="utf-8", buffering=1)
+    cf = open(client_log, "w", encoding="utf-8", buffering=1)
 
-    client_rc = client_proc.wait()
+    server_proc = None
+    client_proc = None
+    try:
+        server_proc = subprocess.Popen(
+            server_cmd,
+            cwd=str(m.server_dir),
+            env=env,
+            stdout=sf,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
 
-    terminate_process(server_proc)
+        time.sleep(server_start_wait)
+
+        client_proc = subprocess.Popen(
+            client_cmd,
+            cwd=str(m.client_dir),
+            env=env,
+            stdout=cf,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+
+        client_rc = client_proc.wait()
+        time.sleep(0.5)
+
+    finally:
+        try:
+            if server_proc is not None:
+                terminate_process(server_proc)
+        finally:
+            sf.close()
+            cf.close()
 
     mae = extract_final_mae_from_log(server_log)
     return client_rc, mae, server_log, client_log
@@ -186,7 +240,6 @@ def parse_cids(cids_str: str) -> list[int]:
 
 def save_csv(rows: list[dict], out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    # header stabile
     header = ["model", "holdout_cid", "repeat", "mae", "client_rc", "server_log", "client_log"]
     lines = [",".join(header)]
     for r in rows:
@@ -196,20 +249,18 @@ def save_csv(rows: list[dict], out_path: Path) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Orchestratore training FL + summary MAE.")
-    parser.add_argument("--model", choices=sorted(MODELS.keys()), default="extratree",
-                        help="Modello da allenare (default: randomforest).")
-    parser.add_argument("--repeats", type=int, default=N,
-                        help="N: ripetizioni per ogni HOLDOUT_CID (default: 1).")
-    parser.add_argument("--cids", type=str, default="0-8",
-                        help="Range cids, es: '0-8' oppure '0,1,2,5'. (default: 0-8)")
-    parser.add_argument("--server-wait", type=float, default=2.0,
-                        help="Secondi di attesa dopo start server (default: 2.0).")
-    parser.add_argument("--logs-dir", type=str, default="train_logs",
-                        help="Cartella log (default: train_logs).")
-    parser.add_argument("--server-args", type=str, default="",
-                        help="Argomenti extra per server_flwr.py (stringa).")
-    parser.add_argument("--client-args", type=str, default="",
-                        help="Argomenti extra per run_all.py (stringa).")
+    parser.add_argument(
+        "--model",
+        choices=sorted(MODELS.keys()),
+        default="extratree",
+        help="Modello da allenare.",
+    )
+    parser.add_argument("--repeats", type=int, default=N, help="Ripetizioni per ogni HOLDOUT_CID (default: 1).")
+    parser.add_argument("--cids", type=str, default="0-8", help="Range cids, es: '0-8' oppure '0,1,2,5'.")
+    parser.add_argument("--server-wait", type=float, default=2.0, help="Secondi di attesa dopo start server.")
+    parser.add_argument("--logs-dir", type=str, default="train_logs", help="Cartella log / output.")
+    parser.add_argument("--server-args", type=str, default="", help="Argomenti extra per server_flwr.py (stringa).")
+    parser.add_argument("--client-args", type=str, default="", help="Argomenti extra per run_all.py (stringa).")
 
     args = parser.parse_args()
 
@@ -219,7 +270,9 @@ def main() -> int:
     m = MODELS[args.model]
     ensure_paths(m)
 
-    logs_dir = Path(args.logs_dir)
+    logs_dir = Path(args.logs_dir).resolve()
+    logs_dir.mkdir(parents=True, exist_ok=True)
+
     cids = parse_cids(args.cids)
     extra_server_args = args.server_args.split() if args.server_args.strip() else []
     extra_client_args = args.client_args.split() if args.client_args.strip() else []
@@ -239,6 +292,7 @@ def main() -> int:
 
     try:
         for cid in cids:
+            # Nota: questo modifica config.py. Va bene in sequenziale (Optuna n_jobs=1).
             replace_holdout_cid(m.server_config, cid)
 
             for rep in range(1, args.repeats + 1):
@@ -255,7 +309,7 @@ def main() -> int:
                 )
 
                 runs.append({
-                    "model": m.name,
+                    "model": args.model,  # importante: coerente col nome richiesto in output
                     "holdout_cid": cid,
                     "repeat": rep,
                     "mae": "" if mae is None else mae,
@@ -274,30 +328,11 @@ def main() -> int:
         # ---- summary ----
         maes = [r["mae"] for r in runs if isinstance(r["mae"], (float, int))]
         if maes:
-            print("\n=== SUMMARY MAE ===")
-            print(f"MAE medio totale: {mean(maes):.6f}  (su {len(maes)} run con MAE trovato)")
-
-            for cid in cids:
-                cid_maes = [r["mae"] for r in runs
-                            if r["holdout_cid"] == cid and isinstance(r["mae"], (float, int))]
-                if cid_maes:
-                    print(f"HOLDOUT_CID {cid}: MAE medio = {mean(cid_maes):.6f}  (n={len(cid_maes)})")
-                else:
-                    print(f"HOLDOUT_CID {cid}: MAE medio = N/A (nessun MAE trovato)")
-
-        else:
-            print("\nNessun MAE trovato nei log. "
-                  "Consiglio di far stampare dal server una riga 'FINAL_MAE: <valore>'.")
-
-        out_csv = logs_dir / f"mae_summary_{m.name}.csv"
-        maes = [r["mae"] for r in runs if isinstance(r["mae"], (float, int))]
-        mean_mae = None
-        if maes:
             mean_mae = mean(maes)
 
-            # Aggiungo una riga "finale" nel CSV con la media globale
+            out_csv = logs_dir / f"mae_summary_{args.model}.csv"
             runs.append({
-                "model": m.name,
+                "model": args.model,
                 "holdout_cid": "ALL",
                 "repeat": "",
                 "mae": mean_mae,
@@ -305,15 +340,23 @@ def main() -> int:
                 "server_log": "",
                 "client_log": "",
             })
+            save_csv(runs, out_csv)
 
-            # Scrivo anche un file testo con la media (comodo per parsing veloce)
-            summary_txt = logs_dir / f"mae_summary_{m.name}.txt"
+            summary_txt = logs_dir / f"mae_summary_{args.model}.txt"
             summary_txt.write_text(f"MEAN_MAE: {mean_mae}\n", encoding="utf-8")
 
-        save_csv(runs, out_csv)
-        print(f"\nSalvato: {out_csv}")
+            print("\n=== SUMMARY MAE ===")
+            print(f"MEAN_MAE: {mean_mae:.6f}  (su {len(maes)} run con MAE trovato)")
+            print(f"Salvati: {out_csv} e {summary_txt}")
 
-        return 0
+            return 0
+
+        # Se non trovi MAE, non scrivo summary: Optuna deve fallire il trial
+        out_csv = logs_dir / f"mae_summary_{args.model}.csv"
+        save_csv(runs, out_csv)
+        print("\nNessun MAE trovato nei log. Trial fallirà (manca mae_summary txt).")
+        print(f"Salvato comunque il CSV: {out_csv}")
+        return 2
 
     finally:
         m.server_config.write_text(original_config, encoding="utf-8")
