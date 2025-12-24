@@ -49,7 +49,7 @@ class ExtraTreesClient(NumPyClient):
     def __init__(self, cid: int, data_path: str):
         self.cid = int(cid)
         self.data_path = data_path
-        self.data = pd.read_csv(data_path, sep=",").dropna()
+        self.data = pd.read_csv(data_path, sep=",")
 
         self.logger = logging.getLogger(f"client_{self.cid}")
         self.logger.setLevel(logging.INFO)
@@ -78,6 +78,9 @@ class ExtraTreesClient(NumPyClient):
             random_state=42,
             shuffle=True,
         )
+
+        # mediane calcolate SOLO sul train (evita leakage)
+        self._train_medians = self.X_train_full.median(numeric_only=True)
 
         self.selected_features: Optional[List[str]] = None
         self.last_local_model: Optional[ExtraTreesRegressor] = None
