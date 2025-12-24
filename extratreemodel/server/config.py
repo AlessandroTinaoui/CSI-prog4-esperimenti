@@ -16,9 +16,9 @@ HOLDOUT_CID = int(os.environ.get("HOLDOUT_CID", 0))
 NUM_ROUNDS = 2
 
 # Client tenuto fuori dal training e usato come holdout finale (0..8). Metti 9 o 10 per disattivare.
-HOLDOUT_CID = 2
+HOLDOUT_CID = 7
 # Feature selection
-TOP_K_FEATURES = 15
+TOP_K_FEATURES = 32
 
 # Quanti modelli tenere nell'ensemble globale (se None -> tutti quelli ricevuti)
 MAX_MODELS_IN_ENSEMBLE = None
