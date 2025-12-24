@@ -48,6 +48,11 @@ MODELS = {
         server_dir=Path("extratreemodel") / "server",
         client_dir=Path("extratreemodel") / "client",
     ),
+    "nnmodel": ModelPaths(
+        name="nnmodel",
+        server_dir=Path("nnmodel") / "server",
+        client_dir=Path("nnmodel") / "client",
+    ),
 }
 
 HOLDOUT_PATTERN = re.compile(r"^\s*HOLDOUT_CID\s*=\s*(.+?)\s*$", re.MULTILINE)
@@ -165,8 +170,8 @@ def save_csv(rows: list[dict], out_path: Path) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Orchestratore training FL + summary MAE.")
-    parser.add_argument("--model", choices=sorted(MODELS.keys()), default="extratree",
-                        help="Modello da allenare (default: randomforest).")
+    parser.add_argument("--model", choices=sorted(MODELS.keys()), default="nnmodel",
+                        help="Modello da allenare (default: nnmodel).")
     parser.add_argument("--repeats", type=int, default=N,
                         help="N: ripetizioni per ogni HOLDOUT_CID (default: 1).")
     parser.add_argument("--cids", type=str, default="0-8",

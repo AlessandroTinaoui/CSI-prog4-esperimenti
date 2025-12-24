@@ -4,10 +4,10 @@ SERVER_ADDRESS = "127.0.0.1:8080"
 
 # Round 1: calcolo scaler globale federato
 # Round 2..NUM_ROUNDS: training FedAvg
-NUM_ROUNDS = 600
+NUM_ROUNDS = 100
 
 # Holdout client (0..8) da tenere fuori dal training (come fai già) :contentReference[oaicite:4]{index=4}
-HOLDOUT_CID = 2  # metti 9 o 10 per disattivare
+HOLDOUT_CID = 3  # metti 9 o 10 per disattivare
 
 # Federated settings
 FRACTION_FIT = 1.0
@@ -17,7 +17,7 @@ MIN_EVALUATE_CLIENTS = 8
 MIN_AVAILABLE_CLIENTS = 8
 
 # Training hyperparams (client-side)
-LOCAL_EPOCHS = 5 #Numero di epoche di training locale che ogni client fa prima di mandare i pesi al server.
+LOCAL_EPOCHS = 2 #Numero di epoche di training locale che ogni client fa prima di mandare i pesi al server.
 BATCH_SIZE = 32
 LR = 1e-3 #Learning rate dell’ottimizzatore Adam → quanto grandi sono i passi nello spazio dei pesi.
 WEIGHT_DECAY = 1e-4 #Regolarizzazione L2 → penalizza pesi troppo grandi. (dice al modello ' non fidarti troppo di una singola feature o di un singolo utente '

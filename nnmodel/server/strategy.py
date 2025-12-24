@@ -1,6 +1,7 @@
 # strategy.py
 
 from __future__ import annotations
+
 import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -14,8 +15,11 @@ import torch
 
 from nnmodel.model import MLPRegressor
 from nnmodel.server.config import (
-    RESULTS_DIRNAME, GLOBAL_FEATURES_JSON, GLOBAL_SCALER_JSON,
-    HIDDEN_SIZES, DROPOUT
+    RESULTS_DIRNAME,
+    GLOBAL_FEATURES_JSON,
+    GLOBAL_SCALER_JSON,
+    HIDDEN_SIZES,
+    DROPOUT,
 )
 
 
@@ -34,6 +38,10 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         self.y_mean: Optional[float] = None
         self.y_std: Optional[float] = None
 
+        # ✅ tracking best global eval (lower is better)
+        self.best_eval_mae: float = float("inf")
+        self.best_round: int = -1
+
     def configure_fit(self, server_round: int, parameters: Parameters, client_manager):
         fit_instructions = super().configure_fit(server_round, parameters, client_manager)
         out = []
@@ -44,8 +52,13 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 out.append((cp, ins))
             return out
 
-        if (self.global_features is None or self.scaler_mean is None or self.scaler_std is None
-                or self.y_mean is None or self.y_std is None):
+        if (
+            self.global_features is None
+            or self.scaler_mean is None
+            or self.scaler_std is None
+            or self.y_mean is None
+            or self.y_std is None
+        ):
             raise RuntimeError("Artifacts non inizializzati: round 1 non ha prodotto scaler/target stats.")
 
         for cp, ins in fit_instructions:
@@ -65,8 +78,13 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         if server_round == 1:
             return []
 
-        if (self.global_features is None or self.scaler_mean is None or self.scaler_std is None
-                or self.y_mean is None or self.y_std is None):
+        if (
+            self.global_features is None
+            or self.scaler_mean is None
+            or self.scaler_std is None
+            or self.y_mean is None
+            or self.y_std is None
+        ):
             return []
 
         for cp, ins in eval_instructions:
@@ -84,7 +102,6 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         results: List[Tuple[ClientProxy, FitRes]],
         failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
-
         if not results:
             return None, {}
 
@@ -209,3 +226,54 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 print(f"[SERVER] Salvato global_model.npz in: {out_path.resolve()}")
 
         return aggregated_parameters, aggregated_metrics
+
+    def aggregate_evaluate(
+        self,
+        server_round: int,
+        results,
+        failures,
+    ):
+        """
+        Aggrega i risultati di evaluate() dai client e salva il best model
+        in base alla MAE reale (eval_mae_real) pesata per num_examples.
+        """
+        aggregated_loss, aggregated_metrics = super().aggregate_evaluate(server_round, results, failures)
+
+        if not results:
+            return aggregated_loss, aggregated_metrics
+
+        # Calcolo MAE federata pesata
+        total_n = 0
+        weighted_mae = 0.0
+
+        for _, ev_res in results:
+            m = ev_res.metrics or {}
+            if "eval_mae_real" not in m:
+                continue
+            n = int(ev_res.num_examples)
+            total_n += n
+            weighted_mae += float(m["eval_mae_real"]) * n
+
+        if total_n > 0:
+            mean_mae = weighted_mae / total_n
+            print(f"[SERVER] Round {server_round} - FED_EVAL_MAE_REAL: {mean_mae:.4f}")
+
+            # Se migliora, copia global_model.npz -> best_model.npz
+            if mean_mae < self.best_eval_mae:
+                self.best_eval_mae = float(mean_mae)
+                self.best_round = int(server_round)
+
+                src = self.results_dir / "global_model.npz"
+                dst = self.results_dir / "best_model.npz"
+                if src.exists():
+                    import shutil
+
+                    shutil.copyfile(src, dst)
+                    print(f"[SERVER] ✅ Best model aggiornato (round {server_round}) -> {dst.resolve()}")
+
+            aggregated_metrics = aggregated_metrics or {}
+            aggregated_metrics["fed_eval_mae_real"] = float(mean_mae)
+            aggregated_metrics["best_eval_mae_real"] = float(self.best_eval_mae)
+            aggregated_metrics["best_round"] = float(self.best_round)
+
+        return aggregated_loss, aggregated_metrics

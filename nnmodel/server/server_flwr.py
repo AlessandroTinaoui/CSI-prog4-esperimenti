@@ -144,8 +144,8 @@ def main():
                 y_pred_holdout = _predict_real(model, Xh, y_mean, y_std)
                 mae_holdout = mean_absolute_error(y_holdout, y_pred_holdout)
 
-                print(f"MAE valutato sul client holdout {HOLDOUT_CID}")
-                print(f"FINAL_HOLDOUT_MAE: {mae_holdout}")
+                print(f"MEA valutato sul client {HOLDOUT_CID}")
+                print(f"FINAL_MAE: {mae_holdout}")
         else:
             print(f"⚠️ Holdout non trovato: {holdout_path}")
 

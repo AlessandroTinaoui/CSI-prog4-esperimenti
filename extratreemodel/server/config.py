@@ -8,7 +8,7 @@ SERVER_ADDRESS = "127.0.0.1:8080"
 NUM_ROUNDS = 2
 
 # Client tenuto fuori dal training e usato come holdout finale (0..8). Metti 9 o 10 per disattivare.
-HOLDOUT_CID = 2
+HOLDOUT_CID = 0
 # Feature selection
 TOP_K_FEATURES = 15
 
