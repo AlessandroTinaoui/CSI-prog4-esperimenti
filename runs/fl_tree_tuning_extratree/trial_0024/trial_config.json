@@ -1,0 +1,18 @@
+{
+  "server": {
+    "NUM_ROUNDS": 2,
+    "TOP_K_FEATURES": 22,
+    "LOCAL_BOOST_ROUND": 2
+  },
+  "client": {
+    "MODEL_TYPE": "extratree",
+    "N_ESTIMATORS": 534,
+    "MAX_DEPTH": 58,
+    "MAX_DEPTH_IS_NONE": false,
+    "MAX_FEATURES": 0.3,
+    "MIN_SAMPLES_SPLIT": 11,
+    "MIN_SAMPLES_LEAF": 15,
+    "BOOTSTRAP": true,
+    "CRITERION": "squared_error"
+  }
+}

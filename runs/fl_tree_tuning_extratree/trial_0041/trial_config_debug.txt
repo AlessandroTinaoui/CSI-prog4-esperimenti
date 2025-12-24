@@ -1,0 +1,54 @@
+[2025-12-24T19:52:31] model=extratree cid=0 rep=1
+TRIAL_CONFIG_PATH='/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json'
+EXISTS=True  ABS=/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json
+SHA256=424b9a56a3ac25d133675da76f17600ba7f2a43e844b6beaf6e9c02e4e648623
+PREVIEW_200='{\\n  "server": {\\n    "NUM_ROUNDS": 2,\\n    "TOP_K_FEATURES": 12,\\n    "LOCAL_BOOST_ROUND": 1\\n  },\\n  "client": {\\n    "MODEL_TYPE": "extratree",\\n    "N_ESTIMATORS": 592,\\n    "MAX_DEPTH": 9,\\n    "MAX_DEPTH_'
+--------------------------------------------------------------------------------
+[2025-12-24T19:52:38] model=extratree cid=1 rep=1
+TRIAL_CONFIG_PATH='/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json'
+EXISTS=True  ABS=/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json
+SHA256=424b9a56a3ac25d133675da76f17600ba7f2a43e844b6beaf6e9c02e4e648623
+PREVIEW_200='{\\n  "server": {\\n    "NUM_ROUNDS": 2,\\n    "TOP_K_FEATURES": 12,\\n    "LOCAL_BOOST_ROUND": 1\\n  },\\n  "client": {\\n    "MODEL_TYPE": "extratree",\\n    "N_ESTIMATORS": 592,\\n    "MAX_DEPTH": 9,\\n    "MAX_DEPTH_'
+--------------------------------------------------------------------------------
+[2025-12-24T19:52:45] model=extratree cid=2 rep=1
+TRIAL_CONFIG_PATH='/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json'
+EXISTS=True  ABS=/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json
+SHA256=424b9a56a3ac25d133675da76f17600ba7f2a43e844b6beaf6e9c02e4e648623
+PREVIEW_200='{\\n  "server": {\\n    "NUM_ROUNDS": 2,\\n    "TOP_K_FEATURES": 12,\\n    "LOCAL_BOOST_ROUND": 1\\n  },\\n  "client": {\\n    "MODEL_TYPE": "extratree",\\n    "N_ESTIMATORS": 592,\\n    "MAX_DEPTH": 9,\\n    "MAX_DEPTH_'
+--------------------------------------------------------------------------------
+[2025-12-24T19:52:52] model=extratree cid=3 rep=1
+TRIAL_CONFIG_PATH='/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json'
+EXISTS=True  ABS=/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json
+SHA256=424b9a56a3ac25d133675da76f17600ba7f2a43e844b6beaf6e9c02e4e648623
+PREVIEW_200='{\\n  "server": {\\n    "NUM_ROUNDS": 2,\\n    "TOP_K_FEATURES": 12,\\n    "LOCAL_BOOST_ROUND": 1\\n  },\\n  "client": {\\n    "MODEL_TYPE": "extratree",\\n    "N_ESTIMATORS": 592,\\n    "MAX_DEPTH": 9,\\n    "MAX_DEPTH_'
+--------------------------------------------------------------------------------
+[2025-12-24T19:52:59] model=extratree cid=4 rep=1
+TRIAL_CONFIG_PATH='/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json'
+EXISTS=True  ABS=/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json
+SHA256=424b9a56a3ac25d133675da76f17600ba7f2a43e844b6beaf6e9c02e4e648623
+PREVIEW_200='{\\n  "server": {\\n    "NUM_ROUNDS": 2,\\n    "TOP_K_FEATURES": 12,\\n    "LOCAL_BOOST_ROUND": 1\\n  },\\n  "client": {\\n    "MODEL_TYPE": "extratree",\\n    "N_ESTIMATORS": 592,\\n    "MAX_DEPTH": 9,\\n    "MAX_DEPTH_'
+--------------------------------------------------------------------------------
+[2025-12-24T19:53:06] model=extratree cid=5 rep=1
+TRIAL_CONFIG_PATH='/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json'
+EXISTS=True  ABS=/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json
+SHA256=424b9a56a3ac25d133675da76f17600ba7f2a43e844b6beaf6e9c02e4e648623
+PREVIEW_200='{\\n  "server": {\\n    "NUM_ROUNDS": 2,\\n    "TOP_K_FEATURES": 12,\\n    "LOCAL_BOOST_ROUND": 1\\n  },\\n  "client": {\\n    "MODEL_TYPE": "extratree",\\n    "N_ESTIMATORS": 592,\\n    "MAX_DEPTH": 9,\\n    "MAX_DEPTH_'
+--------------------------------------------------------------------------------
+[2025-12-24T19:53:12] model=extratree cid=6 rep=1
+TRIAL_CONFIG_PATH='/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json'
+EXISTS=True  ABS=/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json
+SHA256=424b9a56a3ac25d133675da76f17600ba7f2a43e844b6beaf6e9c02e4e648623
+PREVIEW_200='{\\n  "server": {\\n    "NUM_ROUNDS": 2,\\n    "TOP_K_FEATURES": 12,\\n    "LOCAL_BOOST_ROUND": 1\\n  },\\n  "client": {\\n    "MODEL_TYPE": "extratree",\\n    "N_ESTIMATORS": 592,\\n    "MAX_DEPTH": 9,\\n    "MAX_DEPTH_'
+--------------------------------------------------------------------------------
+[2025-12-24T19:53:19] model=extratree cid=7 rep=1
+TRIAL_CONFIG_PATH='/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json'
+EXISTS=True  ABS=/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json
+SHA256=424b9a56a3ac25d133675da76f17600ba7f2a43e844b6beaf6e9c02e4e648623
+PREVIEW_200='{\\n  "server": {\\n    "NUM_ROUNDS": 2,\\n    "TOP_K_FEATURES": 12,\\n    "LOCAL_BOOST_ROUND": 1\\n  },\\n  "client": {\\n    "MODEL_TYPE": "extratree",\\n    "N_ESTIMATORS": 592,\\n    "MAX_DEPTH": 9,\\n    "MAX_DEPTH_'
+--------------------------------------------------------------------------------
+[2025-12-24T19:53:26] model=extratree cid=8 rep=1
+TRIAL_CONFIG_PATH='/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json'
+EXISTS=True  ABS=/Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/runs/fl_tree_tuning_extratree/trial_0041/trial_config.json
+SHA256=424b9a56a3ac25d133675da76f17600ba7f2a43e844b6beaf6e9c02e4e648623
+PREVIEW_200='{\\n  "server": {\\n    "NUM_ROUNDS": 2,\\n    "TOP_K_FEATURES": 12,\\n    "LOCAL_BOOST_ROUND": 1\\n  },\\n  "client": {\\n    "MODEL_TYPE": "extratree",\\n    "N_ESTIMATORS": 592,\\n    "MAX_DEPTH": 9,\\n    "MAX_DEPTH_'
+--------------------------------------------------------------------------------
