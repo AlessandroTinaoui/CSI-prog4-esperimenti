@@ -1,0 +1,11 @@
+model,holdout_cid,repeat,mae,client_rc,server_log,client_log
+extratree,0,1,11.858417056074767,0,train_logs/extratree_cid0_rep1_server.log,train_logs/extratree_cid0_rep1_client.log
+extratree,1,1,7.696962365591396,0,train_logs/extratree_cid1_rep1_server.log,train_logs/extratree_cid1_rep1_client.log
+extratree,2,1,12.53689453125,0,train_logs/extratree_cid2_rep1_server.log,train_logs/extratree_cid2_rep1_client.log
+extratree,3,1,10.925630434782608,0,train_logs/extratree_cid3_rep1_server.log,train_logs/extratree_cid3_rep1_client.log
+extratree,4,1,10.07873641304348,0,train_logs/extratree_cid4_rep1_server.log,train_logs/extratree_cid4_rep1_client.log
+extratree,5,1,12.366895000000001,0,train_logs/extratree_cid5_rep1_server.log,train_logs/extratree_cid5_rep1_client.log
+extratree,6,1,9.602984813084111,0,train_logs/extratree_cid6_rep1_server.log,train_logs/extratree_cid6_rep1_client.log
+extratree,7,1,13.045857664233576,0,train_logs/extratree_cid7_rep1_server.log,train_logs/extratree_cid7_rep1_client.log
+extratree,8,1,8.7034118852459,0,train_logs/extratree_cid8_rep1_server.log,train_logs/extratree_cid8_rep1_client.log
+extratree,ALL,,10.757310018145093,,,

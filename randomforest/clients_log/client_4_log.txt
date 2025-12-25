@@ -1,0 +1,267 @@
+2025-12-21 18:33:05,929 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'act_activeTime', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__neg_frac_raw', 'ts__hr_time_series__neg_count_raw', 'ts__hr_time_series__used', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__nan_frac_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__nan_frac_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean', 'hr_maxHeartRate__is_outlier', 'hr_maxHeartRate__clean', 'hr_minHeartRate__is_outlier', 'hr_minHeartRate__clean', 'hr_restingHeartRate__is_outlier', 'hr_restingHeartRate__clean', 'hr_lastSevenDaysAvgRestingHeartRate__is_outlier', 'hr_lastSevenDaysAvgRestingHeartRate__clean', 'resp_lowestRespirationValue__is_outlier', 'resp_lowestRespirationValue__clean', 'resp_highestRespirationValue__is_outlier', 'resp_highestRespirationValue__clean', 'resp_avgWakingRespirationValue__is_outlier', 'resp_avgWakingRespirationValue__clean', 'resp_avgSleepRespirationValue__is_outlier', 'resp_avgSleepRespirationValue__clean', 'resp_avgTomorrowSleepRespirationValue__is_outlier', 'resp_avgTomorrowSleepRespirationValue__clean', 'str_maxStressLevel__is_outlier', 'str_maxStressLevel__clean', 'str_avgStressLevel__is_outlier', 'str_avgStressLevel__clean', 'sleep_sleepTimeSeconds__is_outlier', 'sleep_sleepTimeSeconds__clean', 'sleep_napTimeSeconds__is_outlier', 'sleep_napTimeSeconds__clean', 'sleep_unmeasurableSleepSeconds__is_outlier', 'sleep_unmeasurableSleepSeconds__clean', 'sleep_deepSleepSeconds__is_outlier', 'sleep_deepSleepSeconds__clean', 'sleep_lightSleepSeconds__is_outlier', 'sleep_lightSleepSeconds__clean', 'sleep_remSleepSeconds__is_outlier', 'sleep_remSleepSeconds__clean', 'sleep_awakeSleepSeconds__is_outlier', 'sleep_awakeSleepSeconds__clean', 'act_totalCalories__is_outlier', 'act_totalCalories__clean', 'act_activeKilocalories__is_outlier', 'act_activeKilocalories__clean', 'act_distance__is_outlier', 'act_distance__clean', 'act_activeTime__is_outlier', 'act_activeTime__clean', 'sleep_averageRespirationValue__is_outlier', 'sleep_averageRespirationValue__clean', 'sleep_lowestRespirationValue__is_outlier', 'sleep_lowestRespirationValue__clean', 'sleep_highestRespirationValue__is_outlier', 'sleep_highestRespirationValue__clean', 'sleep_awakeCount__is_outlier', 'sleep_awakeCount__clean', 'sleep_avgSleepStress__is_outlier', 'sleep_avgSleepStress__clean', 'sleep_avgHeartRate__is_outlier', 'sleep_avgHeartRate__clean']
+2025-12-21 18:33:06,076 - First few rows:
+   day  label  ...  sleep_avgHeartRate__is_outlier  sleep_avgHeartRate__clean
+0    6     79  ...                           False                  61.000000
+1    6     85  ...                           False                  66.000000
+2    7     72  ...                           False                  62.500000
+3    7     93  ...                           False                  67.333333
+4    8     73  ...                           False                  64.000000
+
+[5 rows x 158 columns]
+2025-12-21 18:33:06,442 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:06,445 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:07,340 - Model trained. Training MAE: 4.5421
+2025-12-21 18:33:07,690 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-21 18:33:07,710 - Model evaluation: MAE = 12.1419
+2025-12-21 18:33:07,733 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:07,737 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:08,610 - Model trained. Training MAE: 4.5421
+2025-12-21 18:33:24,745 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'act_activeTime', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__neg_frac_raw', 'ts__hr_time_series__neg_count_raw', 'ts__hr_time_series__used', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__nan_frac_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__nan_frac_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean', 'hr_maxHeartRate__is_outlier', 'hr_maxHeartRate__clean', 'hr_minHeartRate__is_outlier', 'hr_minHeartRate__clean', 'hr_restingHeartRate__is_outlier', 'hr_restingHeartRate__clean', 'hr_lastSevenDaysAvgRestingHeartRate__is_outlier', 'hr_lastSevenDaysAvgRestingHeartRate__clean', 'resp_lowestRespirationValue__is_outlier', 'resp_lowestRespirationValue__clean', 'resp_highestRespirationValue__is_outlier', 'resp_highestRespirationValue__clean', 'resp_avgWakingRespirationValue__is_outlier', 'resp_avgWakingRespirationValue__clean', 'resp_avgSleepRespirationValue__is_outlier', 'resp_avgSleepRespirationValue__clean', 'resp_avgTomorrowSleepRespirationValue__is_outlier', 'resp_avgTomorrowSleepRespirationValue__clean', 'str_maxStressLevel__is_outlier', 'str_maxStressLevel__clean', 'str_avgStressLevel__is_outlier', 'str_avgStressLevel__clean', 'sleep_sleepTimeSeconds__is_outlier', 'sleep_sleepTimeSeconds__clean', 'sleep_napTimeSeconds__is_outlier', 'sleep_napTimeSeconds__clean', 'sleep_unmeasurableSleepSeconds__is_outlier', 'sleep_unmeasurableSleepSeconds__clean', 'sleep_deepSleepSeconds__is_outlier', 'sleep_deepSleepSeconds__clean', 'sleep_lightSleepSeconds__is_outlier', 'sleep_lightSleepSeconds__clean', 'sleep_remSleepSeconds__is_outlier', 'sleep_remSleepSeconds__clean', 'sleep_awakeSleepSeconds__is_outlier', 'sleep_awakeSleepSeconds__clean', 'act_totalCalories__is_outlier', 'act_totalCalories__clean', 'act_activeKilocalories__is_outlier', 'act_activeKilocalories__clean', 'act_distance__is_outlier', 'act_distance__clean', 'act_activeTime__is_outlier', 'act_activeTime__clean', 'sleep_averageRespirationValue__is_outlier', 'sleep_averageRespirationValue__clean', 'sleep_lowestRespirationValue__is_outlier', 'sleep_lowestRespirationValue__clean', 'sleep_highestRespirationValue__is_outlier', 'sleep_highestRespirationValue__clean', 'sleep_awakeCount__is_outlier', 'sleep_awakeCount__clean', 'sleep_avgSleepStress__is_outlier', 'sleep_avgSleepStress__clean', 'sleep_avgHeartRate__is_outlier', 'sleep_avgHeartRate__clean']
+2025-12-21 18:33:24,869 - First few rows:
+   day  label  ...  sleep_avgHeartRate__is_outlier  sleep_avgHeartRate__clean
+0    6     79  ...                           False                  61.000000
+1    6     85  ...                           False                  66.000000
+2    7     72  ...                           False                  62.500000
+3    7     93  ...                           False                  67.333333
+4    8     73  ...                           False                  64.000000
+
+[5 rows x 158 columns]
+2025-12-21 18:33:24,914 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:24,918 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:25,816 - Model trained. Training MAE: 4.5421
+2025-12-21 18:33:26,075 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-21 18:33:26,098 - Model evaluation: MAE = 12.1419
+2025-12-21 18:33:26,123 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:26,125 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:26,955 - Model trained. Training MAE: 4.5421
+2025-12-21 18:33:28,144 - Model evaluation: MAE = 12.8795
+2025-12-21 18:33:28,429 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:28,432 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:29,515 - Model trained. Training MAE: 8.9596
+2025-12-21 18:33:31,167 - Model evaluation: MAE = 13.0520
+2025-12-21 18:33:31,713 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:31,716 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:32,856 - Model trained. Training MAE: 9.0938
+2025-12-21 18:33:34,561 - Model evaluation: MAE = 12.8802
+2025-12-21 18:33:34,857 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:34,861 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:35,922 - Model trained. Training MAE: 8.9158
+2025-12-21 18:33:37,776 - Model evaluation: MAE = 12.7778
+2025-12-21 18:33:38,148 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:38,150 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:39,228 - Model trained. Training MAE: 8.7450
+2025-12-21 18:33:41,000 - Model evaluation: MAE = 12.7458
+2025-12-21 18:33:41,301 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:41,303 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:42,362 - Model trained. Training MAE: 8.6755
+2025-12-21 18:33:44,169 - Model evaluation: MAE = 12.7648
+2025-12-21 18:33:44,429 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:44,434 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:45,518 - Model trained. Training MAE: 8.6420
+2025-12-21 18:33:47,257 - Model evaluation: MAE = 12.7826
+2025-12-21 18:33:47,598 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:47,600 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:48,655 - Model trained. Training MAE: 8.7017
+2025-12-21 18:33:50,353 - Model evaluation: MAE = 12.7115
+2025-12-21 18:33:50,603 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:33:50,605 - Training the model (Round >=2) - warm start...
+2025-12-21 18:33:51,817 - Model trained. Training MAE: 8.7129
+2025-12-21 18:33:53,671 - Model evaluation: MAE = 12.6982
+2025-12-21 18:46:14,582 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'act_activeTime', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__neg_frac_raw', 'ts__hr_time_series__neg_count_raw', 'ts__hr_time_series__used', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__nan_frac_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__nan_frac_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean', 'hr_maxHeartRate__is_outlier', 'hr_maxHeartRate__clean', 'hr_minHeartRate__is_outlier', 'hr_minHeartRate__clean', 'hr_restingHeartRate__is_outlier', 'hr_restingHeartRate__clean', 'hr_lastSevenDaysAvgRestingHeartRate__is_outlier', 'hr_lastSevenDaysAvgRestingHeartRate__clean', 'resp_lowestRespirationValue__is_outlier', 'resp_lowestRespirationValue__clean', 'resp_highestRespirationValue__is_outlier', 'resp_highestRespirationValue__clean', 'resp_avgWakingRespirationValue__is_outlier', 'resp_avgWakingRespirationValue__clean', 'resp_avgSleepRespirationValue__is_outlier', 'resp_avgSleepRespirationValue__clean', 'resp_avgTomorrowSleepRespirationValue__is_outlier', 'resp_avgTomorrowSleepRespirationValue__clean', 'str_maxStressLevel__is_outlier', 'str_maxStressLevel__clean', 'str_avgStressLevel__is_outlier', 'str_avgStressLevel__clean', 'sleep_sleepTimeSeconds__is_outlier', 'sleep_sleepTimeSeconds__clean', 'sleep_napTimeSeconds__is_outlier', 'sleep_napTimeSeconds__clean', 'sleep_unmeasurableSleepSeconds__is_outlier', 'sleep_unmeasurableSleepSeconds__clean', 'sleep_deepSleepSeconds__is_outlier', 'sleep_deepSleepSeconds__clean', 'sleep_lightSleepSeconds__is_outlier', 'sleep_lightSleepSeconds__clean', 'sleep_remSleepSeconds__is_outlier', 'sleep_remSleepSeconds__clean', 'sleep_awakeSleepSeconds__is_outlier', 'sleep_awakeSleepSeconds__clean', 'act_totalCalories__is_outlier', 'act_totalCalories__clean', 'act_activeKilocalories__is_outlier', 'act_activeKilocalories__clean', 'act_distance__is_outlier', 'act_distance__clean', 'act_activeTime__is_outlier', 'act_activeTime__clean', 'sleep_averageRespirationValue__is_outlier', 'sleep_averageRespirationValue__clean', 'sleep_lowestRespirationValue__is_outlier', 'sleep_lowestRespirationValue__clean', 'sleep_highestRespirationValue__is_outlier', 'sleep_highestRespirationValue__clean', 'sleep_awakeCount__is_outlier', 'sleep_awakeCount__clean', 'sleep_avgSleepStress__is_outlier', 'sleep_avgSleepStress__clean', 'sleep_avgHeartRate__is_outlier', 'sleep_avgHeartRate__clean']
+2025-12-21 18:46:14,736 - First few rows:
+   day  label  ...  sleep_avgHeartRate__is_outlier  sleep_avgHeartRate__clean
+0    6     79  ...                           False                  61.000000
+1    6     85  ...                           False                  66.000000
+2    7     72  ...                           False                  62.500000
+3    7     93  ...                           False                  67.333333
+4    8     73  ...                           False                  64.000000
+
+[5 rows x 158 columns]
+2025-12-21 18:46:14,986 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:46:14,989 - Training the model (Round >=2) - warm start...
+2025-12-21 18:46:43,929 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'act_activeTime', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__neg_frac_raw', 'ts__hr_time_series__neg_count_raw', 'ts__hr_time_series__used', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__nan_frac_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__nan_frac_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean', 'hr_maxHeartRate__is_outlier', 'hr_maxHeartRate__clean', 'hr_minHeartRate__is_outlier', 'hr_minHeartRate__clean', 'hr_restingHeartRate__is_outlier', 'hr_restingHeartRate__clean', 'hr_lastSevenDaysAvgRestingHeartRate__is_outlier', 'hr_lastSevenDaysAvgRestingHeartRate__clean', 'resp_lowestRespirationValue__is_outlier', 'resp_lowestRespirationValue__clean', 'resp_highestRespirationValue__is_outlier', 'resp_highestRespirationValue__clean', 'resp_avgWakingRespirationValue__is_outlier', 'resp_avgWakingRespirationValue__clean', 'resp_avgSleepRespirationValue__is_outlier', 'resp_avgSleepRespirationValue__clean', 'resp_avgTomorrowSleepRespirationValue__is_outlier', 'resp_avgTomorrowSleepRespirationValue__clean', 'str_maxStressLevel__is_outlier', 'str_maxStressLevel__clean', 'str_avgStressLevel__is_outlier', 'str_avgStressLevel__clean', 'sleep_sleepTimeSeconds__is_outlier', 'sleep_sleepTimeSeconds__clean', 'sleep_napTimeSeconds__is_outlier', 'sleep_napTimeSeconds__clean', 'sleep_unmeasurableSleepSeconds__is_outlier', 'sleep_unmeasurableSleepSeconds__clean', 'sleep_deepSleepSeconds__is_outlier', 'sleep_deepSleepSeconds__clean', 'sleep_lightSleepSeconds__is_outlier', 'sleep_lightSleepSeconds__clean', 'sleep_remSleepSeconds__is_outlier', 'sleep_remSleepSeconds__clean', 'sleep_awakeSleepSeconds__is_outlier', 'sleep_awakeSleepSeconds__clean', 'act_totalCalories__is_outlier', 'act_totalCalories__clean', 'act_activeKilocalories__is_outlier', 'act_activeKilocalories__clean', 'act_distance__is_outlier', 'act_distance__clean', 'act_activeTime__is_outlier', 'act_activeTime__clean', 'sleep_averageRespirationValue__is_outlier', 'sleep_averageRespirationValue__clean', 'sleep_lowestRespirationValue__is_outlier', 'sleep_lowestRespirationValue__clean', 'sleep_highestRespirationValue__is_outlier', 'sleep_highestRespirationValue__clean', 'sleep_awakeCount__is_outlier', 'sleep_awakeCount__clean', 'sleep_avgSleepStress__is_outlier', 'sleep_avgSleepStress__clean', 'sleep_avgHeartRate__is_outlier', 'sleep_avgHeartRate__clean']
+2025-12-21 18:46:44,064 - First few rows:
+   day  label  ...  sleep_avgHeartRate__is_outlier  sleep_avgHeartRate__clean
+0    6     79  ...                           False                  61.000000
+1    6     85  ...                           False                  66.000000
+2    7     72  ...                           False                  62.500000
+3    7     93  ...                           False                  67.333333
+4    8     73  ...                           False                  64.000000
+
+[5 rows x 158 columns]
+2025-12-21 18:46:44,233 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-21 18:57:19,850 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'act_activeTime', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__neg_frac_raw', 'ts__hr_time_series__neg_count_raw', 'ts__hr_time_series__used', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__nan_frac_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__nan_frac_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean', 'hr_maxHeartRate__is_outlier', 'hr_maxHeartRate__clean', 'hr_minHeartRate__is_outlier', 'hr_minHeartRate__clean', 'hr_restingHeartRate__is_outlier', 'hr_restingHeartRate__clean', 'hr_lastSevenDaysAvgRestingHeartRate__is_outlier', 'hr_lastSevenDaysAvgRestingHeartRate__clean', 'resp_lowestRespirationValue__is_outlier', 'resp_lowestRespirationValue__clean', 'resp_highestRespirationValue__is_outlier', 'resp_highestRespirationValue__clean', 'resp_avgWakingRespirationValue__is_outlier', 'resp_avgWakingRespirationValue__clean', 'resp_avgSleepRespirationValue__is_outlier', 'resp_avgSleepRespirationValue__clean', 'resp_avgTomorrowSleepRespirationValue__is_outlier', 'resp_avgTomorrowSleepRespirationValue__clean', 'str_maxStressLevel__is_outlier', 'str_maxStressLevel__clean', 'str_avgStressLevel__is_outlier', 'str_avgStressLevel__clean', 'sleep_sleepTimeSeconds__is_outlier', 'sleep_sleepTimeSeconds__clean', 'sleep_napTimeSeconds__is_outlier', 'sleep_napTimeSeconds__clean', 'sleep_unmeasurableSleepSeconds__is_outlier', 'sleep_unmeasurableSleepSeconds__clean', 'sleep_deepSleepSeconds__is_outlier', 'sleep_deepSleepSeconds__clean', 'sleep_lightSleepSeconds__is_outlier', 'sleep_lightSleepSeconds__clean', 'sleep_remSleepSeconds__is_outlier', 'sleep_remSleepSeconds__clean', 'sleep_awakeSleepSeconds__is_outlier', 'sleep_awakeSleepSeconds__clean', 'act_totalCalories__is_outlier', 'act_totalCalories__clean', 'act_activeKilocalories__is_outlier', 'act_activeKilocalories__clean', 'act_distance__is_outlier', 'act_distance__clean', 'act_activeTime__is_outlier', 'act_activeTime__clean', 'sleep_averageRespirationValue__is_outlier', 'sleep_averageRespirationValue__clean', 'sleep_lowestRespirationValue__is_outlier', 'sleep_lowestRespirationValue__clean', 'sleep_highestRespirationValue__is_outlier', 'sleep_highestRespirationValue__clean', 'sleep_awakeCount__is_outlier', 'sleep_awakeCount__clean', 'sleep_avgSleepStress__is_outlier', 'sleep_avgSleepStress__clean', 'sleep_avgHeartRate__is_outlier', 'sleep_avgHeartRate__clean']
+2025-12-21 18:57:20,003 - First few rows:
+   day  label  ...  sleep_avgHeartRate__is_outlier  sleep_avgHeartRate__clean
+0    6     79  ...                           False                  61.000000
+1    6     85  ...                           False                  66.000000
+2    7     72  ...                           False                  62.500000
+3    7     93  ...                           False                  67.333333
+4    8     73  ...                           False                  64.000000
+
+[5 rows x 158 columns]
+2025-12-21 18:57:20,071 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:20,076 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:21,091 - Model trained. Training MAE: 4.5421
+2025-12-21 18:57:21,301 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-21 18:57:21,331 - Model evaluation: MAE = 12.1419
+2025-12-21 18:57:21,342 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:21,344 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:22,155 - Model trained. Training MAE: 4.5421
+2025-12-21 18:57:23,328 - Model evaluation: MAE = 12.8795
+2025-12-21 18:57:23,719 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:23,721 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:24,987 - Model trained. Training MAE: 8.9451
+2025-12-21 18:57:26,625 - Model evaluation: MAE = 12.9841
+2025-12-21 18:57:26,879 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:26,881 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:28,035 - Model trained. Training MAE: 9.0705
+2025-12-21 18:57:30,057 - Model evaluation: MAE = 12.8996
+2025-12-21 18:57:30,241 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:30,243 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:31,344 - Model trained. Training MAE: 8.9959
+2025-12-21 18:57:33,239 - Model evaluation: MAE = 13.0338
+2025-12-21 18:57:33,364 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:33,367 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:34,473 - Model trained. Training MAE: 9.0998
+2025-12-21 18:57:36,222 - Model evaluation: MAE = 13.0684
+2025-12-21 18:57:36,598 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:36,601 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:37,751 - Model trained. Training MAE: 9.0557
+2025-12-21 18:57:39,597 - Model evaluation: MAE = 12.9482
+2025-12-21 18:57:39,904 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:39,908 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:41,017 - Model trained. Training MAE: 8.9064
+2025-12-21 18:57:42,866 - Model evaluation: MAE = 13.0731
+2025-12-21 18:57:43,109 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:43,112 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:44,225 - Model trained. Training MAE: 9.0015
+2025-12-21 18:57:45,943 - Model evaluation: MAE = 13.0426
+2025-12-21 18:57:46,253 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 18:57:46,256 - Training the model (Round >=2) - warm start...
+2025-12-21 18:57:47,422 - Model trained. Training MAE: 8.9001
+2025-12-21 18:57:49,082 - Model evaluation: MAE = 13.0009
+2025-12-21 19:08:09,966 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'act_activeTime', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__neg_frac_raw', 'ts__hr_time_series__neg_count_raw', 'ts__hr_time_series__used', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__nan_frac_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__nan_frac_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean', 'hr_maxHeartRate__is_outlier', 'hr_maxHeartRate__clean', 'hr_minHeartRate__is_outlier', 'hr_minHeartRate__clean', 'hr_restingHeartRate__is_outlier', 'hr_restingHeartRate__clean', 'hr_lastSevenDaysAvgRestingHeartRate__is_outlier', 'hr_lastSevenDaysAvgRestingHeartRate__clean', 'resp_lowestRespirationValue__is_outlier', 'resp_lowestRespirationValue__clean', 'resp_highestRespirationValue__is_outlier', 'resp_highestRespirationValue__clean', 'resp_avgWakingRespirationValue__is_outlier', 'resp_avgWakingRespirationValue__clean', 'resp_avgSleepRespirationValue__is_outlier', 'resp_avgSleepRespirationValue__clean', 'resp_avgTomorrowSleepRespirationValue__is_outlier', 'resp_avgTomorrowSleepRespirationValue__clean', 'str_maxStressLevel__is_outlier', 'str_maxStressLevel__clean', 'str_avgStressLevel__is_outlier', 'str_avgStressLevel__clean', 'sleep_sleepTimeSeconds__is_outlier', 'sleep_sleepTimeSeconds__clean', 'sleep_napTimeSeconds__is_outlier', 'sleep_napTimeSeconds__clean', 'sleep_unmeasurableSleepSeconds__is_outlier', 'sleep_unmeasurableSleepSeconds__clean', 'sleep_deepSleepSeconds__is_outlier', 'sleep_deepSleepSeconds__clean', 'sleep_lightSleepSeconds__is_outlier', 'sleep_lightSleepSeconds__clean', 'sleep_remSleepSeconds__is_outlier', 'sleep_remSleepSeconds__clean', 'sleep_awakeSleepSeconds__is_outlier', 'sleep_awakeSleepSeconds__clean', 'act_totalCalories__is_outlier', 'act_totalCalories__clean', 'act_activeKilocalories__is_outlier', 'act_activeKilocalories__clean', 'act_distance__is_outlier', 'act_distance__clean', 'act_activeTime__is_outlier', 'act_activeTime__clean', 'sleep_averageRespirationValue__is_outlier', 'sleep_averageRespirationValue__clean', 'sleep_lowestRespirationValue__is_outlier', 'sleep_lowestRespirationValue__clean', 'sleep_highestRespirationValue__is_outlier', 'sleep_highestRespirationValue__clean', 'sleep_awakeCount__is_outlier', 'sleep_awakeCount__clean', 'sleep_avgSleepStress__is_outlier', 'sleep_avgSleepStress__clean', 'sleep_avgHeartRate__is_outlier', 'sleep_avgHeartRate__clean']
+2025-12-21 19:08:10,102 - First few rows:
+   day  label  ...  sleep_avgHeartRate__is_outlier  sleep_avgHeartRate__clean
+0    6     79  ...                           False                  61.000000
+1    6     85  ...                           False                  66.000000
+2    7     72  ...                           False                  62.500000
+3    7     93  ...                           False                  67.333333
+4    8     73  ...                           False                  64.000000
+
+[5 rows x 158 columns]
+2025-12-21 19:08:10,215 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:10,219 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:10,494 - Model trained. Training MAE: 6.7050
+2025-12-21 19:08:10,526 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-21 19:08:10,539 - Model evaluation: MAE = 12.4772
+2025-12-21 19:08:10,553 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:10,555 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:10,710 - Model trained. Training MAE: 6.7050
+2025-12-21 19:08:10,972 - Model evaluation: MAE = 12.8272
+2025-12-21 19:08:11,004 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:11,009 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:11,231 - Model trained. Training MAE: 8.8695
+2025-12-21 19:08:12,157 - Model evaluation: MAE = 12.8801
+2025-12-21 19:08:12,290 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:12,292 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:12,713 - Model trained. Training MAE: 9.1729
+2025-12-21 19:08:14,129 - Model evaluation: MAE = 12.7995
+2025-12-21 19:08:14,224 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:14,227 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:14,623 - Model trained. Training MAE: 9.0709
+2025-12-21 19:08:15,967 - Model evaluation: MAE = 12.8861
+2025-12-21 19:08:16,013 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:16,015 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:16,414 - Model trained. Training MAE: 9.0750
+2025-12-21 19:08:17,868 - Model evaluation: MAE = 12.9146
+2025-12-21 19:08:17,977 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:17,980 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:18,403 - Model trained. Training MAE: 9.1148
+2025-12-21 19:08:19,640 - Model evaluation: MAE = 12.9469
+2025-12-21 19:08:19,847 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:19,850 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:20,285 - Model trained. Training MAE: 9.2327
+2025-12-21 19:08:21,528 - Model evaluation: MAE = 13.0232
+2025-12-21 19:08:21,663 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:21,665 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:22,077 - Model trained. Training MAE: 9.3724
+2025-12-21 19:08:23,329 - Model evaluation: MAE = 13.0619
+2025-12-21 19:08:23,415 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 19:08:23,417 - Training the model (Round >=2) - warm start...
+2025-12-21 19:08:23,796 - Model trained. Training MAE: 9.4528
+2025-12-21 19:08:25,217 - Model evaluation: MAE = 13.0114
+2025-12-21 21:23:23,165 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-21 21:23:23,420 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    6  ...                               6.382716
+1    6  ...                               6.600000
+2    7  ...                               6.898148
+3    7  ...                               5.795699
+4    8  ...                               6.416404
+
+[5 rows x 96 columns]
+2025-12-21 21:23:23,479 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:23:23,482 - Training the model (Round >=2) - warm start...
+2025-12-21 21:23:23,747 - Model trained. Training MAE: 6.6276
+2025-12-21 21:23:23,767 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-21 21:23:23,780 - Model evaluation: MAE = 12.1918
+2025-12-21 21:23:23,790 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:23:23,792 - Training the model (Round >=2) - warm start...
+2025-12-21 21:23:23,973 - Model trained. Training MAE: 6.6276
+2025-12-21 21:23:24,299 - Model evaluation: MAE = 12.8368
+2025-12-21 21:23:24,338 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:23:24,341 - Training the model (Round >=2) - warm start...
+2025-12-21 21:23:24,627 - Model trained. Training MAE: 8.8958
+2025-12-21 21:28:44,759 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-21 21:28:44,948 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    6  ...                               6.382716
+1    6  ...                               6.600000
+2    7  ...                               6.898148
+3    7  ...                               5.795699
+4    8  ...                               6.416404
+
+[5 rows x 96 columns]
+2025-12-21 21:28:45,282 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:28:45,285 - Training the model (Round >=2) - warm start...
+2025-12-21 21:28:45,501 - Model trained. Training MAE: 6.6276
+2025-12-21 21:28:45,604 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-21 21:28:45,620 - Model evaluation: MAE = 12.1918
+2025-12-21 21:28:45,644 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:28:45,647 - Training the model (Round >=2) - warm start...
+2025-12-21 21:28:45,836 - Model trained. Training MAE: 6.6276
+2025-12-21 21:28:46,212 - Model evaluation: MAE = 12.8368
+2025-12-21 21:28:46,242 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:28:46,246 - Training the model (Round >=2) - warm start...
+2025-12-21 21:28:46,531 - Model trained. Training MAE: 8.8809
+2025-12-21 21:28:47,713 - Model evaluation: MAE = 12.8373
+2025-12-21 21:28:47,853 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:28:47,856 - Training the model (Round >=2) - warm start...
+2025-12-21 21:28:48,453 - Model trained. Training MAE: 9.1352
+2025-12-21 21:28:50,462 - Model evaluation: MAE = 12.7618
+2025-12-21 21:28:50,709 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:28:50,712 - Training the model (Round >=2) - warm start...
+2025-12-21 21:28:51,385 - Model trained. Training MAE: 9.0529
+2025-12-21 21:28:53,276 - Model evaluation: MAE = 12.8745
+2025-12-21 21:28:53,537 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:28:53,540 - Training the model (Round >=2) - warm start...
+2025-12-21 21:28:54,098 - Model trained. Training MAE: 9.0444
+2025-12-21 21:28:55,996 - Model evaluation: MAE = 12.9012
+2025-12-21 21:28:56,110 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:28:56,113 - Training the model (Round >=2) - warm start...
+2025-12-21 21:28:56,642 - Model trained. Training MAE: 9.0400
+2025-12-21 21:28:58,680 - Model evaluation: MAE = 12.9458
+2025-12-21 21:28:58,840 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:28:58,842 - Training the model (Round >=2) - warm start...
+2025-12-21 21:28:59,471 - Model trained. Training MAE: 9.0744
+2025-12-21 21:29:01,609 - Model evaluation: MAE = 13.0388
+2025-12-21 21:29:01,764 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:29:01,768 - Training the model (Round >=2) - warm start...
+2025-12-21 21:29:02,383 - Model trained. Training MAE: 9.2133
+2025-12-21 21:29:04,301 - Model evaluation: MAE = 12.9876
+2025-12-21 21:29:04,401 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-21 21:29:04,404 - Training the model (Round >=2) - warm start...
+2025-12-21 21:29:05,088 - Model trained. Training MAE: 9.2250
+2025-12-21 21:29:07,037 - Model evaluation: MAE = 13.0339

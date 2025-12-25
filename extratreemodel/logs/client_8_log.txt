@@ -1,0 +1,756 @@
+2025-12-21 22:30:04,150 - Round 1: FEATURE SELECTION.
+2025-12-21 22:37:43,572 - Round 1: FEATURE SELECTION.
+2025-12-21 22:43:47,224 - Round 1: FEATURE SELECTION.
+2025-12-21 22:48:26,857 - Round 1: FEATURE SELECTION.
+2025-12-21 22:49:51,227 - Round 1: FEATURE SELECTION.
+2025-12-21 22:59:08,491 - Round 1: FEATURE SELECTION.
+2025-12-21 22:59:17,491 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:22:02,268 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:22:02,269 - X_full shape=(122, 153), y_full shape=(122,)
+2025-12-21 23:22:02,310 - Round 1: FEATURE SELECTION.
+2025-12-21 23:22:09,945 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:23:21,404 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:23:21,405 - X_full shape=(122, 153), y_full shape=(122,)
+2025-12-21 23:23:21,440 - Round 1: FEATURE SELECTION.
+2025-12-21 23:23:28,730 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:23:55,494 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:23:55,495 - X_full shape=(122, 153), y_full shape=(122,)
+2025-12-21 23:23:55,534 - Round 1: FEATURE SELECTION.
+2025-12-21 23:24:02,937 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:24:52,957 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:24:52,958 - X_full shape=(122, 153), y_full shape=(122,)
+2025-12-21 23:24:53,006 - Round 1: FEATURE SELECTION.
+2025-12-21 23:25:06,048 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:25:06,049 - X_full shape=(122, 153), y_full shape=(122,)
+2025-12-21 23:25:42,850 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:25:42,851 - X_full shape=(122, 153), y_full shape=(122,)
+2025-12-21 23:25:42,897 - Round 1: FEATURE SELECTION.
+2025-12-21 23:25:51,440 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:29:24,286 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:29:24,287 - X_full shape=(122, 153), y_full shape=(122,)
+2025-12-21 23:29:24,323 - Round 1: FEATURE SELECTION.
+2025-12-21 23:29:31,860 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:29:57,932 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:29:57,932 - X_full shape=(122, 153), y_full shape=(122,)
+2025-12-21 23:29:57,964 - Round 1: FEATURE SELECTION.
+2025-12-21 23:30:04,415 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:35:54,327 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:35:54,329 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:35:54,365 - Round 1: FEATURE SELECTION.
+2025-12-21 23:36:01,411 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:36:16,607 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:36:16,607 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:36:16,648 - Round 1: FEATURE SELECTION.
+2025-12-21 23:36:22,714 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:37:49,780 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:37:49,781 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:37:49,822 - Round 1: FEATURE SELECTION.
+2025-12-21 23:37:56,733 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:38:11,144 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:38:11,146 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:38:11,196 - Round 1: FEATURE SELECTION.
+2025-12-21 23:38:17,318 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:38:33,697 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:38:33,697 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:38:33,738 - Round 1: FEATURE SELECTION.
+2025-12-21 23:38:41,430 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:39:01,828 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:39:01,829 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:39:01,884 - Round 1: FEATURE SELECTION.
+2025-12-21 23:39:09,844 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:39:25,254 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:39:25,255 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:39:25,298 - Round 1: FEATURE SELECTION.
+2025-12-21 23:39:33,827 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:39:49,155 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:39:49,156 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:39:49,190 - Round 1: FEATURE SELECTION.
+2025-12-21 23:39:55,695 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:40:10,383 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:40:10,383 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:40:10,428 - Round 1: FEATURE SELECTION.
+2025-12-21 23:40:18,089 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:40:34,637 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:40:34,637 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:40:34,676 - Round 1: FEATURE SELECTION.
+2025-12-21 23:40:41,276 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:43:40,399 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:43:40,400 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:43:40,517 - Round 1: FEATURE SELECTION.
+2025-12-21 23:43:48,402 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:43:55,721 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:44:00,696 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:44:06,305 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:44:10,798 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:44:15,875 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:44:20,535 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:44:24,502 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:44:30,660 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:44:46,265 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:44:46,266 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:44:46,302 - Round 1: FEATURE SELECTION.
+2025-12-21 23:44:53,035 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:44:57,893 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:45:03,582 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:45:09,627 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:45:14,010 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:45:18,826 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:45:24,799 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:45:29,234 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:45:34,515 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:45:46,649 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:45:46,649 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:45:46,678 - Round 1: FEATURE SELECTION.
+2025-12-21 23:45:51,544 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:45:55,486 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:00,025 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:05,504 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:09,617 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:14,400 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:17,684 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:22,557 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:26,995 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:39,002 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:46:39,002 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:46:39,030 - Round 1: FEATURE SELECTION.
+2025-12-21 23:46:42,935 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:47,351 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:51,525 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:54,874 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:46:58,939 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:47:02,943 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:47:08,759 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:47:15,733 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:47:22,062 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:47:36,009 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:47:36,009 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:47:36,040 - Round 1: FEATURE SELECTION.
+2025-12-21 23:47:40,724 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:47:45,762 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:47:50,154 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:47:53,769 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:47:57,399 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:01,015 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:04,902 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:07,950 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:11,690 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:23,694 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:48:23,694 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:48:23,720 - Round 1: FEATURE SELECTION.
+2025-12-21 23:48:28,059 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:34,092 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:37,695 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:42,286 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:46,308 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:49,444 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:52,745 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:48:56,249 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:00,482 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:12,525 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:49:12,525 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:49:12,551 - Round 1: FEATURE SELECTION.
+2025-12-21 23:49:17,034 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:20,793 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:24,412 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:28,809 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:33,134 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:39,037 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:42,087 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:46,128 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:49:49,059 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:50:02,593 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:50:02,594 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:50:02,631 - Round 1: FEATURE SELECTION.
+2025-12-21 23:50:08,459 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:50:14,012 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:50:17,858 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:50:21,532 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:50:25,482 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:50:30,061 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:55:48,179 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:55:48,180 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:55:48,212 - Round 1: FEATURE SELECTION.
+2025-12-21 23:55:52,606 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:55:56,108 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:55:59,735 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:56:03,185 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:56:06,340 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:56:09,338 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:56:12,394 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:56:15,266 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:56:19,065 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:57:45,420 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:57:45,421 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:57:45,452 - Round 1: FEATURE SELECTION.
+2025-12-21 23:57:49,521 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:57:54,412 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:57:58,436 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:58:02,330 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:58:06,388 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:58:10,051 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:58:13,391 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:58:34,244 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-21 23:58:34,245 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-21 23:58:34,278 - Round 1: FEATURE SELECTION.
+2025-12-21 23:58:39,809 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:58:48,876 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:58:53,031 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:58:58,386 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:59:03,296 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:59:07,426 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:59:10,397 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:59:15,171 - Errore evaluate: No module named 'strategy'
+2025-12-21 23:59:18,996 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:03:06,783 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 00:03:06,785 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 00:03:06,812 - Round 1: FEATURE SELECTION.
+2025-12-22 00:03:11,064 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:03:15,389 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:03:20,073 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:03:24,150 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:03:27,477 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:03:31,436 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:03:34,127 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:03:37,588 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:03:41,597 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:19:53,580 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 00:19:53,581 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 00:19:53,606 - Round 1: FEATURE SELECTION.
+2025-12-22 00:19:59,190 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:20:03,446 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:20:09,320 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:20:13,864 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:20:17,953 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:20:20,669 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:20:25,431 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:20:29,308 - Errore evaluate: No module named 'strategy'
+2025-12-22 00:20:32,747 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:00:49,045 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 01:00:49,045 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 01:00:49,079 - Round 1: FEATURE SELECTION.
+2025-12-22 01:00:55,378 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:01:01,721 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:01:05,708 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:01:09,923 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:01:15,066 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:01:19,579 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:01:23,240 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:01:27,685 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:01:32,247 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:06:37,142 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 01:06:37,143 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 01:06:37,172 - Round 1: FEATURE SELECTION.
+2025-12-22 01:06:42,829 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:06:49,138 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:06:54,159 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:06:58,632 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:07:03,068 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:07:07,387 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:07:11,652 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:07:15,046 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:07:20,070 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:08:27,006 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 01:08:27,007 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 01:08:27,038 - Round 1: FEATURE SELECTION.
+2025-12-22 01:08:32,438 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:08:39,371 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:08:43,949 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:08:48,209 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:08:52,941 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:08:57,135 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:09:01,070 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:09:06,115 - Errore evaluate: No module named 'strategy'
+2025-12-22 01:09:09,927 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:51:03,912 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 12:51:03,914 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 12:51:03,940 - Round 1: FEATURE SELECTION.
+2025-12-22 12:51:08,463 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:51:11,954 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:51:16,151 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:51:19,318 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:51:22,237 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:51:26,290 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:51:30,355 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:51:33,766 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:51:37,078 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:52:49,910 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 12:52:49,910 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 12:52:50,080 - Round 1: FEATURE SELECTION.
+2025-12-22 12:52:54,474 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:52:59,500 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:53:03,354 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:53:06,924 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:53:17,149 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:53:21,376 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:53:25,680 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:53:29,023 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:53:32,423 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:53:50,510 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 12:53:50,510 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 12:54:10,173 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 12:54:10,173 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 12:54:10,200 - Round 1: FEATURE SELECTION.
+2025-12-22 12:54:14,932 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:54:19,257 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:54:22,767 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:54:26,387 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:54:29,146 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:54:32,523 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:54:35,829 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:54:39,500 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:54:42,768 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:55:31,946 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 12:55:31,946 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 12:55:31,973 - Round 1: FEATURE SELECTION.
+2025-12-22 12:55:35,469 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:55:39,856 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:55:43,162 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:55:47,562 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:55:51,436 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:55:54,673 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:55:57,743 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:56:01,045 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:56:04,621 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:58:30,388 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 12:58:30,388 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 12:58:30,411 - Round 1: FEATURE SELECTION.
+2025-12-22 12:58:34,894 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:58:39,232 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:58:43,287 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:58:46,885 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:58:50,112 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:58:53,472 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:58:56,841 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:59:00,353 - Errore evaluate: No module named 'strategy'
+2025-12-22 12:59:02,997 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:00:09,349 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 13:00:09,350 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 13:00:09,373 - Round 1: FEATURE SELECTION.
+2025-12-22 13:00:13,228 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:00:18,225 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:00:21,437 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:00:25,057 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:00:28,189 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:00:30,776 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:00:33,805 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:00:37,800 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:00:40,534 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:10:10,474 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 13:10:10,475 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 13:10:10,507 - Round 1: FEATURE SELECTION.
+2025-12-22 13:10:15,248 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:10:21,159 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:10:25,471 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:10:30,323 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:10:34,532 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:10:38,768 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:10:42,524 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:10:47,117 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:10:50,556 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:11:22,021 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 13:11:22,021 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 13:11:22,049 - Round 1: FEATURE SELECTION.
+2025-12-22 13:11:26,871 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:11:31,744 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:11:36,657 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:11:39,966 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:11:44,168 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:11:48,168 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:11:51,490 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:11:55,409 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:11:58,748 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:12:57,890 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 13:12:57,891 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 13:12:57,999 - Round 1: FEATURE SELECTION.
+2025-12-22 13:13:08,463 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:13:13,149 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:13:16,523 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:13:21,069 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:13:25,246 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:13:29,308 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:13:33,116 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:13:36,758 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:13:41,248 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:14:20,045 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 13:14:20,045 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 13:14:20,071 - Round 1: FEATURE SELECTION.
+2025-12-22 13:14:23,733 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:14:27,649 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:14:30,881 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:14:33,891 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:14:36,813 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:14:40,414 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:14:43,445 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:14:47,187 - Errore evaluate: No module named 'strategy'
+2025-12-22 13:14:50,355 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:02:18,752 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 14:02:18,753 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 14:02:18,786 - Round 1: FEATURE SELECTION.
+2025-12-22 14:02:21,247 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:02:23,045 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:02:24,579 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:02:25,964 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:02:27,620 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:02:29,055 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:02:30,663 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:02:32,277 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:02:33,636 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:04:56,920 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 14:04:56,920 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 14:04:56,947 - Round 1: FEATURE SELECTION.
+2025-12-22 14:04:57,232 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:04:57,278 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:04:57,321 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:04:57,359 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:04:57,393 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:04:57,433 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:04:57,481 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:04:57,518 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:04:57,563 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:06:14,048 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 14:06:14,049 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 14:06:14,079 - Round 1: FEATURE SELECTION.
+2025-12-22 14:06:17,126 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:06:19,494 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:06:22,106 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:06:24,375 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:06:26,311 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:06:29,228 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:06:31,103 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:06:33,538 - Errore evaluate: No module named 'strategy'
+2025-12-22 14:06:35,196 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:11:42,957 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 16:11:42,957 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 16:11:42,983 - Round 1: FEATURE SELECTION.
+2025-12-22 16:11:45,629 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:12:14,149 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 16:12:14,149 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 16:12:14,172 - Round 1: FEATURE SELECTION.
+2025-12-22 16:12:40,934 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 16:12:40,936 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 16:12:40,961 - Round 1: FEATURE SELECTION.
+2025-12-22 16:12:43,465 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:12:46,556 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:12:49,249 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:12:50,920 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:12:53,504 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:12:55,382 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:12:57,171 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:12:59,252 - Errore evaluate: No module named 'strategy'
+2025-12-22 16:13:01,425 - Errore evaluate: No module named 'strategy'
+2025-12-22 17:19:22,609 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:19:22,613 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:19:22,647 - Round 1: FEATURE SELECTION.
+2025-12-22 17:20:24,586 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:20:24,586 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:20:24,729 - Round 1: FEATURE SELECTION.
+2025-12-22 17:27:57,076 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:27:57,077 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:27:57,110 - Round 1: FEATURE SELECTION.
+2025-12-22 17:29:03,995 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:29:03,996 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:29:04,029 - Round 1: FEATURE SELECTION.
+2025-12-22 17:30:33,877 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:30:33,877 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:30:33,911 - Round 1: FEATURE SELECTION.
+2025-12-22 17:31:18,983 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:31:18,983 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:31:19,014 - Round 1: FEATURE SELECTION.
+2025-12-22 17:32:03,071 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:32:03,071 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:32:03,159 - Round 1: FEATURE SELECTION.
+2025-12-22 17:32:55,611 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:32:55,611 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:32:55,642 - Round 1: FEATURE SELECTION.
+2025-12-22 17:33:38,199 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:33:38,199 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:33:38,233 - Round 1: FEATURE SELECTION.
+2025-12-22 17:34:21,376 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:34:21,377 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:34:21,405 - Round 1: FEATURE SELECTION.
+2025-12-22 17:35:04,279 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:35:04,280 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:35:04,314 - Round 1: FEATURE SELECTION.
+2025-12-22 17:35:47,203 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:35:47,203 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:35:47,233 - Round 1: FEATURE SELECTION.
+2025-12-22 17:48:13,954 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:48:13,955 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:48:14,014 - Round 1: FEATURE SELECTION.
+2025-12-22 17:50:11,974 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:50:11,975 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 17:50:12,002 - Round 1: FEATURE SELECTION.
+2025-12-22 17:50:48,780 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 17:50:48,780 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 20:05:58,075 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 20:05:58,079 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 20:07:42,519 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 20:07:42,520 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 20:08:02,149 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-22 20:08:02,150 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 20:08:02,221 - Round 1: FEATURE SELECTION.
+2025-12-24 16:51:54,706 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 16:51:54,707 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 16:51:54,732 - Round 1: FEATURE SELECTION.
+2025-12-24 19:25:06,555 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 19:25:06,556 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 19:25:06,596 - Round 1: FEATURE SELECTION.
+2025-12-24 19:26:23,151 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 19:26:23,152 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 19:26:23,186 - Round 1: FEATURE SELECTION.
+2025-12-24 19:26:42,828 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 19:26:42,828 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 19:26:42,864 - Round 1: FEATURE SELECTION.
+2025-12-24 19:27:02,758 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 19:27:02,758 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 19:27:02,823 - Round 1: FEATURE SELECTION.
+2025-12-24 19:27:21,463 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 19:27:21,464 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 19:27:21,505 - Round 1: FEATURE SELECTION.
+2025-12-24 19:27:38,571 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 19:27:38,572 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 19:27:38,612 - Round 1: FEATURE SELECTION.
+2025-12-24 19:27:56,371 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 19:27:56,371 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 19:27:56,439 - Round 1: FEATURE SELECTION.
+2025-12-24 19:28:34,551 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 19:28:34,552 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 19:28:34,586 - Round 1: FEATURE SELECTION.
+2025-12-24 19:28:52,632 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 19:28:52,632 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 19:28:52,689 - Round 1: FEATURE SELECTION.
+2025-12-24 20:51:31,390 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 20:51:31,391 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 20:51:31,417 - Round 1: FEATURE SELECTION.
+2025-12-24 20:51:42,518 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:52:10,254 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 20:52:10,255 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 20:52:10,281 - Round 1: FEATURE SELECTION.
+2025-12-24 20:52:20,974 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:52:25,477 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:52:29,923 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:52:34,880 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:52:39,991 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:52:44,677 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:52:50,591 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:52:54,896 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:52:59,441 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:53:21,590 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 20:53:21,591 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 20:53:21,620 - Round 1: FEATURE SELECTION.
+2025-12-24 20:53:32,371 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:53:36,726 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:53:41,182 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:53:45,552 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:53:49,503 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:53:53,980 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:53:58,212 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:54:02,381 - Errore evaluate: No module named 'strategy'
+2025-12-24 20:54:06,477 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:04:15,995 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:04:15,996 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:04:16,025 - Round 1: FEATURE SELECTION.
+2025-12-24 21:04:27,309 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:04:31,805 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:04:36,702 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:04:40,986 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:04:45,212 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:04:49,966 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:04:54,509 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:04:58,727 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:05:03,842 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:11:48,380 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:11:48,381 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:11:48,407 - Round 1: FEATURE SELECTION.
+2025-12-24 21:11:59,515 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:12:03,982 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:12:08,619 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:12:13,102 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:12:17,328 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:12:21,413 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:12:25,806 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:12:30,156 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:12:34,732 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:13:05,671 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:13:05,671 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:13:05,694 - Round 1: FEATURE SELECTION.
+2025-12-24 21:13:16,278 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:13:21,661 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:13:26,061 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:13:30,290 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:13:35,202 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:13:39,876 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:13:44,859 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:13:49,790 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:13:54,325 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:15:52,236 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:15:52,237 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:15:52,263 - Round 1: FEATURE SELECTION.
+2025-12-24 21:16:03,331 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:16:07,862 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:16:12,515 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:16:17,231 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:16:21,599 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:16:25,913 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:16:30,486 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:16:34,766 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:16:38,944 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:25:29,401 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:25:29,402 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:25:29,431 - Round 1: FEATURE SELECTION.
+2025-12-24 21:25:40,347 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:25:45,202 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:25:50,094 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:25:54,664 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:25:59,049 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:26:03,488 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:26:07,854 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:26:12,101 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:26:16,706 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:27:16,732 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:27:16,732 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:27:16,755 - Round 1: FEATURE SELECTION.
+2025-12-24 21:27:27,819 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:27:32,473 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:27:36,887 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:27:41,273 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:27:45,870 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:27:50,507 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:27:54,981 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:27:59,759 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:28:04,286 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:28:42,994 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:28:42,995 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:28:43,021 - Round 1: FEATURE SELECTION.
+2025-12-24 21:28:53,861 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:28:58,814 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:29:03,584 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:29:07,733 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:29:12,504 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:29:16,864 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:29:21,090 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:29:25,435 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:29:30,215 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:34:33,485 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:34:33,485 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:34:33,514 - Round 1: FEATURE SELECTION.
+2025-12-24 21:34:45,714 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:34:56,439 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:35:14,740 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:35:20,055 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:35:25,130 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:35:29,546 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:35:34,258 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:35:38,925 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:35:43,275 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:41:38,951 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:41:38,952 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:41:38,977 - Round 1: FEATURE SELECTION.
+2025-12-24 21:41:49,911 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:41:54,369 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:41:58,802 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:42:03,086 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:42:07,338 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:42:11,841 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:42:16,247 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:42:20,744 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:42:24,977 - Errore evaluate: No module named 'strategy'
+2025-12-24 21:47:25,108 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-24 21:47:25,108 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-24 21:47:25,218 - Round 1: FEATURE SELECTION.
+2025-12-25 02:11:34,753 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-25 02:11:34,754 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-25 02:11:34,792 - Round 1: FEATURE SELECTION.
+2025-12-25 02:11:53,162 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:11:59,873 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:12:06,420 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:12:12,983 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:12:19,591 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:12:26,163 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:12:32,763 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:12:39,115 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:12:45,771 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:12:58,992 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-25 02:12:58,993 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-25 02:12:59,117 - Round 1: FEATURE SELECTION.
+2025-12-25 02:13:15,765 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:13:22,357 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:13:29,356 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:13:35,997 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:13:42,645 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:13:49,235 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:13:56,128 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:14:02,879 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:14:09,657 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:14:22,862 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-25 02:14:22,864 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-25 02:14:22,956 - Round 1: FEATURE SELECTION.
+2025-12-25 02:14:39,470 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:14:45,766 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:14:52,458 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:14:59,120 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:15:05,955 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:15:12,614 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:15:19,268 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:15:25,939 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:15:32,446 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:15:45,736 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-25 02:15:45,736 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-25 02:15:45,800 - Round 1: FEATURE SELECTION.
+2025-12-25 02:16:02,304 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:16:08,629 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:16:15,411 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:16:22,217 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:16:28,788 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:16:35,190 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:16:41,932 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:16:48,517 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:16:55,108 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:17:08,346 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-25 02:17:08,346 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-25 02:17:08,373 - Round 1: FEATURE SELECTION.
+2025-12-25 02:17:24,989 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:17:31,556 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:17:38,547 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:17:45,337 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:17:51,847 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:17:58,781 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:18:05,414 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:18:12,063 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:18:18,868 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:18:32,995 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-25 02:18:32,997 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-25 02:18:33,026 - Round 1: FEATURE SELECTION.
+2025-12-25 02:18:49,333 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:18:55,637 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:19:02,249 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:19:09,158 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:19:16,025 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:19:22,401 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:19:29,187 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:19:35,625 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:19:42,224 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:19:55,743 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-25 02:19:55,743 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-25 02:19:55,830 - Round 1: FEATURE SELECTION.
+2025-12-25 02:20:12,539 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:20:19,555 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:20:25,913 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:20:32,784 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:20:39,725 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:20:46,238 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:20:52,818 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:20:59,386 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:21:06,217 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:21:19,430 - Loaded CSV: C:\Users\alice\CSI-prog4-esperimenti\extratreemodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group8_merged_clean.csv
+2025-12-25 02:21:19,430 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-25 02:21:19,459 - Round 1: FEATURE SELECTION.
+2025-12-25 02:21:35,807 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:21:42,394 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:21:49,338 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:21:56,427 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:22:02,717 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:22:09,231 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:22:15,647 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:22:22,011 - Errore evaluate: No module named 'strategy'
+2025-12-25 02:22:28,206 - Errore evaluate: No module named 'strategy'

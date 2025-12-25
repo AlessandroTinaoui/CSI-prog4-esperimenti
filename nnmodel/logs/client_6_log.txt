@@ -1,0 +1,185 @@
+2025-12-22 23:42:59,510 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-22 23:43:00,810 - Phase=scaler: sent n/sum/sumsq
+2025-12-22 23:45:32,835 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-22 23:45:34,904 - Phase=scaler: sent n/sum/sumsq
+2025-12-22 23:50:35,427 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-22 23:50:35,991 - Phase=scaler: sent n/sum/sumsq
+2025-12-22 23:51:41,510 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-22 23:51:41,607 - Phase=scaler: sent n/sum/sumsq
+2025-12-22 23:53:00,146 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-22 23:53:00,207 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 00:13:39,206 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 00:13:39,461 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 00:21:52,769 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 00:21:52,826 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 00:23:40,655 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 00:23:41,836 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 00:24:36,263 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 00:24:37,082 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 19:16:33,805 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 19:16:34,343 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 19:27:20,927 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 19:27:21,036 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 19:33:09,127 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 19:33:10,351 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 19:41:31,070 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 19:41:33,013 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 19:55:21,352 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 19:55:21,792 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 20:00:41,837 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 20:00:42,448 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 20:04:42,236 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 20:04:43,748 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 20:15:24,649 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 20:15:25,439 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 20:20:26,946 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 20:20:27,456 - Phase=scaler: sent n/sum/sumsq
+2025-12-23 21:19:43,770 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 21:19:43,845 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-23 21:28:28,782 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 21:28:30,203 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-23 21:34:40,084 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 21:34:41,251 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-23 21:43:54,745 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 21:43:54,928 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-23 21:52:21,490 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 21:52:22,524 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-23 21:57:07,214 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 21:57:07,764 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-23 22:04:45,704 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 22:04:47,620 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-23 22:15:22,329 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-23 22:15:23,342 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 15:52:43,665 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 15:52:44,448 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 15:56:45,045 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 15:56:46,414 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 15:58:47,661 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 15:58:48,690 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:00:26,259 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:00:27,044 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:03:06,741 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:03:07,526 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:03:56,979 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:03:58,232 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:04:41,846 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:04:42,654 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:07:16,166 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:07:16,874 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:08:35,553 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:08:36,451 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:11:07,260 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:11:08,800 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:13:35,551 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:13:36,886 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:16:11,532 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(96, 91), X_test=(11, 91)
+2025-12-24 16:16:12,624 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:32:41,827 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:32:42,454 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:34:05,524 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:34:06,854 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:36:15,604 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:36:16,356 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:37:49,645 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:37:50,538 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:43:41,412 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:43:42,324 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:44:34,140 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:44:35,076 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:45:37,163 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:45:37,394 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:48:46,325 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:48:47,177 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:49:58,049 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:49:59,161 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:51:10,004 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:51:10,887 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:54:53,687 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:54:55,034 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:55:31,876 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:55:32,716 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:56:09,830 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:56:10,651 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:56:45,972 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:56:46,918 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:57:23,861 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:57:24,704 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:58:03,536 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:58:04,249 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 16:59:23,637 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 16:59:23,767 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:00:28,077 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:00:28,815 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:01:10,690 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:01:11,443 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:01:48,605 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:01:49,505 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:02:24,952 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:02:25,867 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:03:00,190 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:03:01,093 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:03:36,421 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:03:37,389 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:04:49,274 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:04:49,783 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:05:25,368 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:05:26,218 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:13:58,444 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:13:59,165 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:14:40,336 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:14:40,532 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:15:16,337 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:15:17,376 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:15:51,972 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:15:52,907 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:16:28,302 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:16:29,279 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:17:05,023 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:17:05,873 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:18:17,911 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:18:18,171 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:18:55,027 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:18:55,448 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:29:36,914 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:29:37,103 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:30:29,142 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:30:30,376 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:31:24,274 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:31:25,030 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:32:13,287 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:32:13,369 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:33:06,263 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:33:07,039 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:34:01,441 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:34:04,657 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:35:48,492 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:35:48,592 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-24 17:36:43,128 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-24 17:36:43,205 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 01:27:48,029 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 01:27:49,258 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 01:29:44,154 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 01:29:45,054 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 01:33:25,105 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 01:33:26,066 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 19:31:50,315 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 19:31:51,162 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 20:04:15,788 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 20:04:16,560 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 20:04:41,524 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 20:05:26,093 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 20:05:26,709 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 20:08:26,548 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 20:08:28,283 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 20:11:14,659 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 20:11:15,268 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 21:04:43,076 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 21:04:43,700 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 21:06:58,089 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 21:06:59,501 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 21:34:40,304 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 21:34:40,615 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 21:40:15,252 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 21:40:15,550 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
+2025-12-25 21:46:27,550 - Loaded C:\Users\alice\CSI-prog4-esperimenti\nnmodel\client\../../dataset/new_preprocessed_dataset/clients_dataset\group6_merged_clean.csv | X_train=(85, 91), X_test=(22, 91)
+2025-12-25 21:46:27,758 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
