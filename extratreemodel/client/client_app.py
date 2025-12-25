@@ -5,7 +5,9 @@ import logging
 import pickle
 from pathlib import Path
 from typing import List, Optional
-from extratreemodel.server.config import EXTRA_TREES_PARAMS
+
+from extratreemodel.server.config import SERVER_ADDRESS
+from model_params import EXTRA_TREES_PARAMS
 
 
 import numpy as np
@@ -47,7 +49,7 @@ class ExtraTreesClient(NumPyClient):
     def __init__(self, cid: int, data_path: str):
         self.cid = int(cid)
         self.data_path = data_path
-        self.data = pd.read_csv(data_path, sep=",").dropna()
+        self.data = pd.read_csv(data_path, sep=",")
 
         self.logger = logging.getLogger(f"client_{self.cid}")
         self.logger.setLevel(logging.INFO)
@@ -76,6 +78,9 @@ class ExtraTreesClient(NumPyClient):
             random_state=42,
             shuffle=True,
         )
+
+        # mediane calcolate SOLO sul train (evita leakage)
+        self._train_medians = self.X_train_full.median(numeric_only=True)
 
         self.selected_features: Optional[List[str]] = None
         self.last_local_model: Optional[ExtraTreesRegressor] = None
@@ -185,4 +190,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     client = ExtraTreesClient(cid=client_id, data_path=data_path)
-    fl.client.start_numpy_client(server_address="127.0.0.1:8080", client=client)
+    fl.client.start_numpy_client(server_address=SERVER_ADDRESS, client=client)
