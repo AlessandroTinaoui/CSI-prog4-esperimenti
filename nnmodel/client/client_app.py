@@ -25,6 +25,7 @@ from nnmodel.data import (
     local_sums_for_scaler,
     ScalerStats,
 )
+from nnmodel.server.config import SERVER_ADDRESS
 
 # -------- Paths/logs --------
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -284,12 +285,8 @@ if __name__ == "__main__":
         print(f"ERRORE: Data file not found: {data_path}")
         sys.exit(1)
 
-    from nnmodel.server.config import (
-        TEST_SIZE, RANDOM_STATE, SHUFFLE_SPLIT,
-        LOCAL_EPOCHS, BATCH_SIZE, LR, WEIGHT_DECAY,
-        HIDDEN_SIZES, DROPOUT,
-        CLIP_MIN, CLIP_MAX
-    )
+
+    from client_params import *
 
     cfg = {
         "TEST_SIZE": TEST_SIZE,
@@ -306,4 +303,4 @@ if __name__ == "__main__":
     }
 
     client = NNClient(cid=client_id, data_path=data_path, cfg=cfg)
-    fl.client.start_numpy_client(server_address="127.0.0.1:8080", client=client)
+    fl.client.start_numpy_client(server_address=SERVER_ADDRESS, client=client)

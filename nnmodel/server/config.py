@@ -1,42 +1,59 @@
 # nnmodel/server/config.py
+from __future__ import annotations
 
+import json
+import os
+from pathlib import Path
+
+# --- networking / fl ---
 SERVER_ADDRESS = "127.0.0.1:8080"
 
-# Round 1: calcolo scaler globale federato
-# Round 2..NUM_ROUNDS: training FedAvg
-NUM_ROUNDS = 100
-
-# Holdout client (0..8) da tenere fuori dal training (come fai già) :contentReference[oaicite:4]{index=4}
-HOLDOUT_CID = 3  # metti 9 o 10 per disattivare
-
-# Federated settings
+if "FL_SERVER_ADDRESS" in os.environ:
+    SERVER_ADDRESS = os.environ["FL_SERVER_ADDRESS"]
+HOLDOUT_CID = 0
+# --- default federated params (overridabili da trial) ---
+NUM_ROUNDS = 115
 FRACTION_FIT = 1.0
 FRACTION_EVALUATE = 1.0
 MIN_FIT_CLIENTS = 8
 MIN_EVALUATE_CLIENTS = 8
 MIN_AVAILABLE_CLIENTS = 8
 
-# Training hyperparams (client-side)
-LOCAL_EPOCHS = 2 #Numero di epoche di training locale che ogni client fa prima di mandare i pesi al server.
-BATCH_SIZE = 32
-LR = 1e-3 #Learning rate dell’ottimizzatore Adam → quanto grandi sono i passi nello spazio dei pesi.
-WEIGHT_DECAY = 1e-4 #Regolarizzazione L2 → penalizza pesi troppo grandi. (dice al modello ' non fidarti troppo di una singola feature o di un singolo utente '
-
-# Model
-HIDDEN_SIZES = [64, 32, 16]
-DROPOUT = 0.2
-
-# Target range (Garmin sleep score tipico 0..100)
-CLIP_MIN = 0.0
-CLIP_MAX = 100.0
-
-# Split
-TEST_SIZE = 0.2
-RANDOM_STATE = 42
-SHUFFLE_SPLIT = False
-
-# Dove salvare risultati globali (feature list + scaler + modello)
+# --- output ---
 RESULTS_DIRNAME = "results"
 GLOBAL_FEATURES_JSON = "global_features.json"
 GLOBAL_SCALER_JSON = "global_scaler.json"
 GLOBAL_MODEL_PTH = "global_model.pth"
+
+
+def _apply_trial_overrides() -> None:
+    global NUM_ROUNDS, FRACTION_FIT, FRACTION_EVALUATE
+    global MIN_FIT_CLIENTS, MIN_EVALUATE_CLIENTS, MIN_AVAILABLE_CLIENTS
+
+    cfg_path = os.environ.get("TRIAL_CONFIG_PATH")
+    if not cfg_path:
+        return
+    p = Path(cfg_path)
+    if not p.exists():
+        return
+
+    cfg = json.loads(p.read_text(encoding="utf-8"))
+    server = cfg.get("server", {})
+
+    if "NUM_ROUNDS" in server:
+        NUM_ROUNDS = int(server["NUM_ROUNDS"])
+
+    if "FRACTION_FIT" in server:
+        FRACTION_FIT = float(server["FRACTION_FIT"])
+    if "FRACTION_EVALUATE" in server:
+        FRACTION_EVALUATE = float(server["FRACTION_EVALUATE"])
+
+    if "MIN_FIT_CLIENTS" in server:
+        MIN_FIT_CLIENTS = int(server["MIN_FIT_CLIENTS"])
+    if "MIN_EVALUATE_CLIENTS" in server:
+        MIN_EVALUATE_CLIENTS = int(server["MIN_EVALUATE_CLIENTS"])
+    if "MIN_AVAILABLE_CLIENTS" in server:
+        MIN_AVAILABLE_CLIENTS = int(server["MIN_AVAILABLE_CLIENTS"])
+
+
+_apply_trial_overrides()

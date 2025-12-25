@@ -257,7 +257,7 @@ def main() -> int:
     parser.add_argument(
         "--model",
         choices=sorted(MODELS.keys()),
-        default="extratree",
+        default="nnmodel",
         help="Modello da allenare.",
     )
     parser.add_argument("--repeats", type=int, default=N, help="Ripetizioni per ogni HOLDOUT_CID (default: 1).")

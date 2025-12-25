@@ -18,6 +18,7 @@ from nnmodel.model import MLPRegressor
 
 
 TRAIN_PATH = get_train_path()
+TRAIN_PATH = get_train_path()
 TEST_PATH = get_test_path()
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]  # nnmodel/
