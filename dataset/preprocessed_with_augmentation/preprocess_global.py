@@ -383,8 +383,8 @@ if __name__ == "__main__":
     TRAIN_BASE_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "../raw_dataset"))
 
     # >>> OUTPUT coerenti con get_train_path/get_test_path (DATASET="new")
-    OUT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "new_preprocessed_dataset", "clients_dataset"))
-    X_TEST_OUT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "new_preprocessed_dataset", "x_test_clean.csv"))
+    OUT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "clients_dataset"))
+    X_TEST_OUT = os.path.abspath(os.path.join(SCRIPT_DIR, "x_test_clean.csv"))
 
     os.makedirs(OUT_DIR, exist_ok=True)
 

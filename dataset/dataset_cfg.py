@@ -6,7 +6,7 @@ def get_train_path():
     elif DATASET == "new":
         return "dataset/new_preprocessed_dataset/clients_dataset"
     else:  # "aug"
-        return "dataset/preprocessed_with_augmentation/clients_dataset_global"
+        return "dataset/preprocessed_with_augmentation/clients_dataset"
 
 def get_test_path():
     if DATASET == "old":
@@ -14,5 +14,5 @@ def get_test_path():
     elif DATASET == "new":
         return "dataset/new_preprocessed_dataset/x_test_clean.csv"
     else:  # "aug"
-        return "dataset/preprocessed_with_augmentation/clients_dataset_global/x_test_clean.csv"
+        return "dataset/preprocessed_with_augmentation/x_test_clean.csv"
 
