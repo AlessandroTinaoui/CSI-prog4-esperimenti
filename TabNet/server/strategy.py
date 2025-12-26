@@ -1,4 +1,3 @@
-# strategy.py
 from __future__ import annotations
 
 import json
@@ -18,12 +17,18 @@ from TabNet.model import TabNetRegressor, TabNetConfig
 import TabNet.client.client_params as P
 
 
-class FedAvgNNWithGlobalScaler(FedAvg):
-    def __init__(self, project_root: Path, **kwargs: Any):
+class FedProxNNWithGlobalScaler(FedAvg):
+    """
+    Aggregazione: FedAvg (come prima)
+    Training client-side: FedProx tramite penalità prox (mu) che inviamo ai client via config.
+    """
+    def __init__(self, project_root: Path, fedprox_mu: float = 0.01, **kwargs: Any):
         super().__init__(**kwargs)
         self.project_root = project_root
         self.results_dir = self.project_root / RESULTS_DIRNAME
         self.results_dir.mkdir(parents=True, exist_ok=True)
+
+        self.fedprox_mu = float(fedprox_mu)
 
         self.global_features: Optional[List[str]] = None
         self.scaler_mean: Optional[np.ndarray] = None
@@ -31,9 +36,6 @@ class FedAvgNNWithGlobalScaler(FedAvg):
 
         self.y_mean: Optional[float] = None
         self.y_std: Optional[float] = None
-
-        self.best_eval_mae: float = float("inf")
-        self.best_round: int = -1
 
     def configure_fit(self, server_round: int, parameters: Parameters, client_manager):
         fit_instructions = super().configure_fit(server_round, parameters, client_manager)
@@ -61,6 +63,10 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             ins.config["scaler_std"] = json.dumps(self.scaler_std.tolist())
             ins.config["y_mean"] = str(self.y_mean)
             ins.config["y_std"] = str(self.y_std)
+
+            # FedProx: invia mu al client
+            ins.config["fedprox_mu"] = str(self.fedprox_mu)
+
             out.append((cp, ins))
         return out
 
@@ -199,7 +205,7 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 "Y_N": float(YN),
             }
 
-        # ROUND >=2: FedAvg + save model
+        # ROUND >=2: FedAvg aggregation + save model
         aggregated_parameters, aggregated_metrics = super().aggregate_fit(server_round, results, failures)
 
         if aggregated_parameters is not None and server_round >= 2:
@@ -231,16 +237,5 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         if total_n > 0:
             mean_mae = weighted_mae / total_n
             print(f"[SERVER] Round {server_round} - FED_EVAL_MAE_REAL: {mean_mae:.4f}")
-
-            if mean_mae < self.best_eval_mae:
-                self.best_eval_mae = float(mean_mae)
-                self.best_round = int(server_round)
-
-                src = self.results_dir / "global_model.npz"
-                dst = self.results_dir / "best_model.npz"
-                if src.exists():
-                    import shutil
-                    shutil.copyfile(src, dst)
-                    print(f"[SERVER] ✅ Best model aggiornato (round={server_round}, mae={mean_mae:.4f})")
 
         return aggregated_loss, aggregated_metrics

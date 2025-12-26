@@ -16,11 +16,10 @@ from config import (
     MIN_AVAILABLE_CLIENTS, MIN_EVALUATE_CLIENTS, MIN_FIT_CLIENTS,
     FRACTION_EVALUATE, FRACTION_FIT
 )
-from strategy import FedAvgNNWithGlobalScaler
+from strategy import FedProxNNWithGlobalScaler
 from TabNet.model import TabNetRegressor, TabNetConfig
 import TabNet.client.client_params as P
 
-# se nel tuo progetto esiste dataset/dataset_cfg.py, questo resta uguale
 from dataset.dataset_cfg import get_train_path, get_test_path
 
 
@@ -91,8 +90,9 @@ def _predict_real(model: torch.nn.Module, X: np.ndarray, y_mean: float, y_std: f
 
 
 def main():
-    strategy = FedAvgNNWithGlobalScaler(
+    strategy = FedProxNNWithGlobalScaler(
         project_root=PROJECT_ROOT,
+        fedprox_mu=float(P.FEDPROX_MU),
         fraction_fit=FRACTION_FIT,
         fraction_evaluate=FRACTION_EVALUATE,
         min_fit_clients=MIN_FIT_CLIENTS,
@@ -100,7 +100,7 @@ def main():
         min_available_clients=MIN_AVAILABLE_CLIENTS,
     )
 
-    print("Avvio Server Flower (TabNet)...")
+    print("Avvio Server Flower (TabNet) con FedProx...")
     try:
         fl.server.start_server(
             server_address=SERVER_ADDRESS,
@@ -121,7 +121,6 @@ def main():
 
     print(f"Artifacts caricati: n_features={len(global_features)} | y_mean={y_mean:.4f} y_std={y_std:.4f}")
 
-    # ricostruisci TabNet con stessa config
     tabcfg = TabNetConfig(
         n_d=P.TABNET_N_D,
         n_a=P.TABNET_N_A,
@@ -138,7 +137,7 @@ def main():
     # 1) HOLDOUT MAE
     train_dir = Path(get_train_path())
     if 0 <= HOLDOUT_CID <= 8:
-        holdout_path = (BASE_DIR /"../.."/ train_dir / f"group{HOLDOUT_CID}_merged_clean.csv").resolve()
+        holdout_path = (BASE_DIR / "../.." / train_dir / f"group{HOLDOUT_CID}_merged_clean.csv").resolve()
         if holdout_path.exists():
             holdout = pd.read_csv(holdout_path, sep=",")
             if "label" in holdout.columns:
@@ -155,7 +154,7 @@ def main():
             print(f"Holdout non trovato: {holdout_path}")
 
     # 2) PREDICT test Kaggle
-    test_path = (BASE_DIR / "../.."/Path(get_test_path())).resolve()
+    test_path = (BASE_DIR / "../.." / Path(get_test_path())).resolve()
     if not test_path.exists():
         print(f"File test non trovato in {test_path}")
         return

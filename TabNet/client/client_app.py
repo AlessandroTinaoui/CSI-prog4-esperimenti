@@ -1,4 +1,3 @@
-# client_app.py
 from __future__ import annotations
 
 import os
@@ -51,6 +50,11 @@ def set_model_params(model: nn.Module, params: List[np.ndarray]) -> None:
     model.load_state_dict(new_state, strict=True)
 
 
+def get_model_params_tensors(model: nn.Module) -> List[torch.Tensor]:
+    """Copia dei parametri correnti (global) come tensori su device."""
+    return [p.detach().clone() for p in model.parameters()]
+
+
 # ----------------------------
 # Loss
 # ----------------------------
@@ -65,7 +69,7 @@ def make_loss(cfg: Dict) -> nn.Module:
 # ----------------------------
 # Training / eval helpers
 # ----------------------------
-def train_one_client(
+def train_one_client_fedprox(
     model: nn.Module,
     loader: DataLoader,
     epochs: int,
@@ -73,9 +77,18 @@ def train_one_client(
     weight_decay: float,
     device: torch.device,
     loss_fn: nn.Module,
+    mu: float,
+    global_params: List[torch.Tensor],
 ):
+    """
+    FedProx: loss = loss_fn(pred, y) + (mu/2) * ||w - w_global||^2
+    """
     model.train()
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+    mu = float(mu)
+
+    # se mu == 0 -> equivalente a FedAvg (nessuna penalità)
+    use_prox = mu > 0.0 and global_params is not None
 
     for _ in range(int(epochs)):
         for xb, yb in loader:
@@ -83,8 +96,18 @@ def train_one_client(
             yb = yb.to(device)
 
             opt.zero_grad(set_to_none=True)
+
             pred = model(xb)
-            loss = loss_fn(pred, yb)
+            base_loss = loss_fn(pred, yb)
+
+            if use_prox:
+                prox = 0.0
+                for p, p0 in zip(model.parameters(), global_params):
+                    prox = prox + torch.sum((p - p0) ** 2)
+                loss = base_loss + 0.5 * mu * prox
+            else:
+                loss = base_loss
+
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             opt.step()
@@ -106,21 +129,18 @@ def eval_real_mae(
         pred_norm = model(xb).detach().cpu().numpy()
 
     pred = pred_norm * y_std + y_mean
-    pred = np.clip(pred, clip_min, clip_max)
+    # Se vuoi (come hai visto) MAE più realistica e meno "penalizzata",
+    # puoi lasciare NON clippato.
+    # pred = np.clip(pred, clip_min, clip_max)
     return float(mean_absolute_error(y_real, pred))
 
 
 # ----------------------------
 # Batch size "dinamica intelligente"
-# 1) cap su len(ds)
-# 2) >=2 (BatchNorm training richiede almeno 2)
-# 3) prova a evitare resto=1 riducendo bs finché possibile
 # ----------------------------
 def choose_smart_batch_size(n_samples: int, cfg_bs: int) -> int:
     if n_samples <= 0:
         return 2
-
-    # caso estremo: un solo sample
     if n_samples == 1:
         return 2
 
@@ -128,12 +148,9 @@ def choose_smart_batch_size(n_samples: int, cfg_bs: int) -> int:
     bs = max(bs, 2)
     bs = min(bs, n_samples)
 
-    # se bs == n_samples -> un singolo batch, ok (n_samples>=2)
     if bs == n_samples:
         return bs
 
-    # Evita resto=1: se n_samples % bs == 1, prova a ridurre bs
-    # per trovare un valore che non produca resto 1, senza scendere sotto 2.
     if n_samples % bs == 1:
         candidate = bs
         while candidate > 2 and (n_samples % candidate == 1):
@@ -145,8 +162,6 @@ def choose_smart_batch_size(n_samples: int, cfg_bs: int) -> int:
 
 # ----------------------------
 # Batch sampler "zero data loss"
-# Se l'ultimo batch ha size=1, lo unisce al batch precedente.
-# (Quindi non c'è mai un forward con batch=1)
 # ----------------------------
 class MinTwoBatchSampler(Sampler[List[int]]):
     def __init__(self, data_source, batch_size: int, shuffle: bool = True):
@@ -159,7 +174,6 @@ class MinTwoBatchSampler(Sampler[List[int]]):
         if n == 0:
             return iter([])
 
-        # Caso estremo: n==1, duplichiamo l'unico indice
         if n == 1:
             return iter([[0, 0]])
 
@@ -177,12 +191,10 @@ class MinTwoBatchSampler(Sampler[List[int]]):
         if len(batch) > 0:
             batches.append(batch)
 
-        # Se ultimo batch size=1, unisci al penultimo (zero data loss)
         if len(batches) >= 2 and len(batches[-1]) == 1:
             batches[-2].extend(batches[-1])
             batches.pop()
 
-        # Paracadute: se rimane comunque un batch di 1 (caso raro), duplicalo
         if len(batches) == 1 and len(batches[0]) == 1:
             batches[0].append(batches[0][0])
 
@@ -288,6 +300,8 @@ class NNClient(NumPyClient):
         if y_std <= 1e-12:
             y_std = 1.0
 
+        fedprox_mu = float(config.get("fedprox_mu", 0.0))
+
         self.global_features = list(gf)
         self.scaler = ScalerStats(mean=mean, std=std)
 
@@ -300,6 +314,9 @@ class NNClient(NumPyClient):
 
         if parameters and len(parameters) > 0:
             set_model_params(self.model, parameters)
+
+        # salva snapshot dei parametri globali (per prox)
+        global_params_tensors = get_model_params_tensors(self.model)
 
         ytr_norm = (self.y_train - y_mean) / y_std
 
@@ -316,12 +333,12 @@ class NNClient(NumPyClient):
 
         self.logger.info(
             f"Train samples={len(ds)} | cfg_bs={cfg_bs} | smart_bs={smart_bs} | "
-            f"epochs={int(self.cfg['LOCAL_EPOCHS'])}"
+            f"epochs={int(self.cfg['LOCAL_EPOCHS'])} | fedprox_mu={fedprox_mu}"
         )
 
         loss_fn = make_loss(self.cfg)
 
-        train_one_client(
+        train_one_client_fedprox(
             self.model,
             loader,
             epochs=int(self.cfg["LOCAL_EPOCHS"]),
@@ -329,6 +346,8 @@ class NNClient(NumPyClient):
             weight_decay=float(self.cfg["WEIGHT_DECAY"]),
             device=self.device,
             loss_fn=loss_fn,
+            mu=fedprox_mu,
+            global_params=global_params_tensors,
         )
 
         mae_train = eval_real_mae(
@@ -405,6 +424,7 @@ def main():
         "TABNET_BN_MOMENTUM": P.TABNET_BN_MOMENTUM,
         "LOSS_NAME": P.LOSS_NAME,
         "HUBER_BETA": P.HUBER_BETA,
+        "FEDPROX_MU": P.FEDPROX_MU,
     }
 
     client = NNClient(client_id, data_path, cfg)

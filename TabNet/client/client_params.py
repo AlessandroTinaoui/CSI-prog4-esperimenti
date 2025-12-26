@@ -6,13 +6,17 @@ CLIP_MAX = 100.0
 
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
-SHUFFLE_SPLIT = False
+SHUFFLE_SPLIT = True
 
 # --- TRAINING ---
-LOCAL_EPOCHS = 8
+LOCAL_EPOCHS = 2
 BATCH_SIZE = 32
 LR = 1e-3
 WEIGHT_DECAY = 1e-5
+
+# FedProx: forza il modello locale a non allontanarsi troppo dal globale.
+# Tipici valori: 0.001, 0.01, 0.05, 0.1
+FEDPROX_MU = 0.01
 
 # --- TABNET ARCH ---
 TABNET_N_D = 24
