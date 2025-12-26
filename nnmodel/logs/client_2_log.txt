@@ -1,6 +1,0 @@
-2025-12-24 16:03:10,770 - Loaded /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/nnmodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group2_merged_clean.csv | X_train=(76, 91), X_test=(20, 91)
-2025-12-24 16:03:13,278 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
-2025-12-24 16:04:45,823 - Loaded /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/nnmodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group2_merged_clean.csv | X_train=(76, 91), X_test=(20, 91)
-2025-12-24 16:04:48,349 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
-2025-12-24 16:07:25,964 - Loaded /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/nnmodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group2_merged_clean.csv | X_train=(76, 91), X_test=(20, 91)
-2025-12-24 16:07:28,381 - Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq
