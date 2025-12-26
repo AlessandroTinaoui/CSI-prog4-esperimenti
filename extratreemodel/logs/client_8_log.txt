@@ -1,0 +1,44 @@
+2025-12-22 15:14:47,610 - Loaded CSV: /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/extratreemodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group8_merged_clean.csv
+2025-12-22 15:14:47,610 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 15:14:47,633 - Round 1: FEATURE SELECTION.
+2025-12-22 15:14:48,873 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:16:03,780 - Loaded CSV: /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/extratreemodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group8_merged_clean.csv
+2025-12-22 15:16:03,780 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 15:16:03,796 - Round 1: FEATURE SELECTION.
+2025-12-22 15:16:05,005 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:17:03,407 - Loaded CSV: /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/extratreemodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group8_merged_clean.csv
+2025-12-22 15:17:03,408 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 15:17:03,422 - Round 1: FEATURE SELECTION.
+2025-12-22 15:17:04,750 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:17:05,892 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:17:06,783 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:17:07,572 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:17:08,285 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:17:09,153 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:17:10,085 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:17:10,699 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:17:11,779 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:33:43,374 - Loaded CSV: /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/extratreemodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group8_merged_clean.csv
+2025-12-22 15:33:43,375 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 15:33:43,402 - Round 1: FEATURE SELECTION.
+2025-12-22 15:33:44,277 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:33:45,207 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:33:45,694 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:33:46,221 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:33:46,881 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:33:47,465 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:33:47,932 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:33:48,446 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:33:49,045 - Errore evaluate: No module named 'strategy'
+2025-12-22 15:56:21,254 - Loaded CSV: /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/extratreemodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group8_merged_clean.csv
+2025-12-22 15:56:21,254 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 15:56:21,279 - Round 1: FEATURE SELECTION.
+2025-12-22 16:01:14,769 - Loaded CSV: /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/extratreemodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group8_merged_clean.csv
+2025-12-22 16:01:14,769 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 16:01:14,787 - Round 1: FEATURE SELECTION.
+2025-12-22 16:04:34,760 - Loaded CSV: /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/extratreemodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group8_merged_clean.csv
+2025-12-22 16:04:34,760 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 16:04:34,786 - Round 1: FEATURE SELECTION.
+2025-12-22 16:08:58,362 - Loaded CSV: /Users/giovanniscirocco/PycharmProjects/CSI-prog4-esperimenti/extratreemodel/client/../../dataset/new_preprocessed_dataset/clients_dataset/group8_merged_clean.csv
+2025-12-22 16:08:58,362 - X_full shape=(122, 91), y_full shape=(122,)
+2025-12-22 16:08:58,378 - Round 1: FEATURE SELECTION.

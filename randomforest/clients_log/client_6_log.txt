@@ -1,0 +1,1335 @@
+2025-12-22 13:53:37,647 - Columns in dataset: ['day', 'label', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file']
+2025-12-22 13:53:37,659 - First few rows:
+   day  label  ...  user_id                source_file
+0    0     84  ...       15  dataset_user_15_train.csv
+1    0     61  ...       24  dataset_user_24_train.csv
+2    0     39  ...       42  dataset_user_42_train.csv
+3    1     79  ...       15  dataset_user_15_train.csv
+4    1     73  ...       24  dataset_user_24_train.csv
+
+[5 rows x 18 columns]
+2025-12-22 13:54:40,293 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:40,295 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:40,449 - Model trained. Training MAE: 4.7085
+2025-12-22 13:54:40,496 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 13:54:40,506 - Model evaluation: MAE = 12.3599
+2025-12-22 13:54:40,508 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:40,508 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:40,632 - Model trained. Training MAE: 4.7085
+2025-12-22 13:54:41,150 - Model evaluation: MAE = 12.1142
+2025-12-22 13:54:41,202 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:41,203 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:41,427 - Model trained. Training MAE: 8.2391
+2025-12-22 13:54:41,984 - Model evaluation: MAE = 12.1745
+2025-12-22 13:54:42,067 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:42,068 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:42,339 - Model trained. Training MAE: 8.2318
+2025-12-22 13:54:42,889 - Model evaluation: MAE = 12.1287
+2025-12-22 13:54:42,992 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:42,992 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:43,236 - Model trained. Training MAE: 8.2166
+2025-12-22 13:54:43,747 - Model evaluation: MAE = 12.0845
+2025-12-22 13:54:43,829 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:43,830 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:44,124 - Model trained. Training MAE: 8.3005
+2025-12-22 13:54:44,589 - Model evaluation: MAE = 12.2199
+2025-12-22 13:54:44,698 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:44,699 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:44,928 - Model trained. Training MAE: 8.3119
+2025-12-22 13:54:45,508 - Model evaluation: MAE = 12.3245
+2025-12-22 13:54:45,571 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:45,572 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:45,911 - Model trained. Training MAE: 8.3502
+2025-12-22 13:54:46,375 - Model evaluation: MAE = 12.2738
+2025-12-22 13:54:46,451 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:46,451 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:46,732 - Model trained. Training MAE: 8.4155
+2025-12-22 13:54:47,202 - Model evaluation: MAE = 12.2500
+2025-12-22 13:54:47,301 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:54:47,302 - Training the model (Round >=2) - warm start...
+2025-12-22 13:54:47,609 - Model trained. Training MAE: 8.3650
+2025-12-22 13:54:48,166 - Model evaluation: MAE = 12.2712
+2025-12-22 13:58:26,477 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 13:58:26,511 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 13:58:26,613 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:26,614 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:26,636 - Model trained. Training MAE: 4.8695
+2025-12-22 13:58:26,667 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 13:58:26,668 - Model evaluation: MAE = 19.2500
+2025-12-22 13:58:26,670 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:26,671 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:26,686 - Model trained. Training MAE: 4.8695
+2025-12-22 13:58:26,800 - Model evaluation: MAE = 13.8625
+2025-12-22 13:58:26,804 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:26,805 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:26,819 - Model trained. Training MAE: 7.9177
+2025-12-22 13:58:26,956 - Model evaluation: MAE = 13.8542
+2025-12-22 13:58:27,027 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:27,028 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:27,117 - Model trained. Training MAE: 8.3297
+2025-12-22 13:58:27,849 - Model evaluation: MAE = 13.8227
+2025-12-22 13:58:27,943 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:27,944 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:28,182 - Model trained. Training MAE: 8.3745
+2025-12-22 13:58:28,906 - Model evaluation: MAE = 13.8857
+2025-12-22 13:58:29,077 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:29,078 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:29,257 - Model trained. Training MAE: 8.3808
+2025-12-22 13:58:29,941 - Model evaluation: MAE = 14.2265
+2025-12-22 13:58:30,045 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:30,046 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:30,203 - Model trained. Training MAE: 8.3363
+2025-12-22 13:58:30,988 - Model evaluation: MAE = 14.6875
+2025-12-22 13:58:31,273 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:31,276 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:31,464 - Model trained. Training MAE: 8.2735
+2025-12-22 13:58:32,077 - Model evaluation: MAE = 14.6550
+2025-12-22 13:58:32,222 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:32,222 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:32,430 - Model trained. Training MAE: 8.4140
+2025-12-22 13:58:33,006 - Model evaluation: MAE = 14.9333
+2025-12-22 13:58:33,070 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:33,071 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:33,235 - Model trained. Training MAE: 8.3909
+2025-12-22 13:58:33,927 - Model evaluation: MAE = 14.6833
+2025-12-22 13:58:33,960 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:33,961 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:34,136 - Model trained. Training MAE: 8.4030
+2025-12-22 13:58:34,830 - Model evaluation: MAE = 14.3595
+2025-12-22 13:58:34,911 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:34,911 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:35,085 - Model trained. Training MAE: 8.4231
+2025-12-22 13:58:35,873 - Model evaluation: MAE = 14.1425
+2025-12-22 13:58:36,062 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:36,063 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:36,237 - Model trained. Training MAE: 8.5032
+2025-12-22 13:58:36,792 - Model evaluation: MAE = 14.1793
+2025-12-22 13:58:36,912 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:36,913 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:37,069 - Model trained. Training MAE: 8.5122
+2025-12-22 13:58:37,727 - Model evaluation: MAE = 14.6145
+2025-12-22 13:58:37,870 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:37,871 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:38,069 - Model trained. Training MAE: 8.4973
+2025-12-22 13:58:38,663 - Model evaluation: MAE = 14.6627
+2025-12-22 13:58:38,852 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:38,852 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:39,023 - Model trained. Training MAE: 8.5018
+2025-12-22 13:58:39,673 - Model evaluation: MAE = 14.5755
+2025-12-22 13:58:39,786 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:39,786 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:39,959 - Model trained. Training MAE: 8.4659
+2025-12-22 13:58:40,512 - Model evaluation: MAE = 14.7795
+2025-12-22 13:58:40,724 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:40,725 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:40,917 - Model trained. Training MAE: 8.4649
+2025-12-22 13:58:41,511 - Model evaluation: MAE = 15.0868
+2025-12-22 13:58:41,669 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:41,670 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:41,847 - Model trained. Training MAE: 8.4474
+2025-12-22 13:58:42,434 - Model evaluation: MAE = 15.1860
+2025-12-22 13:58:42,546 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 13:58:42,546 - Training the model (Round >=2) - warm start...
+2025-12-22 13:58:42,780 - Model trained. Training MAE: 8.4911
+2025-12-22 13:58:43,404 - Model evaluation: MAE = 15.1520
+2025-12-22 14:00:28,670 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file']
+2025-12-22 14:00:28,683 - First few rows:
+   day  label  hr_maxHeartRate  ...  client_id  user_id                source_file
+0    0     84              138  ...     group6       15  dataset_user_15_train.csv
+1    0     61              123  ...     group6       24  dataset_user_24_train.csv
+2    0     39              166  ...     group6       42  dataset_user_42_train.csv
+3    1     79              113  ...     group6       15  dataset_user_15_train.csv
+4    1     73              133  ...     group6       24  dataset_user_24_train.csv
+
+[5 rows x 19 columns]
+2025-12-22 14:01:16,560 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file']
+2025-12-22 14:01:16,570 - First few rows:
+   day  label  hr_maxHeartRate  ...  client_id  user_id                source_file
+0    0     84              138  ...     group6       15  dataset_user_15_train.csv
+1    0     61              123  ...     group6       24  dataset_user_24_train.csv
+2    0     39              166  ...     group6       42  dataset_user_42_train.csv
+3    1     79              113  ...     group6       15  dataset_user_15_train.csv
+4    1     73              133  ...     group6       24  dataset_user_24_train.csv
+
+[5 rows x 19 columns]
+2025-12-22 14:02:19,174 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:19,176 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:19,204 - Model trained. Training MAE: 5.2343
+2025-12-22 14:02:19,213 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:02:19,215 - Model evaluation: MAE = 16.9500
+2025-12-22 14:02:19,216 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:19,216 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:19,223 - Model trained. Training MAE: 5.2343
+2025-12-22 14:02:19,332 - Model evaluation: MAE = 14.8575
+2025-12-22 14:02:19,347 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:19,349 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:19,364 - Model trained. Training MAE: 8.8298
+2025-12-22 14:02:19,520 - Model evaluation: MAE = 14.8601
+2025-12-22 14:02:19,646 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:19,647 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:19,696 - Model trained. Training MAE: 9.3284
+2025-12-22 14:02:20,433 - Model evaluation: MAE = 15.3308
+2025-12-22 14:02:20,612 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:20,613 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:20,791 - Model trained. Training MAE: 9.3501
+2025-12-22 14:02:21,534 - Model evaluation: MAE = 15.1563
+2025-12-22 14:02:21,570 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:21,570 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:21,718 - Model trained. Training MAE: 9.3247
+2025-12-22 14:02:22,427 - Model evaluation: MAE = 15.1777
+2025-12-22 14:02:22,570 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:22,570 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:22,746 - Model trained. Training MAE: 9.2752
+2025-12-22 14:02:23,276 - Model evaluation: MAE = 15.2713
+2025-12-22 14:02:23,424 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:23,424 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:23,556 - Model trained. Training MAE: 9.3094
+2025-12-22 14:02:24,256 - Model evaluation: MAE = 15.0892
+2025-12-22 14:02:24,333 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:24,334 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:24,481 - Model trained. Training MAE: 9.4062
+2025-12-22 14:02:25,144 - Model evaluation: MAE = 14.9046
+2025-12-22 14:02:25,317 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:25,317 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:25,470 - Model trained. Training MAE: 9.3707
+2025-12-22 14:02:26,068 - Model evaluation: MAE = 14.9222
+2025-12-22 14:02:26,163 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:26,164 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:26,309 - Model trained. Training MAE: 9.3746
+2025-12-22 14:02:26,953 - Model evaluation: MAE = 14.6706
+2025-12-22 14:02:26,997 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:26,997 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:27,195 - Model trained. Training MAE: 9.3320
+2025-12-22 14:02:27,888 - Model evaluation: MAE = 14.7319
+2025-12-22 14:02:28,000 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:28,001 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:28,184 - Model trained. Training MAE: 9.3345
+2025-12-22 14:02:28,739 - Model evaluation: MAE = 15.0076
+2025-12-22 14:02:28,909 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:28,909 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:29,078 - Model trained. Training MAE: 9.3419
+2025-12-22 14:02:29,607 - Model evaluation: MAE = 15.0772
+2025-12-22 14:02:29,753 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:29,754 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:29,945 - Model trained. Training MAE: 9.3331
+2025-12-22 14:02:30,546 - Model evaluation: MAE = 15.3020
+2025-12-22 14:02:30,744 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:30,744 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:30,932 - Model trained. Training MAE: 9.3968
+2025-12-22 14:02:31,510 - Model evaluation: MAE = 15.0750
+2025-12-22 14:02:31,661 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:31,662 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:31,825 - Model trained. Training MAE: 9.4582
+2025-12-22 14:02:32,382 - Model evaluation: MAE = 15.0867
+2025-12-22 14:02:32,511 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:32,512 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:32,641 - Model trained. Training MAE: 9.4183
+2025-12-22 14:02:33,307 - Model evaluation: MAE = 15.0928
+2025-12-22 14:02:33,382 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:33,383 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:33,503 - Model trained. Training MAE: 9.4029
+2025-12-22 14:02:34,234 - Model evaluation: MAE = 14.9522
+2025-12-22 14:02:34,326 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:02:34,326 - Training the model (Round >=2) - warm start...
+2025-12-22 14:02:34,577 - Model trained. Training MAE: 9.4262
+2025-12-22 14:02:35,234 - Model evaluation: MAE = 15.1513
+2025-12-22 14:03:13,516 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file']
+2025-12-22 14:03:13,525 - First few rows:
+   day  label  hr_maxHeartRate  ...  client_id  user_id                source_file
+0    0     84              138  ...     group6       15  dataset_user_15_train.csv
+1    0     61              123  ...     group6       24  dataset_user_24_train.csv
+2    0     39              166  ...     group6       42  dataset_user_42_train.csv
+3    1     79              113  ...     group6       15  dataset_user_15_train.csv
+4    1     73              133  ...     group6       24  dataset_user_24_train.csv
+
+[5 rows x 19 columns]
+2025-12-22 14:03:13,579 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:13,580 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:13,593 - Model trained. Training MAE: 5.2343
+2025-12-22 14:03:13,605 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:03:13,607 - Model evaluation: MAE = 16.9500
+2025-12-22 14:03:13,613 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:13,613 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:13,624 - Model trained. Training MAE: 5.2343
+2025-12-22 14:03:13,729 - Model evaluation: MAE = 14.8575
+2025-12-22 14:03:13,738 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:13,738 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:13,748 - Model trained. Training MAE: 8.8298
+2025-12-22 14:03:13,862 - Model evaluation: MAE = 14.8601
+2025-12-22 14:03:13,890 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:13,891 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:13,958 - Model trained. Training MAE: 9.3284
+2025-12-22 14:03:14,649 - Model evaluation: MAE = 14.9360
+2025-12-22 14:03:14,887 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:14,889 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:15,131 - Model trained. Training MAE: 9.3695
+2025-12-22 14:03:15,775 - Model evaluation: MAE = 14.3798
+2025-12-22 14:03:15,946 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:15,947 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:16,127 - Model trained. Training MAE: 9.2903
+2025-12-22 14:03:16,765 - Model evaluation: MAE = 14.4534
+2025-12-22 14:03:16,955 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:16,955 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:17,139 - Model trained. Training MAE: 9.2574
+2025-12-22 14:03:17,856 - Model evaluation: MAE = 14.9909
+2025-12-22 14:03:17,905 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:17,905 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:18,059 - Model trained. Training MAE: 9.1902
+2025-12-22 14:03:18,840 - Model evaluation: MAE = 15.0847
+2025-12-22 14:03:18,984 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:18,984 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:19,142 - Model trained. Training MAE: 9.2917
+2025-12-22 14:03:19,786 - Model evaluation: MAE = 14.9421
+2025-12-22 14:03:19,816 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:19,817 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:19,950 - Model trained. Training MAE: 9.2858
+2025-12-22 14:03:20,628 - Model evaluation: MAE = 14.9965
+2025-12-22 14:03:20,725 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:20,725 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:20,866 - Model trained. Training MAE: 9.2751
+2025-12-22 14:03:21,513 - Model evaluation: MAE = 15.5435
+2025-12-22 14:03:21,587 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:21,587 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:21,711 - Model trained. Training MAE: 9.2482
+2025-12-22 14:03:22,555 - Model evaluation: MAE = 15.2525
+2025-12-22 14:03:22,635 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:22,636 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:22,815 - Model trained. Training MAE: 9.3507
+2025-12-22 14:03:23,494 - Model evaluation: MAE = 15.2225
+2025-12-22 14:03:23,642 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:23,642 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:23,796 - Model trained. Training MAE: 9.3683
+2025-12-22 14:03:24,308 - Model evaluation: MAE = 15.1613
+2025-12-22 14:03:24,500 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:24,501 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:24,698 - Model trained. Training MAE: 9.2929
+2025-12-22 14:03:25,286 - Model evaluation: MAE = 15.1746
+2025-12-22 14:03:25,368 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:25,368 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:25,544 - Model trained. Training MAE: 9.1736
+2025-12-22 14:03:26,222 - Model evaluation: MAE = 15.2756
+2025-12-22 14:03:26,344 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:26,345 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:26,511 - Model trained. Training MAE: 9.2155
+2025-12-22 14:03:27,100 - Model evaluation: MAE = 15.2070
+2025-12-22 14:03:27,237 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:27,237 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:27,376 - Model trained. Training MAE: 9.1785
+2025-12-22 14:03:28,021 - Model evaluation: MAE = 15.4504
+2025-12-22 14:03:28,067 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:28,067 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:28,199 - Model trained. Training MAE: 9.1434
+2025-12-22 14:03:28,902 - Model evaluation: MAE = 15.0556
+2025-12-22 14:03:28,987 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:28,988 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:29,204 - Model trained. Training MAE: 9.0731
+2025-12-22 14:03:29,859 - Model evaluation: MAE = 14.7220
+2025-12-22 14:03:45,126 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file']
+2025-12-22 14:03:45,132 - First few rows:
+   day  label  hr_maxHeartRate  ...  client_id  user_id                source_file
+0    0     84              138  ...     group6       15  dataset_user_15_train.csv
+1    0     61              123  ...     group6       24  dataset_user_24_train.csv
+2    0     39              166  ...     group6       42  dataset_user_42_train.csv
+3    1     79              113  ...     group6       15  dataset_user_15_train.csv
+4    1     73              133  ...     group6       24  dataset_user_24_train.csv
+
+[5 rows x 19 columns]
+2025-12-22 14:03:45,147 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:45,148 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:45,169 - Model trained. Training MAE: 5.2343
+2025-12-22 14:03:45,171 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:03:45,173 - Model evaluation: MAE = 16.9500
+2025-12-22 14:03:45,177 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:45,177 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:45,191 - Model trained. Training MAE: 5.2343
+2025-12-22 14:03:45,287 - Model evaluation: MAE = 14.8575
+2025-12-22 14:03:45,304 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:45,305 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:45,318 - Model trained. Training MAE: 8.8298
+2025-12-22 14:03:45,436 - Model evaluation: MAE = 14.8601
+2025-12-22 14:03:45,453 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:45,453 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:45,518 - Model trained. Training MAE: 9.3284
+2025-12-22 14:03:46,189 - Model evaluation: MAE = 15.1167
+2025-12-22 14:03:46,357 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:46,358 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:46,504 - Model trained. Training MAE: 9.3897
+2025-12-22 14:03:47,266 - Model evaluation: MAE = 15.1223
+2025-12-22 14:03:47,396 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:47,397 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:47,560 - Model trained. Training MAE: 9.4286
+2025-12-22 14:03:48,236 - Model evaluation: MAE = 15.1026
+2025-12-22 14:03:48,349 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:48,350 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:48,486 - Model trained. Training MAE: 9.4118
+2025-12-22 14:03:49,207 - Model evaluation: MAE = 14.8867
+2025-12-22 14:03:49,252 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:49,252 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:49,411 - Model trained. Training MAE: 9.4123
+2025-12-22 14:03:50,129 - Model evaluation: MAE = 14.7808
+2025-12-22 14:03:50,244 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:50,245 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:50,391 - Model trained. Training MAE: 9.4986
+2025-12-22 14:03:50,991 - Model evaluation: MAE = 14.5197
+2025-12-22 14:03:51,106 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:51,107 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:51,265 - Model trained. Training MAE: 9.4801
+2025-12-22 14:03:51,798 - Model evaluation: MAE = 14.6379
+2025-12-22 14:03:52,004 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:52,004 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:52,163 - Model trained. Training MAE: 9.5144
+2025-12-22 14:03:52,738 - Model evaluation: MAE = 15.0516
+2025-12-22 14:03:52,925 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:52,925 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:53,108 - Model trained. Training MAE: 9.4167
+2025-12-22 14:03:53,679 - Model evaluation: MAE = 14.9835
+2025-12-22 14:03:53,840 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:53,840 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:53,990 - Model trained. Training MAE: 9.4700
+2025-12-22 14:03:54,649 - Model evaluation: MAE = 15.4312
+2025-12-22 14:03:54,710 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:54,711 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:54,843 - Model trained. Training MAE: 9.5445
+2025-12-22 14:03:55,555 - Model evaluation: MAE = 15.0749
+2025-12-22 14:03:55,689 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:55,689 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:55,863 - Model trained. Training MAE: 9.5073
+2025-12-22 14:03:56,439 - Model evaluation: MAE = 14.9150
+2025-12-22 14:03:56,497 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:56,498 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:56,628 - Model trained. Training MAE: 9.4341
+2025-12-22 14:03:57,306 - Model evaluation: MAE = 15.0989
+2025-12-22 14:03:57,368 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:57,368 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:57,520 - Model trained. Training MAE: 9.4818
+2025-12-22 14:03:58,246 - Model evaluation: MAE = 15.2046
+2025-12-22 14:03:58,288 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:58,289 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:58,437 - Model trained. Training MAE: 9.4039
+2025-12-22 14:03:59,074 - Model evaluation: MAE = 15.1258
+2025-12-22 14:03:59,180 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:03:59,180 - Training the model (Round >=2) - warm start...
+2025-12-22 14:03:59,316 - Model trained. Training MAE: 9.3809
+2025-12-22 14:04:00,024 - Model evaluation: MAE = 14.9953
+2025-12-22 14:04:00,056 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:04:00,056 - Training the model (Round >=2) - warm start...
+2025-12-22 14:04:00,340 - Model trained. Training MAE: 9.3976
+2025-12-22 14:04:01,013 - Model evaluation: MAE = 14.9774
+2025-12-22 14:06:45,676 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 14:06:45,701 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 14:07:48,342 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:48,344 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:48,373 - Model trained. Training MAE: 4.8695
+2025-12-22 14:07:48,389 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:07:48,392 - Model evaluation: MAE = 19.2500
+2025-12-22 14:07:48,393 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:48,394 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:48,408 - Model trained. Training MAE: 4.8695
+2025-12-22 14:07:48,509 - Model evaluation: MAE = 13.8625
+2025-12-22 14:07:48,521 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:48,521 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:48,542 - Model trained. Training MAE: 7.9177
+2025-12-22 14:07:48,673 - Model evaluation: MAE = 13.8542
+2025-12-22 14:07:48,712 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:48,713 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:48,803 - Model trained. Training MAE: 8.3297
+2025-12-22 14:07:49,401 - Model evaluation: MAE = 13.7060
+2025-12-22 14:07:49,529 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:49,530 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:49,705 - Model trained. Training MAE: 8.3290
+2025-12-22 14:07:50,435 - Model evaluation: MAE = 13.6868
+2025-12-22 14:07:50,472 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:50,472 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:50,613 - Model trained. Training MAE: 8.3100
+2025-12-22 14:07:51,371 - Model evaluation: MAE = 13.7918
+2025-12-22 14:07:51,524 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:51,524 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:51,692 - Model trained. Training MAE: 8.2733
+2025-12-22 14:07:52,273 - Model evaluation: MAE = 13.2645
+2025-12-22 14:07:52,300 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:52,300 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:52,445 - Model trained. Training MAE: 8.3716
+2025-12-22 14:07:53,147 - Model evaluation: MAE = 13.3335
+2025-12-22 14:07:53,301 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:53,301 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:53,447 - Model trained. Training MAE: 8.3570
+2025-12-22 14:07:53,945 - Model evaluation: MAE = 13.0933
+2025-12-22 14:07:54,052 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:54,052 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:54,196 - Model trained. Training MAE: 8.3670
+2025-12-22 14:07:54,862 - Model evaluation: MAE = 12.9710
+2025-12-22 14:07:55,042 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:55,043 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:55,179 - Model trained. Training MAE: 8.4436
+2025-12-22 14:07:55,798 - Model evaluation: MAE = 12.9487
+2025-12-22 14:07:55,963 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:55,964 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:56,105 - Model trained. Training MAE: 8.3895
+2025-12-22 14:07:56,738 - Model evaluation: MAE = 13.0857
+2025-12-22 14:07:56,812 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:56,813 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:56,957 - Model trained. Training MAE: 8.3995
+2025-12-22 14:07:57,619 - Model evaluation: MAE = 13.1480
+2025-12-22 14:07:57,685 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:57,685 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:57,847 - Model trained. Training MAE: 8.3536
+2025-12-22 14:07:58,512 - Model evaluation: MAE = 13.2000
+2025-12-22 14:07:58,581 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:58,582 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:58,760 - Model trained. Training MAE: 8.4100
+2025-12-22 14:07:59,440 - Model evaluation: MAE = 13.4967
+2025-12-22 14:07:59,522 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:07:59,523 - Training the model (Round >=2) - warm start...
+2025-12-22 14:07:59,680 - Model trained. Training MAE: 8.3501
+2025-12-22 14:08:00,361 - Model evaluation: MAE = 13.3410
+2025-12-22 14:08:00,477 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:08:00,478 - Training the model (Round >=2) - warm start...
+2025-12-22 14:08:00,659 - Model trained. Training MAE: 8.4266
+2025-12-22 14:08:01,321 - Model evaluation: MAE = 12.7332
+2025-12-22 14:08:01,473 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:08:01,473 - Training the model (Round >=2) - warm start...
+2025-12-22 14:08:01,609 - Model trained. Training MAE: 8.4422
+2025-12-22 14:08:02,328 - Model evaluation: MAE = 12.6838
+2025-12-22 14:08:02,423 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:08:02,423 - Training the model (Round >=2) - warm start...
+2025-12-22 14:08:02,597 - Model trained. Training MAE: 8.4433
+2025-12-22 14:08:03,233 - Model evaluation: MAE = 12.8597
+2025-12-22 14:08:03,413 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:08:03,414 - Training the model (Round >=2) - warm start...
+2025-12-22 14:08:03,641 - Model trained. Training MAE: 8.4373
+2025-12-22 14:08:04,216 - Model evaluation: MAE = 12.7985
+2025-12-22 14:09:15,320 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 14:09:15,349 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 14:09:15,416 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:15,417 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:15,436 - Model trained. Training MAE: 4.8695
+2025-12-22 14:09:15,487 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:09:15,489 - Model evaluation: MAE = 19.2500
+2025-12-22 14:09:15,491 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:15,492 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:15,509 - Model trained. Training MAE: 4.8695
+2025-12-22 14:09:15,607 - Model evaluation: MAE = 13.2069
+2025-12-22 14:09:15,612 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:15,612 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:15,637 - Model trained. Training MAE: 8.1275
+2025-12-22 14:09:15,747 - Model evaluation: MAE = 13.2666
+2025-12-22 14:09:15,794 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:15,794 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:15,864 - Model trained. Training MAE: 8.5595
+2025-12-22 14:09:16,420 - Model evaluation: MAE = 13.0888
+2025-12-22 14:09:16,523 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:16,524 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:16,699 - Model trained. Training MAE: 8.6512
+2025-12-22 14:09:17,386 - Model evaluation: MAE = 13.2707
+2025-12-22 14:09:17,486 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:17,487 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:17,658 - Model trained. Training MAE: 8.5757
+2025-12-22 14:09:18,359 - Model evaluation: MAE = 13.2414
+2025-12-22 14:09:18,488 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:18,488 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:18,642 - Model trained. Training MAE: 8.5217
+2025-12-22 14:09:19,279 - Model evaluation: MAE = 13.1067
+2025-12-22 14:09:19,424 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:19,425 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:19,560 - Model trained. Training MAE: 8.4572
+2025-12-22 14:09:20,271 - Model evaluation: MAE = 13.0691
+2025-12-22 14:09:20,347 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:20,347 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:20,509 - Model trained. Training MAE: 8.5273
+2025-12-22 14:09:21,116 - Model evaluation: MAE = 13.2386
+2025-12-22 14:09:21,284 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:21,285 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:21,439 - Model trained. Training MAE: 8.5797
+2025-12-22 14:09:21,993 - Model evaluation: MAE = 12.9647
+2025-12-22 14:09:22,133 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:22,134 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:22,313 - Model trained. Training MAE: 8.5503
+2025-12-22 14:09:22,853 - Model evaluation: MAE = 13.1009
+2025-12-22 14:09:23,018 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:23,018 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:23,179 - Model trained. Training MAE: 8.4892
+2025-12-22 14:09:23,840 - Model evaluation: MAE = 12.8404
+2025-12-22 14:09:23,947 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:23,948 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:24,113 - Model trained. Training MAE: 8.5699
+2025-12-22 14:09:24,695 - Model evaluation: MAE = 12.5074
+2025-12-22 14:09:24,777 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:24,777 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:24,921 - Model trained. Training MAE: 8.6797
+2025-12-22 14:09:25,511 - Model evaluation: MAE = 12.4330
+2025-12-22 14:09:25,724 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:25,725 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:25,868 - Model trained. Training MAE: 8.7115
+2025-12-22 14:09:26,476 - Model evaluation: MAE = 12.6762
+2025-12-22 14:09:26,519 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:26,520 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:26,690 - Model trained. Training MAE: 8.5367
+2025-12-22 14:09:27,323 - Model evaluation: MAE = 13.0571
+2025-12-22 14:09:27,405 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:27,406 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:27,604 - Model trained. Training MAE: 8.5437
+2025-12-22 14:09:28,237 - Model evaluation: MAE = 13.3106
+2025-12-22 14:09:28,295 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:28,295 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:28,454 - Model trained. Training MAE: 8.4981
+2025-12-22 14:09:29,104 - Model evaluation: MAE = 13.4903
+2025-12-22 14:09:29,255 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:29,255 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:29,408 - Model trained. Training MAE: 8.4550
+2025-12-22 14:09:29,957 - Model evaluation: MAE = 13.1746
+2025-12-22 14:09:30,080 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:30,080 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:30,322 - Model trained. Training MAE: 8.4237
+2025-12-22 14:09:31,008 - Model evaluation: MAE = 13.1007
+2025-12-22 14:09:35,577 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 14:09:35,599 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 14:09:35,641 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:35,641 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:35,654 - Model trained. Training MAE: 4.8695
+2025-12-22 14:09:35,675 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:09:35,676 - Model evaluation: MAE = 19.2500
+2025-12-22 14:09:35,678 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:35,679 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:35,690 - Model trained. Training MAE: 4.8695
+2025-12-22 14:09:35,796 - Model evaluation: MAE = 12.6194
+2025-12-22 14:09:35,806 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:35,806 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:35,829 - Model trained. Training MAE: 8.2372
+2025-12-22 14:09:35,938 - Model evaluation: MAE = 12.6992
+2025-12-22 14:09:35,996 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:35,997 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:36,060 - Model trained. Training MAE: 8.7034
+2025-12-22 14:09:36,545 - Model evaluation: MAE = 12.5663
+2025-12-22 14:09:36,685 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:36,686 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:36,864 - Model trained. Training MAE: 8.7072
+2025-12-22 14:09:37,445 - Model evaluation: MAE = 12.6578
+2025-12-22 14:09:37,590 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:37,590 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:37,741 - Model trained. Training MAE: 8.8250
+2025-12-22 14:09:38,492 - Model evaluation: MAE = 12.2924
+2025-12-22 14:09:38,631 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:38,632 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:38,807 - Model trained. Training MAE: 8.8798
+2025-12-22 14:09:39,443 - Model evaluation: MAE = 11.7744
+2025-12-22 14:09:39,560 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:39,561 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:39,703 - Model trained. Training MAE: 9.0051
+2025-12-22 14:09:40,469 - Model evaluation: MAE = 11.7585
+2025-12-22 14:09:40,595 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:40,596 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:40,753 - Model trained. Training MAE: 8.8567
+2025-12-22 14:09:41,363 - Model evaluation: MAE = 11.4659
+2025-12-22 14:09:41,407 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:41,407 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:41,560 - Model trained. Training MAE: 8.9514
+2025-12-22 14:09:42,201 - Model evaluation: MAE = 11.8325
+2025-12-22 14:09:42,361 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:42,361 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:42,507 - Model trained. Training MAE: 8.9422
+2025-12-22 14:09:43,200 - Model evaluation: MAE = 11.8284
+2025-12-22 14:09:43,262 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:43,262 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:43,444 - Model trained. Training MAE: 9.0190
+2025-12-22 14:09:44,221 - Model evaluation: MAE = 11.8009
+2025-12-22 14:09:44,341 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:44,342 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:44,515 - Model trained. Training MAE: 9.0091
+2025-12-22 14:09:45,160 - Model evaluation: MAE = 12.0856
+2025-12-22 14:09:45,201 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:45,201 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:45,356 - Model trained. Training MAE: 8.9568
+2025-12-22 14:09:45,977 - Model evaluation: MAE = 12.0497
+2025-12-22 14:09:46,115 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:46,116 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:46,311 - Model trained. Training MAE: 9.0196
+2025-12-22 14:09:46,850 - Model evaluation: MAE = 12.1618
+2025-12-22 14:09:47,062 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:47,063 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:47,215 - Model trained. Training MAE: 8.8612
+2025-12-22 14:09:47,712 - Model evaluation: MAE = 12.4269
+2025-12-22 14:09:47,914 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:47,915 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:48,092 - Model trained. Training MAE: 8.9285
+2025-12-22 14:09:48,721 - Model evaluation: MAE = 12.3130
+2025-12-22 14:09:48,864 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:48,864 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:49,028 - Model trained. Training MAE: 8.8958
+2025-12-22 14:09:49,610 - Model evaluation: MAE = 12.1220
+2025-12-22 14:09:49,743 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:49,744 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:49,898 - Model trained. Training MAE: 8.9878
+2025-12-22 14:09:50,499 - Model evaluation: MAE = 12.2495
+2025-12-22 14:09:50,587 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:50,588 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:50,826 - Model trained. Training MAE: 8.9542
+2025-12-22 14:09:51,368 - Model evaluation: MAE = 12.4619
+2025-12-22 14:09:55,914 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 14:09:55,946 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 14:09:56,006 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:56,007 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:56,028 - Model trained. Training MAE: 4.8695
+2025-12-22 14:09:56,048 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:09:56,050 - Model evaluation: MAE = 19.2500
+2025-12-22 14:09:56,053 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:56,053 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:56,069 - Model trained. Training MAE: 4.8695
+2025-12-22 14:09:56,164 - Model evaluation: MAE = 13.6569
+2025-12-22 14:09:56,174 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:56,174 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:56,194 - Model trained. Training MAE: 8.0735
+2025-12-22 14:09:56,308 - Model evaluation: MAE = 13.7131
+2025-12-22 14:09:56,363 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:56,364 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:56,434 - Model trained. Training MAE: 8.4621
+2025-12-22 14:09:56,917 - Model evaluation: MAE = 13.4253
+2025-12-22 14:09:56,974 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:56,975 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:57,129 - Model trained. Training MAE: 8.5409
+2025-12-22 14:09:57,838 - Model evaluation: MAE = 13.4607
+2025-12-22 14:09:57,968 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:57,968 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:58,144 - Model trained. Training MAE: 8.5281
+2025-12-22 14:09:58,830 - Model evaluation: MAE = 13.1514
+2025-12-22 14:09:58,893 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:58,893 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:59,042 - Model trained. Training MAE: 8.5003
+2025-12-22 14:09:59,696 - Model evaluation: MAE = 13.0307
+2025-12-22 14:09:59,808 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:09:59,808 - Training the model (Round >=2) - warm start...
+2025-12-22 14:09:59,996 - Model trained. Training MAE: 8.5425
+2025-12-22 14:10:00,664 - Model evaluation: MAE = 12.8616
+2025-12-22 14:10:00,704 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:00,705 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:00,929 - Model trained. Training MAE: 8.5658
+2025-12-22 14:10:01,619 - Model evaluation: MAE = 13.0538
+2025-12-22 14:10:01,816 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:01,816 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:01,958 - Model trained. Training MAE: 8.5586
+2025-12-22 14:10:02,556 - Model evaluation: MAE = 13.2744
+2025-12-22 14:10:02,609 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:02,609 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:02,761 - Model trained. Training MAE: 8.4759
+2025-12-22 14:10:03,500 - Model evaluation: MAE = 12.8644
+2025-12-22 14:10:03,536 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:03,537 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:03,675 - Model trained. Training MAE: 8.4719
+2025-12-22 14:10:04,477 - Model evaluation: MAE = 13.2641
+2025-12-22 14:10:04,610 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:04,611 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:04,812 - Model trained. Training MAE: 8.4304
+2025-12-22 14:10:05,376 - Model evaluation: MAE = 13.0986
+2025-12-22 14:10:05,516 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:05,516 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:05,679 - Model trained. Training MAE: 8.4566
+2025-12-22 14:10:06,162 - Model evaluation: MAE = 13.2972
+2025-12-22 14:10:06,312 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:06,312 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:06,463 - Model trained. Training MAE: 8.4477
+2025-12-22 14:10:07,113 - Model evaluation: MAE = 13.4847
+2025-12-22 14:10:07,256 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:07,259 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:07,435 - Model trained. Training MAE: 8.4368
+2025-12-22 14:10:07,869 - Model evaluation: MAE = 13.5746
+2025-12-22 14:10:08,098 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:08,099 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:08,264 - Model trained. Training MAE: 8.3912
+2025-12-22 14:10:08,822 - Model evaluation: MAE = 13.5754
+2025-12-22 14:10:08,871 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:08,871 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:09,009 - Model trained. Training MAE: 8.4372
+2025-12-22 14:10:09,683 - Model evaluation: MAE = 13.5616
+2025-12-22 14:10:09,773 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:09,773 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:09,950 - Model trained. Training MAE: 8.4777
+2025-12-22 14:10:10,587 - Model evaluation: MAE = 13.6221
+2025-12-22 14:10:10,787 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:10:10,788 - Training the model (Round >=2) - warm start...
+2025-12-22 14:10:10,983 - Model trained. Training MAE: 8.4642
+2025-12-22 14:10:11,465 - Model evaluation: MAE = 13.7009
+2025-12-22 14:10:16,111 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 14:10:16,132 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 14:11:18,679 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:18,680 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:18,704 - Model trained. Training MAE: 4.8695
+2025-12-22 14:11:18,711 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:11:18,713 - Model evaluation: MAE = 19.2500
+2025-12-22 14:11:18,717 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:18,717 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:18,736 - Model trained. Training MAE: 4.8695
+2025-12-22 14:11:18,835 - Model evaluation: MAE = 13.5194
+2025-12-22 14:11:18,838 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:18,839 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:18,854 - Model trained. Training MAE: 8.1646
+2025-12-22 14:11:18,952 - Model evaluation: MAE = 13.5583
+2025-12-22 14:11:19,012 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:19,013 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:19,079 - Model trained. Training MAE: 8.6485
+2025-12-22 14:11:19,605 - Model evaluation: MAE = 13.4018
+2025-12-22 14:11:19,666 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:19,666 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:19,849 - Model trained. Training MAE: 8.7442
+2025-12-22 14:11:20,557 - Model evaluation: MAE = 13.6547
+2025-12-22 14:11:20,604 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:20,605 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:20,764 - Model trained. Training MAE: 8.7010
+2025-12-22 14:11:21,413 - Model evaluation: MAE = 13.8017
+2025-12-22 14:11:21,558 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:21,559 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:21,698 - Model trained. Training MAE: 8.7395
+2025-12-22 14:11:22,363 - Model evaluation: MAE = 13.9892
+2025-12-22 14:11:22,429 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:22,430 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:22,571 - Model trained. Training MAE: 8.7896
+2025-12-22 14:11:23,250 - Model evaluation: MAE = 14.1911
+2025-12-22 14:11:23,337 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:23,337 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:23,480 - Model trained. Training MAE: 8.7748
+2025-12-22 14:11:24,121 - Model evaluation: MAE = 14.1628
+2025-12-22 14:11:24,168 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:24,169 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:24,358 - Model trained. Training MAE: 8.8404
+2025-12-22 14:11:24,955 - Model evaluation: MAE = 14.1539
+2025-12-22 14:11:25,050 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:25,050 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:25,216 - Model trained. Training MAE: 8.8832
+2025-12-22 14:11:25,881 - Model evaluation: MAE = 14.1694
+2025-12-22 14:11:26,026 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:26,026 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:26,291 - Model trained. Training MAE: 8.8902
+2025-12-22 14:11:26,871 - Model evaluation: MAE = 14.3681
+2025-12-22 14:11:26,948 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:26,948 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:27,099 - Model trained. Training MAE: 8.8510
+2025-12-22 14:11:27,713 - Model evaluation: MAE = 14.6341
+2025-12-22 14:11:27,835 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:27,836 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:28,009 - Model trained. Training MAE: 8.8634
+2025-12-22 14:11:28,606 - Model evaluation: MAE = 15.0482
+2025-12-22 14:11:28,720 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:28,721 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:28,871 - Model trained. Training MAE: 8.7929
+2025-12-22 14:11:29,500 - Model evaluation: MAE = 14.9559
+2025-12-22 14:11:29,586 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:29,587 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:29,789 - Model trained. Training MAE: 8.6439
+2025-12-22 14:11:30,260 - Model evaluation: MAE = 14.8773
+2025-12-22 14:11:30,469 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:30,470 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:30,638 - Model trained. Training MAE: 8.6484
+2025-12-22 14:11:31,243 - Model evaluation: MAE = 14.5721
+2025-12-22 14:11:31,333 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:31,333 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:31,517 - Model trained. Training MAE: 8.6887
+2025-12-22 14:11:32,062 - Model evaluation: MAE = 14.2898
+2025-12-22 14:11:32,201 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:32,202 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:32,349 - Model trained. Training MAE: 8.7258
+2025-12-22 14:11:32,917 - Model evaluation: MAE = 14.1958
+2025-12-22 14:11:32,999 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:32,999 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:33,231 - Model trained. Training MAE: 8.7851
+2025-12-22 14:11:33,843 - Model evaluation: MAE = 14.1969
+2025-12-22 14:11:38,399 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 14:11:38,420 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 14:11:38,464 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:38,464 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:38,481 - Model trained. Training MAE: 4.8695
+2025-12-22 14:11:38,499 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:11:38,501 - Model evaluation: MAE = 19.2500
+2025-12-22 14:11:38,505 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:38,505 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:38,522 - Model trained. Training MAE: 4.8695
+2025-12-22 14:11:38,627 - Model evaluation: MAE = 13.3819
+2025-12-22 14:11:38,630 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:38,631 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:38,651 - Model trained. Training MAE: 8.0838
+2025-12-22 14:11:38,734 - Model evaluation: MAE = 13.4506
+2025-12-22 14:11:38,807 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:38,807 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:38,898 - Model trained. Training MAE: 8.5152
+2025-12-22 14:11:39,290 - Model evaluation: MAE = 13.3206
+2025-12-22 14:11:39,479 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:39,480 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:39,645 - Model trained. Training MAE: 8.4698
+2025-12-22 14:11:40,323 - Model evaluation: MAE = 13.4234
+2025-12-22 14:11:40,448 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:40,448 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:40,616 - Model trained. Training MAE: 8.5398
+2025-12-22 14:11:41,262 - Model evaluation: MAE = 13.4145
+2025-12-22 14:11:41,306 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:41,306 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:41,492 - Model trained. Training MAE: 8.5149
+2025-12-22 14:11:42,082 - Model evaluation: MAE = 13.3314
+2025-12-22 14:11:42,238 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:42,239 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:42,374 - Model trained. Training MAE: 8.4622
+2025-12-22 14:11:43,065 - Model evaluation: MAE = 13.6688
+2025-12-22 14:11:43,178 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:43,179 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:43,339 - Model trained. Training MAE: 8.4595
+2025-12-22 14:11:43,980 - Model evaluation: MAE = 13.5727
+2025-12-22 14:11:44,032 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:44,032 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:44,185 - Model trained. Training MAE: 8.4017
+2025-12-22 14:11:44,850 - Model evaluation: MAE = 13.3890
+2025-12-22 14:11:45,039 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:45,039 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:45,191 - Model trained. Training MAE: 8.4245
+2025-12-22 14:11:45,793 - Model evaluation: MAE = 13.8447
+2025-12-22 14:11:45,888 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:45,889 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:46,075 - Model trained. Training MAE: 8.3897
+2025-12-22 14:11:46,776 - Model evaluation: MAE = 13.9486
+2025-12-22 14:11:46,847 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:46,848 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:46,990 - Model trained. Training MAE: 8.4107
+2025-12-22 14:11:47,728 - Model evaluation: MAE = 13.8792
+2025-12-22 14:11:47,773 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:47,774 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:47,920 - Model trained. Training MAE: 8.5213
+2025-12-22 14:11:48,530 - Model evaluation: MAE = 13.6589
+2025-12-22 14:11:48,672 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:48,673 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:48,839 - Model trained. Training MAE: 8.5203
+2025-12-22 14:11:49,502 - Model evaluation: MAE = 13.8635
+2025-12-22 14:11:49,597 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:49,598 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:49,758 - Model trained. Training MAE: 8.5394
+2025-12-22 14:11:50,376 - Model evaluation: MAE = 13.8702
+2025-12-22 14:11:50,470 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:50,470 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:50,609 - Model trained. Training MAE: 8.5446
+2025-12-22 14:11:51,215 - Model evaluation: MAE = 13.8399
+2025-12-22 14:11:51,318 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:51,319 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:51,458 - Model trained. Training MAE: 8.4859
+2025-12-22 14:11:52,106 - Model evaluation: MAE = 13.9916
+2025-12-22 14:11:52,170 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:52,171 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:52,310 - Model trained. Training MAE: 8.4434
+2025-12-22 14:11:53,014 - Model evaluation: MAE = 13.7761
+2025-12-22 14:11:53,085 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:11:53,086 - Training the model (Round >=2) - warm start...
+2025-12-22 14:11:53,293 - Model trained. Training MAE: 8.5885
+2025-12-22 14:11:53,938 - Model evaluation: MAE = 13.7524
+2025-12-22 14:11:58,437 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 14:11:58,457 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 14:13:01,038 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:01,038 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:01,064 - Model trained. Training MAE: 4.8695
+2025-12-22 14:13:01,080 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:13:01,083 - Model evaluation: MAE = 19.2500
+2025-12-22 14:13:01,086 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:01,087 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:01,107 - Model trained. Training MAE: 4.8695
+2025-12-22 14:13:01,197 - Model evaluation: MAE = 13.8625
+2025-12-22 14:13:01,206 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:01,207 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:01,229 - Model trained. Training MAE: 7.9177
+2025-12-22 14:13:01,324 - Model evaluation: MAE = 13.8542
+2025-12-22 14:13:01,390 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:01,390 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:01,444 - Model trained. Training MAE: 8.3297
+2025-12-22 14:13:01,816 - Model evaluation: MAE = 13.6693
+2025-12-22 14:13:02,013 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:02,013 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:02,179 - Model trained. Training MAE: 8.3986
+2025-12-22 14:13:02,745 - Model evaluation: MAE = 13.5915
+2025-12-22 14:13:02,980 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:02,981 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:03,128 - Model trained. Training MAE: 8.4214
+2025-12-22 14:13:03,742 - Model evaluation: MAE = 13.4860
+2025-12-22 14:13:03,878 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:03,879 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:04,019 - Model trained. Training MAE: 8.3926
+2025-12-22 14:13:04,613 - Model evaluation: MAE = 13.7007
+2025-12-22 14:13:04,743 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:04,743 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:04,915 - Model trained. Training MAE: 8.3832
+2025-12-22 14:13:05,456 - Model evaluation: MAE = 13.4447
+2025-12-22 14:13:05,565 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:05,565 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:05,762 - Model trained. Training MAE: 8.4609
+2025-12-22 14:13:06,302 - Model evaluation: MAE = 13.4918
+2025-12-22 14:13:06,378 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:06,378 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:06,551 - Model trained. Training MAE: 8.5334
+2025-12-22 14:13:07,128 - Model evaluation: MAE = 13.4042
+2025-12-22 14:13:07,242 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:07,243 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:07,389 - Model trained. Training MAE: 8.5529
+2025-12-22 14:13:08,049 - Model evaluation: MAE = 13.4293
+2025-12-22 14:13:08,147 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:08,147 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:08,377 - Model trained. Training MAE: 8.5521
+2025-12-22 14:13:08,977 - Model evaluation: MAE = 13.6435
+2025-12-22 14:13:09,073 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:09,073 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:09,226 - Model trained. Training MAE: 8.5034
+2025-12-22 14:13:09,848 - Model evaluation: MAE = 13.9117
+2025-12-22 14:13:10,026 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:10,026 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:10,185 - Model trained. Training MAE: 8.4028
+2025-12-22 14:13:10,744 - Model evaluation: MAE = 13.9047
+2025-12-22 14:13:10,791 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:10,791 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:10,927 - Model trained. Training MAE: 8.4646
+2025-12-22 14:13:11,621 - Model evaluation: MAE = 13.7465
+2025-12-22 14:13:11,740 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:11,740 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:11,912 - Model trained. Training MAE: 8.4657
+2025-12-22 14:13:12,496 - Model evaluation: MAE = 13.6280
+2025-12-22 14:13:12,572 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:12,572 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:12,758 - Model trained. Training MAE: 8.5076
+2025-12-22 14:13:13,316 - Model evaluation: MAE = 13.3332
+2025-12-22 14:13:13,473 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:13,473 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:13,603 - Model trained. Training MAE: 8.4919
+2025-12-22 14:13:14,231 - Model evaluation: MAE = 13.0970
+2025-12-22 14:13:14,378 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:14,378 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:14,529 - Model trained. Training MAE: 8.5367
+2025-12-22 14:13:15,117 - Model evaluation: MAE = 13.2442
+2025-12-22 14:13:15,197 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:13:15,198 - Training the model (Round >=2) - warm start...
+2025-12-22 14:13:15,414 - Model trained. Training MAE: 8.5591
+2025-12-22 14:13:16,052 - Model evaluation: MAE = 13.5652
+2025-12-22 14:14:44,367 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 14:14:44,386 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 14:14:44,404 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:44,404 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:44,428 - Model trained. Training MAE: 4.8695
+2025-12-22 14:14:44,442 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:14:44,444 - Model evaluation: MAE = 19.2500
+2025-12-22 14:14:44,448 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:44,449 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:44,467 - Model trained. Training MAE: 4.8695
+2025-12-22 14:14:44,565 - Model evaluation: MAE = 15.3069
+2025-12-22 14:14:44,573 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:44,574 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:44,594 - Model trained. Training MAE: 7.9218
+2025-12-22 14:14:44,697 - Model evaluation: MAE = 15.1965
+2025-12-22 14:14:44,739 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:44,740 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:44,801 - Model trained. Training MAE: 8.3115
+2025-12-22 14:14:45,286 - Model evaluation: MAE = 15.3874
+2025-12-22 14:14:45,409 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:45,410 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:45,601 - Model trained. Training MAE: 8.3008
+2025-12-22 14:14:46,179 - Model evaluation: MAE = 15.4435
+2025-12-22 14:14:46,327 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:46,327 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:46,461 - Model trained. Training MAE: 8.2822
+2025-12-22 14:14:47,128 - Model evaluation: MAE = 15.3739
+2025-12-22 14:14:47,216 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:47,217 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:47,419 - Model trained. Training MAE: 8.2236
+2025-12-22 14:14:48,065 - Model evaluation: MAE = 15.3242
+2025-12-22 14:14:48,201 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:48,202 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:48,382 - Model trained. Training MAE: 8.2221
+2025-12-22 14:14:48,985 - Model evaluation: MAE = 15.1145
+2025-12-22 14:14:49,091 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:49,091 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:49,276 - Model trained. Training MAE: 8.2230
+2025-12-22 14:14:49,909 - Model evaluation: MAE = 15.0788
+2025-12-22 14:14:50,045 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:50,046 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:50,217 - Model trained. Training MAE: 8.2163
+2025-12-22 14:14:50,798 - Model evaluation: MAE = 15.0651
+2025-12-22 14:14:50,872 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:50,872 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:51,037 - Model trained. Training MAE: 8.2812
+2025-12-22 14:14:51,695 - Model evaluation: MAE = 15.3846
+2025-12-22 14:14:51,774 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:51,775 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:51,933 - Model trained. Training MAE: 8.2545
+2025-12-22 14:14:52,721 - Model evaluation: MAE = 15.4136
+2025-12-22 14:14:52,818 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:52,818 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:53,008 - Model trained. Training MAE: 8.2302
+2025-12-22 14:14:53,636 - Model evaluation: MAE = 15.3080
+2025-12-22 14:14:53,773 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:53,773 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:53,940 - Model trained. Training MAE: 8.2999
+2025-12-22 14:14:54,491 - Model evaluation: MAE = 15.4710
+2025-12-22 14:14:54,533 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:54,534 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:54,676 - Model trained. Training MAE: 8.2179
+2025-12-22 14:14:55,361 - Model evaluation: MAE = 15.3456
+2025-12-22 14:14:55,393 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:55,393 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:55,544 - Model trained. Training MAE: 8.2035
+2025-12-22 14:14:56,156 - Model evaluation: MAE = 15.5245
+2025-12-22 14:14:56,280 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:56,280 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:56,447 - Model trained. Training MAE: 8.2632
+2025-12-22 14:14:57,029 - Model evaluation: MAE = 15.3094
+2025-12-22 14:14:57,226 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:57,226 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:57,372 - Model trained. Training MAE: 8.3162
+2025-12-22 14:14:57,913 - Model evaluation: MAE = 15.1021
+2025-12-22 14:14:58,015 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:58,016 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:58,201 - Model trained. Training MAE: 8.3006
+2025-12-22 14:14:58,812 - Model evaluation: MAE = 15.2556
+2025-12-22 14:14:58,984 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:14:58,985 - Training the model (Round >=2) - warm start...
+2025-12-22 14:14:59,198 - Model trained. Training MAE: 8.3526
+2025-12-22 14:14:59,726 - Model evaluation: MAE = 15.3706
+2025-12-22 14:15:04,296 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 14:15:04,328 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 14:15:04,355 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:04,356 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:04,389 - Model trained. Training MAE: 4.8695
+2025-12-22 14:15:04,395 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 14:15:04,397 - Model evaluation: MAE = 19.2500
+2025-12-22 14:15:04,401 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:04,401 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:04,418 - Model trained. Training MAE: 4.8695
+2025-12-22 14:15:04,518 - Model evaluation: MAE = 13.9569
+2025-12-22 14:15:04,527 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:04,528 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:04,550 - Model trained. Training MAE: 8.1178
+2025-12-22 14:15:04,626 - Model evaluation: MAE = 14.0305
+2025-12-22 14:15:04,678 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:04,678 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:04,745 - Model trained. Training MAE: 8.5516
+2025-12-22 14:15:05,281 - Model evaluation: MAE = 14.2343
+2025-12-22 14:15:05,353 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:05,354 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:05,505 - Model trained. Training MAE: 8.6094
+2025-12-22 14:15:06,226 - Model evaluation: MAE = 14.5878
+2025-12-22 14:15:06,362 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:06,363 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:06,559 - Model trained. Training MAE: 8.5921
+2025-12-22 14:15:07,168 - Model evaluation: MAE = 14.8484
+2025-12-22 14:15:07,257 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:07,258 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:07,420 - Model trained. Training MAE: 8.5962
+2025-12-22 14:15:08,046 - Model evaluation: MAE = 14.9922
+2025-12-22 14:15:08,223 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:08,223 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:08,386 - Model trained. Training MAE: 8.5259
+2025-12-22 14:15:08,955 - Model evaluation: MAE = 14.8990
+2025-12-22 14:15:09,070 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:09,071 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:09,206 - Model trained. Training MAE: 8.6089
+2025-12-22 14:15:09,836 - Model evaluation: MAE = 14.9624
+2025-12-22 14:15:09,983 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:09,984 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:10,145 - Model trained. Training MAE: 8.5901
+2025-12-22 14:15:10,760 - Model evaluation: MAE = 15.1775
+2025-12-22 14:15:10,886 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:10,886 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:11,039 - Model trained. Training MAE: 8.5603
+2025-12-22 14:15:11,661 - Model evaluation: MAE = 15.3976
+2025-12-22 14:15:11,763 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:11,763 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:11,897 - Model trained. Training MAE: 8.5966
+2025-12-22 14:15:12,724 - Model evaluation: MAE = 15.4174
+2025-12-22 14:15:12,820 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:12,820 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:12,988 - Model trained. Training MAE: 8.6610
+2025-12-22 14:15:13,595 - Model evaluation: MAE = 15.7711
+2025-12-22 14:15:13,668 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:13,668 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:13,825 - Model trained. Training MAE: 8.6536
+2025-12-22 14:15:14,445 - Model evaluation: MAE = 15.9934
+2025-12-22 14:15:14,515 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:14,515 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:14,677 - Model trained. Training MAE: 8.6555
+2025-12-22 14:15:15,348 - Model evaluation: MAE = 15.6668
+2025-12-22 14:15:15,414 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:15,415 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:15,565 - Model trained. Training MAE: 8.5899
+2025-12-22 14:15:16,183 - Model evaluation: MAE = 15.8134
+2025-12-22 14:15:16,243 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:16,244 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:16,376 - Model trained. Training MAE: 8.5756
+2025-12-22 14:15:17,066 - Model evaluation: MAE = 15.8395
+2025-12-22 14:15:17,243 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:17,243 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:17,421 - Model trained. Training MAE: 8.4680
+2025-12-22 14:15:17,940 - Model evaluation: MAE = 15.6915
+2025-12-22 14:15:18,043 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:18,043 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:18,184 - Model trained. Training MAE: 8.4469
+2025-12-22 14:15:18,800 - Model evaluation: MAE = 15.6693
+2025-12-22 14:15:19,038 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 14:15:19,038 - Training the model (Round >=2) - warm start...
+2025-12-22 14:15:19,205 - Model trained. Training MAE: 8.5088
+2025-12-22 14:15:19,792 - Model evaluation: MAE = 15.5487
+2025-12-22 15:04:04,245 - Columns in dataset: ['day', 'label', 'hr_maxHeartRate', 'hr_minHeartRate', 'hr_restingHeartRate', 'hr_lastSevenDaysAvgRestingHeartRate', 'resp_lowestRespirationValue', 'resp_highestRespirationValue', 'resp_avgWakingRespirationValue', 'resp_avgSleepRespirationValue', 'resp_avgTomorrowSleepRespirationValue', 'str_maxStressLevel', 'str_avgStressLevel', 'sleep_sleepTimeSeconds', 'sleep_napTimeSeconds', 'sleep_unmeasurableSleepSeconds', 'sleep_deepSleepSeconds', 'sleep_lightSleepSeconds', 'sleep_remSleepSeconds', 'sleep_awakeSleepSeconds', 'act_totalCalories', 'act_activeKilocalories', 'act_distance', 'sleep_averageRespirationValue', 'sleep_lowestRespirationValue', 'sleep_highestRespirationValue', 'sleep_awakeCount', 'sleep_avgSleepStress', 'sleep_avgHeartRate', 'client_id', 'user_id', 'source_file', 'ts__hr_time_series__len_raw', 'ts__hr_time_series__nan_frac_raw', 'ts__hr_time_series__len', 'ts__hr_time_series__mean', 'ts__hr_time_series__std', 'ts__hr_time_series__min', 'ts__hr_time_series__max', 'ts__hr_time_series__range', 'ts__hr_time_series__median', 'ts__hr_time_series__mad', 'ts__hr_time_series__energy', 'ts__hr_time_series__q10', 'ts__hr_time_series__q25', 'ts__hr_time_series__q50', 'ts__hr_time_series__q75', 'ts__hr_time_series__q90', 'ts__hr_time_series__slope', 'ts__hr_time_series__diff_mean', 'ts__hr_time_series__diff_std', 'ts__hr_time_series__diff_abs_mean', 'ts__resp_time_series__len_raw', 'ts__resp_time_series__neg_frac_raw', 'ts__resp_time_series__neg_count_raw', 'ts__resp_time_series__used', 'ts__resp_time_series__len', 'ts__resp_time_series__mean', 'ts__resp_time_series__std', 'ts__resp_time_series__min', 'ts__resp_time_series__max', 'ts__resp_time_series__range', 'ts__resp_time_series__median', 'ts__resp_time_series__mad', 'ts__resp_time_series__energy', 'ts__resp_time_series__q10', 'ts__resp_time_series__q25', 'ts__resp_time_series__q50', 'ts__resp_time_series__q75', 'ts__resp_time_series__q90', 'ts__resp_time_series__slope', 'ts__resp_time_series__diff_mean', 'ts__resp_time_series__diff_std', 'ts__resp_time_series__diff_abs_mean', 'ts__stress_time_series__len_raw', 'ts__stress_time_series__neg_frac_raw', 'ts__stress_time_series__neg_count_raw', 'ts__stress_time_series__used', 'ts__stress_time_series__len', 'ts__stress_time_series__mean', 'ts__stress_time_series__std', 'ts__stress_time_series__min', 'ts__stress_time_series__max', 'ts__stress_time_series__range', 'ts__stress_time_series__median', 'ts__stress_time_series__mad', 'ts__stress_time_series__energy', 'ts__stress_time_series__q10', 'ts__stress_time_series__q25', 'ts__stress_time_series__q50', 'ts__stress_time_series__q75', 'ts__stress_time_series__q90', 'ts__stress_time_series__slope', 'ts__stress_time_series__diff_mean', 'ts__stress_time_series__diff_std', 'ts__stress_time_series__diff_abs_mean']
+2025-12-22 15:04:04,277 - First few rows:
+   day  ...  ts__stress_time_series__diff_abs_mean
+0    0  ...                               8.595628
+1    0  ...                               7.951567
+2    0  ...                               3.380952
+3    1  ...                               7.414634
+4    1  ...                               8.145604
+
+[5 rows x 96 columns]
+2025-12-22 15:05:06,933 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:06,934 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:06,960 - Model trained. Training MAE: 4.8695
+2025-12-22 15:05:06,985 - Nessun modello ricevuto in evaluate, uso self.model corrente.
+2025-12-22 15:05:06,986 - Model evaluation: MAE = 19.2500
+2025-12-22 15:05:06,993 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:06,994 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:07,009 - Model trained. Training MAE: 4.8695
+2025-12-22 15:05:07,113 - Model evaluation: MAE = 13.8625
+2025-12-22 15:05:07,140 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:07,140 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:07,158 - Model trained. Training MAE: 7.9177
+2025-12-22 15:05:07,297 - Model evaluation: MAE = 13.8542
+2025-12-22 15:05:07,364 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:07,364 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:07,429 - Model trained. Training MAE: 8.3297
+2025-12-22 15:05:08,067 - Model evaluation: MAE = 13.9808
+2025-12-22 15:05:08,203 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:08,204 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:08,373 - Model trained. Training MAE: 8.3485
+2025-12-22 15:05:09,155 - Model evaluation: MAE = 13.8830
+2025-12-22 15:05:09,231 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:09,231 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:09,392 - Model trained. Training MAE: 8.3365
+2025-12-22 15:05:10,235 - Model evaluation: MAE = 14.0840
+2025-12-22 15:05:10,289 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:10,290 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:10,442 - Model trained. Training MAE: 8.2776
+2025-12-22 15:05:11,098 - Model evaluation: MAE = 14.1362
+2025-12-22 15:05:11,310 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:11,311 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:11,454 - Model trained. Training MAE: 8.2119
+2025-12-22 15:05:11,997 - Model evaluation: MAE = 13.9410
+2025-12-22 15:05:12,162 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:12,163 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:12,325 - Model trained. Training MAE: 8.3007
+2025-12-22 15:05:12,874 - Model evaluation: MAE = 14.1313
+2025-12-22 15:05:13,108 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:13,109 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:13,217 - Model trained. Training MAE: 8.2687
+2025-12-22 15:05:13,846 - Model evaluation: MAE = 14.2437
+2025-12-22 15:05:13,978 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:13,979 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:14,101 - Model trained. Training MAE: 8.1940
+2025-12-22 15:05:14,801 - Model evaluation: MAE = 14.0998
+2025-12-22 15:05:14,961 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:14,962 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:15,230 - Model trained. Training MAE: 8.1843
+2025-12-22 15:05:15,816 - Model evaluation: MAE = 14.1865
+2025-12-22 15:05:15,907 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:15,908 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:16,095 - Model trained. Training MAE: 8.2371
+2025-12-22 15:05:16,777 - Model evaluation: MAE = 14.3068
+2025-12-22 15:05:16,829 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:16,829 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:16,978 - Model trained. Training MAE: 8.2520
+2025-12-22 15:05:17,585 - Model evaluation: MAE = 14.6728
+2025-12-22 15:05:17,913 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:17,913 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:18,107 - Model trained. Training MAE: 8.2027
+2025-12-22 15:05:18,578 - Model evaluation: MAE = 14.4787
+2025-12-22 15:05:18,782 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:18,782 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:18,900 - Model trained. Training MAE: 8.1277
+2025-12-22 15:05:19,459 - Model evaluation: MAE = 14.4815
+2025-12-22 15:05:19,679 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:19,680 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:19,803 - Model trained. Training MAE: 8.0720
+2025-12-22 15:05:20,437 - Model evaluation: MAE = 14.6400
+2025-12-22 15:05:20,509 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:20,510 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:20,719 - Model trained. Training MAE: 7.9907
+2025-12-22 15:05:21,257 - Model evaluation: MAE = 14.4338
+2025-12-22 15:05:21,345 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:21,346 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:21,508 - Model trained. Training MAE: 7.9796
+2025-12-22 15:05:22,217 - Model evaluation: MAE = 14.4075
+2025-12-22 15:05:22,351 - Nessuna selected_features ricevuta: uso tutte le feature.
+2025-12-22 15:05:22,351 - Training the model (Round >=2) - warm start...
+2025-12-22 15:05:22,579 - Model trained. Training MAE: 7.9225
+2025-12-22 15:05:23,177 - Model evaluation: MAE = 14.3638
