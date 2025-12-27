@@ -122,8 +122,9 @@ def main():
 
     y_pred = ensemble.predict(X)
 
-    y_pred_int = np.rint(y_pred).astype(int)
-    out = pd.DataFrame({"id": ids, "label": y_pred_int})
+
+    y_pred = np.clip(y_pred, 0, 100)  # se il punteggio è 0-100
+    out = pd.DataFrame({"id": ids, "label": y_pred})
     out.to_csv("../results/predictions.csv", index=False)
     print("✅ Creato predictions.csv")
 
