@@ -30,6 +30,14 @@ MODEL_REGISTRY = {
         "server": "extratreemodel/server/server_flwr.py",
         "client": "extratreemodel/client/run_all.py",
     },
+    "mlp": {
+        "server": "mlp/server/server_flwr.py",
+        "client": "mlp/client/run_all.py",
+    },
+    "TabNet": {
+        "server": "TabNet/server/server_flwr.py",
+        "client": "TabNet/client/run_all.py",
+    },
 }
 
 
@@ -48,7 +56,7 @@ def main() -> None:
     # modello
     ap.add_argument(
         "--model",
-        default="nnmodel",
+        default="mlp",
         choices=MODEL_REGISTRY.keys(),
         help="Modello da usare",
     )

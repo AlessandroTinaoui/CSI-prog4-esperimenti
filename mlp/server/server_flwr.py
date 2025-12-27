@@ -14,14 +14,14 @@ from config import (
 )
 from strategy import FedAvgNNWithGlobalScaler
 from dataset.dataset_cfg import get_train_path, get_test_path
-from nnmodel.model import MLPRegressor
+from mlp.model import MLPRegressor
 
 
 TRAIN_PATH = get_train_path()
 TRAIN_PATH = get_train_path()
 TEST_PATH = get_test_path()
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]  # nnmodel/
+PROJECT_ROOT = Path(__file__).resolve().parents[1]  # mlp/
 RESULTS_DIR = PROJECT_ROOT / RESULTS_DIRNAME
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 

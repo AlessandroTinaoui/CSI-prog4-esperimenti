@@ -5,7 +5,7 @@ import time
 
 # Configurazione manuale se config.py fallisce
 
-from nnmodel.server.config import HOLDOUT_CID
+from mlp.server.config import HOLDOUT_CID
 from dataset.dataset_cfg import get_train_path
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

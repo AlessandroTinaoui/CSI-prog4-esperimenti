@@ -1,4 +1,4 @@
-# nnmodel/server/config.py
+# mlp/server/config.py
 from __future__ import annotations
 
 import json
@@ -10,7 +10,7 @@ SERVER_ADDRESS = "127.0.0.1:8080"
 
 if "FL_SERVER_ADDRESS" in os.environ:
     SERVER_ADDRESS = os.environ["FL_SERVER_ADDRESS"]
-HOLDOUT_CID = 5
+HOLDOUT_CID = 10
 # --- default federated params (overridabili da trial) ---
 NUM_ROUNDS = 87
 FRACTION_FIT = 1.0
