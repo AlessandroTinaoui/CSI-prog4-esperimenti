@@ -149,7 +149,7 @@ def suggest_params(trial) -> Dict[str, Any]:
         client = _randomforest_space(trial)
     elif model == "extratree":
         client = _extratree_space(trial)
-    elif model == "nnmodel":
+    elif model == "mlp":
         client = suggest_nn_params(trial)
     else:
         raise ValueError(f"Modello non supportato nello search space: {model}")

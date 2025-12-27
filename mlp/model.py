@@ -1,4 +1,4 @@
-# nnmodel/common/model.py
+# mlp/common/model.py
 
 from typing import List
 import torch

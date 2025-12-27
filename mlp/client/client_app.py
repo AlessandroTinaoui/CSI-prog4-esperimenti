@@ -1,4 +1,4 @@
-# nnmodel/client/client_app.py
+# mlp/client/client_app.py
 
 import os
 import sys
@@ -16,8 +16,8 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
-from nnmodel.model import MLPRegressor
-from nnmodel.data import (
+from mlp.model import MLPRegressor
+from mlp.data import (
     load_csv_dataset,
     split_train_test,
     ensure_feature_order_and_fill,
@@ -25,7 +25,7 @@ from nnmodel.data import (
     local_sums_for_scaler,
     ScalerStats,
 )
-from nnmodel.server.config import SERVER_ADDRESS
+from mlp.server.config import SERVER_ADDRESS
 
 # -------- Paths/logs --------
 PROJECT_ROOT = Path(__file__).resolve().parents[1]

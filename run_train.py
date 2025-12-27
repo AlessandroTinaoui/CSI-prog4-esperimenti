@@ -61,10 +61,15 @@ MODELS = {
         server_dir=Path("extratreemodel") / "server",
         client_dir=Path("extratreemodel") / "client",
     ),
-    "nnmodel": ModelPaths(
-        name="nnmodel",
-        server_dir=Path("nnmodel") / "server",
-        client_dir=Path("nnmodel") / "client",
+    "mlp": ModelPaths(
+        name="mlp",
+        server_dir=Path("mlp") / "server",
+        client_dir=Path("mlp") / "client",
+    ),
+    "tabnet": ModelPaths(
+        name="TabNet",
+        server_dir=Path("TabNet") / "server",
+        client_dir=Path("TabNet") / "client",
     ),
 }
 
@@ -257,7 +262,7 @@ def main() -> int:
     parser.add_argument(
         "--model",
         choices=sorted(MODELS.keys()),
-        default="nnmodel",
+        default="tabnet",
         help="Modello da allenare.",
     )
     parser.add_argument("--repeats", type=int, default=N, help="Ripetizioni per ogni HOLDOUT_CID (default: 1).")

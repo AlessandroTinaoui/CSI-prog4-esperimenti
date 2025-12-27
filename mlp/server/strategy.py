@@ -13,13 +13,13 @@ from flwr.server.strategy import FedAvg
 
 import torch
 
-from nnmodel.model import MLPRegressor
-from nnmodel.server.config import (
+from mlp.model import MLPRegressor
+from mlp.server.config import (
     RESULTS_DIRNAME,
     GLOBAL_FEATURES_JSON,
     GLOBAL_SCALER_JSON,
 )
-from nnmodel.client.client_params import HIDDEN_SIZES, DROPOUT
+from mlp.client.client_params import HIDDEN_SIZES, DROPOUT
 
 class FedAvgNNWithGlobalScaler(FedAvg):
     def __init__(self, project_root: Path, **kwargs: Any):
