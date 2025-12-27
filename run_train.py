@@ -61,6 +61,11 @@ MODELS = {
         server_dir=Path("extratreemodel") / "server",
         client_dir=Path("extratreemodel") / "client",
     ),
+    "nnmodel": ModelPaths(
+        name="nnmodel",
+        server_dir=Path("nnmodel") / "server",
+        client_dir=Path("nnmodel") / "client",
+    ),
 }
 
 HOLDOUT_PATTERN = re.compile(r"^\s*HOLDOUT_CID\s*=\s*(.+?)\s*$", re.MULTILINE)
@@ -252,7 +257,7 @@ def main() -> int:
     parser.add_argument(
         "--model",
         choices=sorted(MODELS.keys()),
-        default="extratree",
+        default="nnmodel",
         help="Modello da allenare.",
     )
     parser.add_argument("--repeats", type=int, default=N, help="Ripetizioni per ogni HOLDOUT_CID (default: 1).")

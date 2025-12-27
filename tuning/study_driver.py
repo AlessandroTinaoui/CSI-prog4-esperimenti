@@ -48,15 +48,15 @@ def main() -> None:
     # modello
     ap.add_argument(
         "--model",
-        default="extratree",
+        default="nnmodel",
         choices=MODEL_REGISTRY.keys(),
         help="Modello da usare",
     )
 
     # Optuna
-    ap.add_argument("--study-name", default="fl_tree_tuning")
-    ap.add_argument("--storage", default="sqlite:///optuna_study.sqlite3")
-    ap.add_argument("--n-trials", type=int, default=30)
+    ap.add_argument("--study-name", default="nn_model")
+    ap.add_argument("--storage", default="sqlite:///optuna_nnmodel_study.sqlite3")
+    ap.add_argument("--n-trials", type=int, default=50)
 
     # training runner
     ap.add_argument("--cids", type=str, default="0-8", help="Range cids, es: '0-8' o '0,1,2,5'")
