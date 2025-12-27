@@ -56,14 +56,14 @@ def main() -> None:
     # modello
     ap.add_argument(
         "--model",
-        default="mlp",
+        default="TabNet",
         choices=MODEL_REGISTRY.keys(),
         help="Modello da usare",
     )
 
     # Optuna
-    ap.add_argument("--study-name", default="nn_model")
-    ap.add_argument("--storage", default="sqlite:///optuna_nnmodel_study.sqlite3")
+    ap.add_argument("--study-name", default="TabNet")
+    ap.add_argument("--storage", default="sqlite:///tabnet_prova.sqlite3")
     ap.add_argument("--n-trials", type=int, default=50)
 
     # training runner

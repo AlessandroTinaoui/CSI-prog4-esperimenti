@@ -66,7 +66,7 @@ MODELS = {
         server_dir=Path("mlp") / "server",
         client_dir=Path("mlp") / "client",
     ),
-    "tabnet": ModelPaths(
+    "TabNet": ModelPaths(
         name="TabNet",
         server_dir=Path("TabNet") / "server",
         client_dir=Path("TabNet") / "client",
