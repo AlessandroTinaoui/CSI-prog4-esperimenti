@@ -1,16 +1,56 @@
-# Configurazione per il server Flower
+import json
+import os
+from pathlib import Path
 
 SERVER_ADDRESS = "localhost:8080"
 
-# Numero di round Flower (nota: round 1 = feature selection, round 2..NUM_ROUNDS = training)
+# Default
 NUM_ROUNDS = 10
-
-# Client tenuto fuori dal training e usato come holdout finale (0..8). Metti 9 o 10 per disattivare.
 HOLDOUT_CID = 2
-
-# Feature selection
 TOP_K_FEATURES = 30
-
-# Quanti alberi XGBoost aggiunge ogni client ad ogni round (round >= 2).
-# Con 9 client e non-IID, valori piccoli (1-2) sono spesso più stabili.
 LOCAL_BOOST_ROUND = 1
+
+
+def _load_trial_config() -> dict:
+    """
+    Carica un JSON di configurazione se l'env TRIAL_CONFIG_PATH è impostata.
+    Ritorna {} se non presente o se fallisce.
+    """
+    p = os.environ.get("TRIAL_CONFIG_PATH", "").strip()
+    if not p:
+        return {}
+    try:
+        cfg_path = Path(p).expanduser().resolve()
+        if not cfg_path.exists():
+            return {}
+        return json.loads(cfg_path.read_text())
+    except Exception:
+        return {}
+
+
+def _apply_overrides():
+    global NUM_ROUNDS, HOLDOUT_CID, TOP_K_FEATURES, LOCAL_BOOST_ROUND
+
+    cfg = _load_trial_config()
+    server_cfg = cfg.get("server", {}) if isinstance(cfg, dict) else {}
+
+    # Override da JSON
+    if "NUM_ROUNDS" in server_cfg:
+        NUM_ROUNDS = int(server_cfg["NUM_ROUNDS"])
+    if "HOLDOUT_CID" in server_cfg:
+        HOLDOUT_CID = int(server_cfg["HOLDOUT_CID"])
+    if "TOP_K_FEATURES" in server_cfg:
+        TOP_K_FEATURES = int(server_cfg["TOP_K_FEATURES"])
+    if "LOCAL_BOOST_ROUND" in server_cfg:
+        LOCAL_BOOST_ROUND = int(server_cfg["LOCAL_BOOST_ROUND"])
+
+    # Override "più forte" da env (utile per holdout loop senza riscrivere JSON)
+    env_holdout = os.environ.get("HOLDOUT_CID", "").strip()
+    if env_holdout != "":
+        try:
+            HOLDOUT_CID = int(env_holdout)
+        except ValueError:
+            pass
+
+
+_apply_overrides()
