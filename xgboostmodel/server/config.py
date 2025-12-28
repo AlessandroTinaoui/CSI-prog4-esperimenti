@@ -5,10 +5,18 @@ from pathlib import Path
 SERVER_ADDRESS = "localhost:8080"
 
 # Default
-NUM_ROUNDS = 10
-HOLDOUT_CID = 2
-TOP_K_FEATURES = 30
-LOCAL_BOOST_ROUND = 1
+NUM_ROUNDS = 171
+HOLDOUT_CID = 10
+TOP_K_FEATURES = 50
+
+
+# --- Federated GBDT (stumps) ---
+N_BINS = 128          # numero di bin per feature (quantili)
+HUBER_DELTA = 2.2288150983938597    # delta per pseudo-huber (più basso -> più simile a MAE)
+REG_LAMBDA = 3.8944557365876697     # reg L2 su leaf weight
+GAMMA = 2.8772478825619396          # penalità per split (opzionale)
+LEARNING_RATE = 0.2447102091138996  # shrinkage per ogni stump
+BASE_SCORE = -3.450512078882384     # bias iniziale (puoi metterlo a media label se vuoi)
 
 
 def _load_trial_config() -> dict:
@@ -29,28 +37,31 @@ def _load_trial_config() -> dict:
 
 
 def _apply_overrides():
-    global NUM_ROUNDS, HOLDOUT_CID, TOP_K_FEATURES, LOCAL_BOOST_ROUND
-
+    global NUM_ROUNDS, HOLDOUT_CID, TOP_K_FEATURES
+    global N_BINS, HUBER_DELTA, REG_LAMBDA, GAMMA, LEARNING_RATE, BASE_SCORE
     cfg = _load_trial_config()
     server_cfg = cfg.get("server", {}) if isinstance(cfg, dict) else {}
 
     # Override da JSON
     if "NUM_ROUNDS" in server_cfg:
         NUM_ROUNDS = int(server_cfg["NUM_ROUNDS"])
-    if "HOLDOUT_CID" in server_cfg:
-        HOLDOUT_CID = int(server_cfg["HOLDOUT_CID"])
+
     if "TOP_K_FEATURES" in server_cfg:
         TOP_K_FEATURES = int(server_cfg["TOP_K_FEATURES"])
-    if "LOCAL_BOOST_ROUND" in server_cfg:
-        LOCAL_BOOST_ROUND = int(server_cfg["LOCAL_BOOST_ROUND"])
+    if "N_BINS" in server_cfg:
+        N_BINS = int(server_cfg["N_BINS"])
+    if "HUBER_DELTA" in server_cfg:
+        HUBER_DELTA = float(server_cfg["HUBER_DELTA"])
+    if "REG_LAMBDA" in server_cfg:
+        REG_LAMBDA = float(server_cfg["REG_LAMBDA"])
+    if "GAMMA" in server_cfg:
+        GAMMA = float(server_cfg["GAMMA"])
+    if "LEARNING_RATE" in server_cfg:
+        LEARNING_RATE = float(server_cfg["LEARNING_RATE"])
+    if "BASE_SCORE" in server_cfg:
+        BASE_SCORE = float(server_cfg["BASE_SCORE"])
 
-    # Override "più forte" da env (utile per holdout loop senza riscrivere JSON)
-    env_holdout = os.environ.get("HOLDOUT_CID", "").strip()
-    if env_holdout != "":
-        try:
-            HOLDOUT_CID = int(env_holdout)
-        except ValueError:
-            pass
+
 
 
 _apply_overrides()

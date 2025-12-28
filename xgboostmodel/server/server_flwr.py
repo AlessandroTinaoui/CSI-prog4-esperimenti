@@ -10,8 +10,22 @@ import flwr as fl
 import xgboost as xgb
 from sklearn.metrics import mean_absolute_error
 
-from config import HOLDOUT_CID, NUM_ROUNDS, SERVER_ADDRESS, LOCAL_BOOST_ROUND, TOP_K_FEATURES
-from strategy import XGBoostTreeAppendStrategy
+from config import HOLDOUT_CID
+from config import (
+    NUM_ROUNDS,
+    SERVER_ADDRESS,
+    TOP_K_FEATURES,
+    N_BINS,
+    HUBER_DELTA,
+    REG_LAMBDA,
+    GAMMA,
+    LEARNING_RATE,
+    BASE_SCORE,
+)
+from strategy import FederatedHistStumpStrategy
+
+
+
 
 from dataset.dataset_cfg import get_train_path, get_test_path
 TRAIN_PATH = get_train_path()
@@ -64,6 +78,18 @@ def _load_global_booster(global_model_path: Path) -> xgb.Booster:
     bst = xgb.Booster()
     bst.load_model(bytearray(raw))
     return bst
+def predict_stumps(X: pd.DataFrame, model_dict: dict) -> np.ndarray:
+    pred = np.full((len(X),), float(model_dict.get("base_score", 0.0)), dtype=float)
+    for s in model_dict.get("stumps", []) or []:
+        feat = s["feature"]
+        thr = float(s["thr"])
+        wL = float(s["w_left"])
+        wR = float(s["w_right"])
+        lr = float(s.get("lr", 1.0))
+        xcol = X[feat].to_numpy(dtype=float, copy=False)
+        pred += lr * np.where(xcol <= thr, wL, wR)
+    return pred
+
 
 
 def main():
@@ -74,11 +100,14 @@ def main():
         if p.exists():
             p.unlink()
 
-    strategy = XGBoostTreeAppendStrategy(
+    strategy = FederatedHistStumpStrategy(
         top_k=TOP_K_FEATURES,
-        save_path="selected_features.json",
-        local_boost_round=LOCAL_BOOST_ROUND,
-        global_model_path="global_model.json",
+        n_bins=N_BINS,
+        huber_delta=HUBER_DELTA,
+        reg_lambda=REG_LAMBDA,
+        gamma=GAMMA,
+        learning_rate=LEARNING_RATE,
+        base_score=BASE_SCORE,
         fraction_fit=1.0,
         fraction_evaluate=1.0,
         min_fit_clients=8,
@@ -105,8 +134,8 @@ def main():
         print("❌ ERRORE: file global_model.json / global_model_features.json non creati.")
         sys.exit(1)
 
-    booster = _load_global_booster(global_model_path)
-    print("✅ Modello globale caricato.")
+    model_dict = json.loads(global_model_path.read_text(encoding="utf-8"))
+    print("✅ Modello globale (stumps) caricato.")
 
     train_features = json.loads(global_features_path.read_text(encoding="utf-8"))["features"]
 
@@ -128,15 +157,8 @@ def main():
                     X_holdout[c] = 0
             X_holdout = X_holdout[train_features].fillna(0)
 
-            model_feats = booster.feature_names
-            if model_feats:
-                for c in model_feats:
-                    if c not in X_holdout.columns:
-                        X_holdout[c] = 0
-                X_holdout = X_holdout[model_feats]
-
-            dmat = xgb.DMatrix(X_holdout, feature_names=model_feats or train_features)
-            y_pred_holdout = booster.predict(dmat)
+            X_holdout = X_holdout[train_features].fillna(0)
+            y_pred_holdout = predict_stumps(X_holdout, model_dict)
             mae_holdout = mean_absolute_error(y_holdout, y_pred_holdout)
             print(f"MEA valutato sul client {HOLDOUT_CID}")
             print(f"FINAL_MAE: {mae_holdout}")
@@ -170,15 +192,8 @@ def main():
     X = X[train_features]
 
     # Allinea alle feature effettive del booster (se presenti)
-    model_feats = booster.feature_names
-    if model_feats:
-        for c in model_feats:
-            if c not in X.columns:
-                X[c] = 0
-        X = X[model_feats]
-
-    dmat = xgb.DMatrix(X, feature_names=model_feats or train_features)
-    y_pred = booster.predict(dmat)
+    X = X[train_features].fillna(0)
+    y_pred = predict_stumps(X, model_dict)
 
     y_pred_int = np.rint(y_pred).astype(int)
     out = pd.DataFrame({"id": ids, "label": y_pred_int})
