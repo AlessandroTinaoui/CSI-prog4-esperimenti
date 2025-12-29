@@ -39,7 +39,7 @@ class CleanConfigGlobal:
     ts_min_valid_points: int = 5
 
     # TS augmentation
-    ts_augment: bool = True
+    ts_augment: bool = False
     ts_aug_cfg: TSAugmentConfig = field(default_factory=TSAugmentConfig)
 
     # debug

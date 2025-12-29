@@ -1,4 +1,4 @@
-DATASET = "new"  # "old" | "new" | "aug"
+DATASET = "aug"  # "old" | "new" | "aug"
 
 def get_train_path():
     if DATASET == "old":
