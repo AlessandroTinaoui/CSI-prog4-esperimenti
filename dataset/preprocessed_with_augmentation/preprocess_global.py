@@ -218,10 +218,6 @@ def compute_global_stats_from_csvs(
     csv_paths: List[str],
     cfg: CleanConfigGlobal,
 ) -> GlobalStats:
-    """
-    Calcola mediana globale + Q1/Q3 globali per colonna, leggendo i csv (puoi passare tutti i file dei 9 client).
-    Nota: calcolo esatto (centralizzato) -> semplice e stabile con i tuoi volumi.
-    """
     frames: List[pd.DataFrame] = []
     for p in csv_paths:
         df = pd.read_csv(p, sep=";").drop(columns=["Unnamed: 0"], errors="ignore")
@@ -229,13 +225,27 @@ def compute_global_stats_from_csvs(
 
     all_df = pd.concat(frames, ignore_index=True)
 
-    # (opzionale) TS features prima di stats, così le stats includono anche ts__* (se vuoi)
-    # Nel tuo selettore "original cols" esclude ts__, quindi qui calcoliamo stats solo sulle original.
+    # ✅ 1) Estrai TS feature anche qui, così le mediane includono ts__...
+    if cfg.use_ts_features:
+        ts_cfg = TSFeatureConfig(
+            ts_cols=None,
+            drop_original_ts_cols=cfg.ts_drop_original_cols,
+            drop_negative_values=cfg.ts_drop_negative_values,
+            add_quality_features=cfg.ts_add_quality_features,
+            max_neg_frac_raw=cfg.ts_max_neg_frac_raw,
+            min_valid_points=cfg.ts_min_valid_points,
+        )
+        all_df = extract_ts_features(all_df, ts_cfg)
+
+    # day coercion (come prima)
     if cfg.day_col and cfg.day_col in all_df.columns:
         all_df[cfg.day_col] = pd.to_numeric(all_df[cfg.day_col], errors="coerce")
 
     all_df = _coerce_numeric_features(all_df, cfg)
-    feat = _select_numeric_original_cols_for_low_info(all_df, cfg)
+
+    # ✅ 2) Seleziona TUTTE le numeriche (incluse ts__...), non solo le original
+    feat = _select_numeric_feature_cols(all_df, cfg)
+    feat = [c for c in feat if not c.endswith("__is_outlier") and not c.endswith("__clean")]
     if not feat:
         return GlobalStats(medians={}, q1={}, q3={})
 
@@ -243,13 +253,11 @@ def compute_global_stats_from_csvs(
     q1 = all_df[feat].quantile(0.25, numeric_only=True).fillna(np.nan).to_dict()
     q3 = all_df[feat].quantile(0.75, numeric_only=True).fillna(np.nan).to_dict()
 
-    # cast a float semplice
     med = {k: float(v) for k, v in med.items()}
     q1 = {k: float(v) if np.isfinite(v) else float("nan") for k, v in q1.items()}
     q3 = {k: float(v) if np.isfinite(v) else float("nan") for k, v in q3.items()}
 
     return GlobalStats(medians=med, q1=q1, q3=q3)
-
 
 # -----------------------------
 # Pipeline singolo user/day DF (come la tua, ma con GLOBAL stats + TS aug)
