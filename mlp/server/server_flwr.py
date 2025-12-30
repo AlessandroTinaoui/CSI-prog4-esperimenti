@@ -12,7 +12,7 @@ from config import (
     HOLDOUT_CID, NUM_ROUNDS, SERVER_ADDRESS,
     RESULTS_DIRNAME, GLOBAL_FEATURES_JSON, GLOBAL_SCALER_JSON
 )
-from strategy import FedAvgNNWithGlobalScaler
+from strategy import FedAvgNNWithGlobalScaler, FedAvgMNNWithGlobalScaler
 from dataset.dataset_cfg import get_train_path, get_test_path
 from mlp.model import MLPRegressor
 
@@ -89,8 +89,19 @@ def _predict_real(model: torch.nn.Module, X: np.ndarray, y_mean: float, y_std: f
 
 
 def main():
-    strategy = FedAvgNNWithGlobalScaler(
+    """strategy = FedAvgNNWithGlobalScaler(
         project_root=PROJECT_ROOT,
+        fraction_fit=1.0,
+        fraction_evaluate=1.0,
+        min_fit_clients=8,
+        min_evaluate_clients=8,
+        min_available_clients=8,
+    )"""
+
+    strategy = FedAvgMNNWithGlobalScaler(
+        project_root=PROJECT_ROOT,
+        server_momentum=0.9,  # prova 0.7, 0.9, 0.95
+        server_learning_rate=1.0,  # di solito 1.0 ok
         fraction_fit=1.0,
         fraction_evaluate=1.0,
         min_fit_clients=8,
