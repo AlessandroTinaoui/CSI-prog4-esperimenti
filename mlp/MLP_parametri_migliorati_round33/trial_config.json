@@ -1,0 +1,14 @@
+{
+  "server": {
+    "NUM_ROUNDS": 108
+  },
+  "client": {
+    "MODEL_TYPE": "mlp",
+    "BETA": 0.42843931541593216,
+    "LOCAL_EPOCHS": 5,
+    "BATCH_SIZE": 64,
+    "LR": 0.00046065495092121944,
+    "WEIGHT_DECAY": 0.0032973190249597204,
+    "DROPOUT": 0.4757794132319714
+  }
+}
