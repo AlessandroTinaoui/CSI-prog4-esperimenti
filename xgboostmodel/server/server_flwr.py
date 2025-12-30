@@ -195,8 +195,8 @@ def main():
     X = X[train_features].fillna(0)
     y_pred = predict_stumps(X, model_dict)
 
-    y_pred_int = np.rint(y_pred).astype(int)
-    out = pd.DataFrame({"id": ids, "label": y_pred_int})
+    y_pred_float = np.clip(y_pred.astype(float), 0.0, 100.0)
+    out = pd.DataFrame({"id": ids, "label": y_pred_float})
     out.to_csv("../results/predictions.csv", index=False)
     print("✅ Creato predictions.csv")
 
