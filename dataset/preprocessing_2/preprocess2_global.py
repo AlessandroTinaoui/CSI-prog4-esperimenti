@@ -25,7 +25,7 @@ class CleanConfigGlobal:
     # train vs infer
     mode: str = "train"  # "train" | "infer"
     drop_label_zero: bool = True
-    min_non_null_frac: float = 0.40
+    min_non_null_frac: float = 0.8
 
     # IQR (usato SOLO per clipping)
     iqr_k: float = 1.5
@@ -259,6 +259,9 @@ def handle_outliers_iqr_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: Glo
     return out
 
 
+
+
+
 def fill_remaining_nans_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: GlobalStats) -> pd.DataFrame:
     """
     Safety finale:
@@ -427,8 +430,15 @@ def clean_user_df_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: GlobalSta
     # 6) outlier IQR: clipping (NO mediana)
     out = handle_outliers_iqr_global(out, cfg, gs)
 
+    if cfg.debug:
+        print_nan_report(out, title="PRE fill_remaining_nans_global")
+
     # 7) safety: flags + fill 0 (NO mediana)
     out = fill_remaining_nans_global(out, cfg, gs)
+
+    if cfg.debug:
+        print_nan_report(out, title="POST fill_remaining_nans_global")
+
 
     # 8) drop colonne (identico)
     out = finalize_clean_columns(out, cfg)
@@ -474,14 +484,18 @@ def build_clients_with_global_stats(base_dir: str, out_dir: str, cfg: CleanConfi
             df = clean_user_df_global(df, cfg, gs)
             dfs.append(df)
 
+
         merged = pd.concat(dfs, ignore_index=True)
+        print_nan_report(merged, title=f"{client_id} (merged clean)")
+
+        if cfg.day_col and cfg.day_col in merged.columns:
+            merged = merged.sort_values([cfg.day_col, "user_id"])
         if cfg.day_col and cfg.day_col in merged.columns:
             merged = merged.sort_values([cfg.day_col, "user_id"])
 
         out_path = os.path.join(out_dir, f"{client_id}_merged_clean.csv")
         merged.to_csv(out_path, index=False)
         print(f"OK salvato {client_id}: {merged.shape[0]} righe | {merged.shape[1]} colonne")
-
 
 def build_x_test_with_global_stats(
     x_test_path: str,
@@ -499,6 +513,29 @@ def build_x_test_with_global_stats(
     clean = clean_user_df_global(df, cfg_test, gs)
     clean.to_csv(out_path, index=False)
     print(f"✔ SALVATO X_TEST: {clean.shape[0]} righe | {clean.shape[1]} colonne -> {out_path}")
+
+
+
+def print_nan_report(df: pd.DataFrame, title: str) -> None:
+    total_nans = int(df.isna().sum().sum())
+    rows_with_nan = int(df.isna().any(axis=1).sum())
+    n_rows = int(len(df))
+
+    if n_rows > 0:
+        per_row = df.isna().sum(axis=1)
+        mn = int(per_row.min())
+        av = float(per_row.mean())
+        md = float(per_row.median())
+        mx = int(per_row.max())
+    else:
+        mn = mx = 0
+        av = md = 0.0
+
+    print(
+        f"[{title}] Rows={n_rows} | Total NaN={total_nans} | Rows w/ >=1 NaN={rows_with_nan} "
+        f"| NaN/row min={mn} mean={av:.3f} median={md:.1f} max={mx}"
+    )
+
 
 
 if __name__ == "__main__":
