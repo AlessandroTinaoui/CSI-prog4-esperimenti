@@ -1,4 +1,4 @@
-# mlp/client/client_params.py
+# mlp/client/config.py
 from __future__ import annotations
 
 import json
@@ -14,15 +14,15 @@ RANDOM_STATE = 42
 SHUFFLE_SPLIT = False
 
 # --- TRAINING DEFAULTS (overridabili da trial) ---
-LOCAL_EPOCHS = 3
-BATCH_SIZE = 32
-LR = 0.00041359231315912955
-WEIGHT_DECAY = 0.0001440181331662011
+LOCAL_EPOCHS = 1
+BATCH_SIZE = 16
+LR = 0.0006227096731372952
+WEIGHT_DECAY = 0.00030457842752558905
 
 # --- MODEL DEFAULTS (overridabili da trial) ---
 HIDDEN_SIZES = [64, 32, 16]
-DROPOUT = 0.4466637691808774
-BETA = 2.0
+DROPOUT = 0.3516229788661295
+BETA=2.0
 
 # --- EARLY STOPPING (nuovo) ---
 # Val split interno al train del client: ultimo blocco (time-aware)
@@ -36,7 +36,6 @@ ES_RESTORE_BEST = True     # ripristina i pesi del best val MAE
 def _apply_trial_overrides() -> None:
     global LOCAL_EPOCHS, BATCH_SIZE, LR, WEIGHT_DECAY
     global HIDDEN_SIZES, DROPOUT, BETA
-    global ES_ENABLED, ES_VAL_FRAC, ES_PATIENCE, ES_MIN_DELTA, ES_MIN_EPOCHS, ES_RESTORE_BEST
 
     cfg_path = os.environ.get("TRIAL_CONFIG_PATH")
     if not cfg_path:
@@ -48,7 +47,6 @@ def _apply_trial_overrides() -> None:
     cfg = json.loads(p.read_text(encoding="utf-8"))
     client = cfg.get("client", {})
 
-    # training
     if "LOCAL_EPOCHS" in client:
         LOCAL_EPOCHS = int(client["LOCAL_EPOCHS"])
     if "BATCH_SIZE" in client:
@@ -58,7 +56,6 @@ def _apply_trial_overrides() -> None:
     if "WEIGHT_DECAY" in client:
         WEIGHT_DECAY = float(client["WEIGHT_DECAY"])
 
-    # model
     if "HIDDEN_SIZES" in client:
         HIDDEN_SIZES = list(client["HIDDEN_SIZES"])
     if "DROPOUT" in client:

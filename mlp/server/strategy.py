@@ -21,6 +21,9 @@ from mlp.server.config import (
 )
 from mlp.client.client_params import HIDDEN_SIZES, DROPOUT
 
+SELECTED_FEATURES_JSON = "selected_features.json"
+
+
 class FedAvgNNWithGlobalScaler(FedAvg):
     def __init__(self, project_root: Path, **kwargs: Any):
         super().__init__(**kwargs)
@@ -39,6 +42,17 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         # ✅ tracking best global eval (lower is better)
         self.best_eval_mae: float = float("inf")
         self.best_round: int = -1
+
+        # --- feature selection (offline) ---
+        self.selected_features: Optional[set[str]] = None
+        sel_path = self.results_dir / SELECTED_FEATURES_JSON
+        if sel_path.exists():
+            try:
+                self.selected_features = set(json.loads(sel_path.read_text(encoding="utf-8")))
+                print(f"[SERVER] ✅ Loaded selected_features: {len(self.selected_features)}")
+            except Exception as e:
+                print(f"[SERVER] ⚠️ Cannot read selected_features.json: {e}")
+                self.selected_features = None
 
     def configure_fit(self, server_round: int, parameters: Parameters, client_manager):
         fit_instructions = super().configure_fit(server_round, parameters, client_manager)
@@ -135,6 +149,11 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                     YSUMSQ += ysumsq
 
             global_features = sorted(list(feats_union))
+            # ✅ apply selected_features (if available)
+            if self.selected_features is not None:
+                global_features = [f for f in global_features if f in self.selected_features]
+                if len(global_features) == 0:
+                    raise RuntimeError("selected_features.json ha filtrato tutte le feature (lista vuota).")
             d = len(global_features)
             if d == 0:
                 raise RuntimeError("Nessuna feature ricevuta in round 1.")
@@ -152,7 +171,9 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 ssq = np.array(json.loads(m["sumsq"]), dtype=np.float64)
 
                 for j, f in enumerate(feat_names):
-                    gi = idx[f]
+                    gi = idx.get(f)
+                    if gi is None:
+                        continue  # feature esclusa dalla selected_features -> ignorala
                     SUM[gi] += s[j]
                     SUMSQ[gi] += ssq[j]
                 N += n
@@ -266,300 +287,6 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 if src.exists():
                     import shutil
 
-                    shutil.copyfile(src, dst)
-                    print(f"[SERVER] ✅ Best model aggiornato (round {server_round}) -> {dst.resolve()}")
-
-            aggregated_metrics = aggregated_metrics or {}
-            aggregated_metrics["fed_eval_mae_real"] = float(mean_mae)
-            aggregated_metrics["best_eval_mae_real"] = float(self.best_eval_mae)
-            aggregated_metrics["best_round"] = float(self.best_round)
-
-        return aggregated_loss, aggregated_metrics
-
-class FedAvgMNNWithGlobalScaler(FedAvg):
-    """
-    FedAvg + server-side momentum (FedAvgM) compatibile con round 1 speciale
-    (global scaler + target stats) della tua pipeline.
-
-    Implementa:
-      v_{t+1} = beta * v_t + (w_bar - w_prev)
-      w_{t+1} = w_prev + eta * v_{t+1}
-    dove w_bar sono i pesi aggregati FedAvg "classici".
-    """
-
-    def __init__(
-        self,
-        project_root: Path,
-        server_momentum: float = 0.9,
-        server_learning_rate: float = 1.0,
-        **kwargs: Any,
-    ):
-        super().__init__(**kwargs)
-        self.project_root = project_root
-        self.results_dir = self.project_root / RESULTS_DIRNAME
-        self.results_dir.mkdir(parents=True, exist_ok=True)
-
-        # Artifact globali
-        self.global_features: Optional[List[str]] = None
-        self.scaler_mean: Optional[np.ndarray] = None
-        self.scaler_std: Optional[np.ndarray] = None
-        self.y_mean: Optional[float] = None
-        self.y_std: Optional[float] = None
-
-        # Best model tracking
-        self.best_eval_mae: float = float("inf")
-        self.best_round: int = -1
-
-        # FedAvgM params + stato
-        self.server_momentum: float = float(server_momentum)
-        self.server_learning_rate: float = float(server_learning_rate)
-        self._velocity: Optional[List[np.ndarray]] = None
-        self._prev_weights: Optional[List[np.ndarray]] = None
-
-    def configure_fit(self, server_round: int, parameters: Parameters, client_manager):
-        fit_instructions = super().configure_fit(server_round, parameters, client_manager)
-        out = []
-
-        if server_round == 1:
-            for cp, ins in fit_instructions:
-                ins.config["phase"] = "scaler"
-                out.append((cp, ins))
-            return out
-
-        if (
-            self.global_features is None
-            or self.scaler_mean is None
-            or self.scaler_std is None
-            or self.y_mean is None
-            or self.y_std is None
-        ):
-            raise RuntimeError("Artifacts non inizializzati: round 1 non ha prodotto scaler/target stats.")
-
-        for cp, ins in fit_instructions:
-            ins.config["phase"] = "train"
-            ins.config["global_features"] = json.dumps(self.global_features)
-            ins.config["scaler_mean"] = json.dumps(self.scaler_mean.tolist())
-            ins.config["scaler_std"] = json.dumps(self.scaler_std.tolist())
-            ins.config["y_mean"] = str(self.y_mean)
-            ins.config["y_std"] = str(self.y_std)
-            out.append((cp, ins))
-        return out
-
-    def configure_evaluate(self, server_round: int, parameters: Parameters, client_manager):
-        eval_instructions = super().configure_evaluate(server_round, parameters, client_manager)
-        out = []
-
-        if server_round == 1:
-            return []
-
-        if (
-            self.global_features is None
-            or self.scaler_mean is None
-            or self.scaler_std is None
-            or self.y_mean is None
-            or self.y_std is None
-        ):
-            return []
-
-        for cp, ins in eval_instructions:
-            ins.config["global_features"] = json.dumps(self.global_features)
-            ins.config["scaler_mean"] = json.dumps(self.scaler_mean.tolist())
-            ins.config["scaler_std"] = json.dumps(self.scaler_std.tolist())
-            ins.config["y_mean"] = str(self.y_mean)
-            ins.config["y_std"] = str(self.y_std)
-            out.append((cp, ins))
-        return out
-
-    def aggregate_fit(
-        self,
-        server_round: int,
-        results: List[Tuple[ClientProxy, FitRes]],
-        failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
-    ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
-        if not results:
-            return None, {}
-
-        # -------------------------
-        # ROUND 1: build global scaler (X) + target stats (Y)
-        # -------------------------
-        if server_round == 1:
-            feats_union = set()
-            per_client = []
-
-            YN = 0
-            YSUM = 0.0
-            YSUMSQ = 0.0
-
-            for _, fit_res in results:
-                m = fit_res.metrics or {}
-                if "feature_names" not in m:
-                    continue
-
-                feat_names = json.loads(m["feature_names"])
-                feats_union.update(feat_names)
-                per_client.append((feat_names, m))
-
-                if "y_n" in m and "y_sum" in m and "y_sumsq" in m:
-                    yn = int(m["y_n"])
-                    ysum = float(m["y_sum"])
-                    ysumsq = float(m["y_sumsq"])
-                    YN += yn
-                    YSUM += ysum
-                    YSUMSQ += ysumsq
-
-            global_features = sorted(list(feats_union))
-            d = len(global_features)
-            if d == 0:
-                raise RuntimeError("Nessuna feature ricevuta in round 1.")
-
-            N = 0
-            SUM = np.zeros(d, dtype=np.float64)
-            SUMSQ = np.zeros(d, dtype=np.float64)
-            idx = {f: i for i, f in enumerate(global_features)}
-
-            for feat_names, m in per_client:
-                n = int(m["n"])
-                s = np.array(json.loads(m["sum"]), dtype=np.float64)
-                ssq = np.array(json.loads(m["sumsq"]), dtype=np.float64)
-
-                for j, f in enumerate(feat_names):
-                    gi = idx[f]
-                    SUM[gi] += s[j]
-                    SUMSQ[gi] += ssq[j]
-                N += n
-
-            if N <= 1:
-                raise RuntimeError("Troppi pochi esempi aggregati per calcolare std (X).")
-
-            mean = SUM / N
-            var = (SUMSQ / N) - (mean * mean)
-            var = np.maximum(var, 1e-12)
-            std = np.sqrt(var)
-
-            self.global_features = global_features
-            self.scaler_mean = mean.astype(np.float32)
-            self.scaler_std = std.astype(np.float32)
-
-            (self.results_dir / GLOBAL_FEATURES_JSON).write_text(
-                json.dumps({"features": self.global_features}, indent=2),
-                encoding="utf-8",
-            )
-            (self.results_dir / GLOBAL_SCALER_JSON).write_text(
-                json.dumps({"mean": self.scaler_mean.tolist(), "std": self.scaler_std.tolist()}, indent=2),
-                encoding="utf-8",
-            )
-
-            if YN <= 1:
-                self.y_mean = 0.0
-                self.y_std = 1.0
-            else:
-                y_mean = YSUM / YN
-                y_var = (YSUMSQ / YN) - (y_mean * y_mean)
-                y_var = float(max(y_var, 1e-12))
-                self.y_mean = float(y_mean)
-                self.y_std = float(np.sqrt(y_var))
-
-            (self.results_dir / "global_target.json").write_text(
-                json.dumps({"y_mean": self.y_mean, "y_std": self.y_std}, indent=2),
-                encoding="utf-8",
-            )
-
-            # ---- init pesi (coerenti con d) per round 2 ----
-            torch.manual_seed(0)
-            init_model = MLPRegressor(
-                input_dim=d,
-                hidden_sizes=HIDDEN_SIZES,
-                dropout=DROPOUT,
-            )
-            init_params = [val.detach().cpu().numpy() for _, val in init_model.state_dict().items()]
-
-            # ---- init momentum state ----
-            self._prev_weights = [p.copy() for p in init_params]
-            self._velocity = [np.zeros_like(p) for p in init_params]
-
-            return ndarrays_to_parameters(init_params), {
-                "scaler_done": 1.0,
-                "n_features": float(d),
-                "N": float(N),
-                "Y_N": float(YN),
-            }
-
-        # -------------------------
-        # ROUND >=2: FedAvg + (optional) server momentum + SAVE MODEL
-        # -------------------------
-        aggregated_parameters, aggregated_metrics = super().aggregate_fit(server_round, results, failures)
-        if aggregated_parameters is None:
-            return None, aggregated_metrics or {}
-
-        w_bar = parameters_to_ndarrays(aggregated_parameters)
-
-        # se per qualche motivo non inizializzato (non dovrebbe), fallback safe
-        if self._prev_weights is None or self._velocity is None:
-            self._prev_weights = [x.copy() for x in w_bar]
-            self._velocity = [np.zeros_like(x) for x in w_bar]
-
-        beta = float(self.server_momentum)
-        eta = float(self.server_learning_rate)
-
-        # se beta==0 e eta==1, equivale a FedAvg puro
-        if beta != 0.0 or eta != 1.0:
-            new_velocity = []
-            new_weights = []
-            for v, w_prev, w_new in zip(self._velocity, self._prev_weights, w_bar):
-                delta = (w_new - w_prev)
-                v_next = beta * v + delta
-                w_next = w_prev + eta * v_next
-                new_velocity.append(v_next)
-                new_weights.append(w_next)
-
-            self._velocity = new_velocity
-            self._prev_weights = [x.copy() for x in new_weights]
-            aggregated_parameters = ndarrays_to_parameters(new_weights)
-        else:
-            # FedAvg puro: aggiorna prev_weights per coerenza
-            self._prev_weights = [x.copy() for x in w_bar]
-
-        # salva global_model.npz
-        nds = parameters_to_ndarrays(aggregated_parameters)
-        out_path = self.results_dir / "global_model.npz"
-        np.savez(out_path, *nds)
-        print(f"[SERVER] Salvato global_model.npz in: {out_path.resolve()}")
-
-        aggregated_metrics = aggregated_metrics or {}
-        aggregated_metrics["server_momentum"] = float(beta)
-        aggregated_metrics["server_learning_rate"] = float(eta)
-
-        return aggregated_parameters, aggregated_metrics
-
-    def aggregate_evaluate(self, server_round: int, results, failures):
-        aggregated_loss, aggregated_metrics = super().aggregate_evaluate(server_round, results, failures)
-
-        if not results:
-            return aggregated_loss, aggregated_metrics
-
-        total_n = 0
-        weighted_mae = 0.0
-
-        for _, ev_res in results:
-            m = ev_res.metrics or {}
-            if "eval_mae_real" not in m:
-                continue
-            n = int(ev_res.num_examples)
-            total_n += n
-            weighted_mae += float(m["eval_mae_real"]) * n
-
-        if total_n > 0:
-            mean_mae = weighted_mae / total_n
-            print(f"[SERVER] Round {server_round} - FED_EVAL_MAE_REAL: {mean_mae:.4f}")
-
-            if mean_mae < self.best_eval_mae:
-                self.best_eval_mae = float(mean_mae)
-                self.best_round = int(server_round)
-
-                src = self.results_dir / "global_model.npz"
-                dst = self.results_dir / "best_model.npz"
-                if src.exists():
-                    import shutil
                     shutil.copyfile(src, dst)
                     print(f"[SERVER] ✅ Best model aggiornato (round {server_round}) -> {dst.resolve()}")
 

@@ -10,6 +10,7 @@ from dataset.dataset_cfg import get_train_path
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "../../" + get_train_path())
+FS_DIR = os.path.join(BASE_DIR, "../feature_selection.py" )
 client_ps = []
 print(DATA_DIR)
 
@@ -18,6 +19,15 @@ def main():
         os.makedirs("../logs")
 
     print("--- AVVIO SISTEMA FEDERATED ---")
+    # --- run feature selection once (if missing) ---
+    selected_path = os.path.join(BASE_DIR, "../results/selected_features.json")
+    if not os.path.exists(selected_path):
+        print("⚙️ selected_features.json non trovato. Lancio feature selection...")
+        cmd_fs = [sys.executable, FS_DIR]
+        subprocess.check_call(cmd_fs, cwd=BASE_DIR)
+        print("✅ Feature selection completata.")
+    else:
+        print("✅ selected_features.json già presente, salto feature selection.")
 
     for client_id in range(9):
         if client_id == HOLDOUT_CID:

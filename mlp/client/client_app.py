@@ -28,24 +28,27 @@ from mlp.data import (
 )
 from mlp.server.config import SERVER_ADDRESS
 
-# Import parametri (incluso early stopping)
-from client_params import (
-    BETA,
-    ES_ENABLED,
-    ES_VAL_FRAC,
-    ES_PATIENCE,
-    ES_MIN_DELTA,
-    ES_MIN_EPOCHS,
-    ES_RESTORE_BEST,
-)
+
 
 # -------- Paths/logs --------
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 LOGS_DIR = PROJECT_ROOT / "logs"
+SELECTED_FEATURES_PATH = PROJECT_ROOT / "results" / "selected_features.json"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 CLIENTS_DATA_DIR = Path(__file__).resolve().parent / "clients_data"
 
+
+def load_selected_features(path: Path) -> Optional[List[str]]:
+    if not path.exists():
+        return None
+    try:
+        feats = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(feats, list) and len(feats) > 0:
+            return feats
+    except Exception:
+        return None
+    return None
 
 def get_model_params(model: nn.Module) -> List[np.ndarray]:
     return [val.detach().cpu().numpy() for _, val in model.state_dict().items()]
@@ -236,6 +239,16 @@ class NNClient(NumPyClient):
         self.X_test_df = X_test_df
         self.y_train = y_train.to_numpy(dtype=np.float32)
         self.y_test = y_test.to_numpy(dtype=np.float32)
+
+        # --- feature selection (optional) ---
+        selected = load_selected_features(SELECTED_FEATURES_PATH)
+        if selected is not None:
+            keep = [c for c in selected if c in self.X_train_df.columns]
+            self.X_train_df = self.X_train_df[keep].copy()
+            self.X_test_df = self.X_test_df[[c for c in keep if c in self.X_test_df.columns]].copy()
+            self.logger.info(f"Applied selected_features.json: kept={len(keep)}")
+        else:
+            self.logger.info("No selected_features.json found: using all local features.")
 
         self.feature_names_local = list(self.X_train_df.columns)
 
