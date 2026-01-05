@@ -7,10 +7,10 @@ from pathlib import Path
 
 # --- networking / fl ---
 SERVER_ADDRESS = "127.0.0.1:8080"
-
+BEST_MODEL = False
 if "FL_SERVER_ADDRESS" in os.environ:
     SERVER_ADDRESS = os.environ["FL_SERVER_ADDRESS"]
-HOLDOUT_CID = 2
+HOLDOUT_CID = 6
 # --- default federated params (overridabili da trial) ---
 NUM_ROUNDS = 196
 FRACTION_FIT = 1.0
@@ -26,9 +26,11 @@ GLOBAL_SCALER_JSON = "global_scaler.json"
 GLOBAL_MODEL_PTH = "global_model.pth"
 
 
+
 def _apply_trial_overrides() -> None:
     global NUM_ROUNDS, FRACTION_FIT, FRACTION_EVALUATE
-    global MIN_FIT_CLIENTS, MIN_EVALUATE_CLIENTS, MIN_AVAILABLE_CLIENTS
+    global MIN_FIT_CLIENTS, MIN_EVALUATE_CLIENTS, MIN_AVAILABLE_CLIENTS, BEST_MODEL
+
 
     cfg_path = os.environ.get("TRIAL_CONFIG_PATH")
     if not cfg_path:
@@ -42,6 +44,9 @@ def _apply_trial_overrides() -> None:
 
     if "NUM_ROUNDS" in server:
         NUM_ROUNDS = int(server["NUM_ROUNDS"])
+
+    if "BEST_MODEL" in server:
+        BEST_MODEL = bool(server["BEST_MODEL"])
 
     if "FRACTION_FIT" in server:
         FRACTION_FIT = float(server["FRACTION_FIT"])

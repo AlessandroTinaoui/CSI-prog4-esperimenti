@@ -67,21 +67,31 @@ def _extratree_space(trial) -> Dict[str, Any]:
 
 
 def _mlp_space(trial) -> Dict[str, Any]:
-    # come il tuo suggest_nn_params (lo rendo "spazio" per uniformità)
+    local_epochs = trial.suggest_int("client.LOCAL_EPOCHS", 2, 10)
     return {
         "MODEL_TYPE": "mlp",
-        "LOCAL_EPOCHS": trial.suggest_int("client.LOCAL_EPOCHS", 1, 5),
+        "LOCAL_EPOCHS": local_epochs,
         "BATCH_SIZE": trial.suggest_categorical("client.BATCH_SIZE", [16, 32, 64]),
         "LR": trial.suggest_float("client.LR", 1e-4, 5e-3, log=True),
         "WEIGHT_DECAY": trial.suggest_float("client.WEIGHT_DECAY", 1e-6, 5e-3, log=True),
         "DROPOUT": trial.suggest_float("client.DROPOUT", 0.0, 0.5),
-        # se vuoi riattivare la ricerca layer:
-        # "HIDDEN_SIZES": [
-        #     trial.suggest_int("client.H1", 16, 256, log=True),
-        #     trial.suggest_int("client.H2", 16, 128, log=True),
-        #     trial.suggest_int("client.H3", 8, 64, log=True),
-        # ],
+
+        # --- beta ---
+        "BETA": trial.suggest_float("client.BETA", 1e-2, 5.0, log=True),
+
+        # --- early stopping ---
+        "ES_ENABLED": trial.suggest_categorical("client.ES_ENABLED", [False, True]),
+        "ES_VAL_FRAC": trial.suggest_float("client.ES_VAL_FRAC", 0.10, 0.25),
+        "ES_MIN_EPOCHS": trial.suggest_int("client.ES_MIN_EPOCHS", 0, min(4, local_epochs - 1)),
+        "ES_PATIENCE": trial.suggest_int("client.ES_PATIENCE", 1, min(6, local_epochs - 1)),
+        "ES_MIN_DELTA": trial.suggest_float("client.ES_MIN_DELTA", 1e-5, 1e-2, log=True),
+        "ES_RESTORE_BEST": trial.suggest_categorical("client.ES_RESTORE_BEST", [False, True]),
+
+
+        "BEST_MODEL": trial.suggest_categorical("client.BEST_MODEL", [False, True]),
+
     }
+
 
 
 def _tabnet_space(trial) -> Dict[str, Any]:

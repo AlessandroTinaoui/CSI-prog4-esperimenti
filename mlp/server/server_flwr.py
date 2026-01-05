@@ -12,6 +12,7 @@ from config import (
     HOLDOUT_CID, NUM_ROUNDS, SERVER_ADDRESS,
     RESULTS_DIRNAME, GLOBAL_FEATURES_JSON, GLOBAL_SCALER_JSON
 )
+from mlp.server.config import BEST_MODEL
 from strategy import FedAvgNNWithGlobalScaler
 from dataset.dataset_cfg import get_train_path, get_test_path
 from mlp.model import MLPRegressor
@@ -31,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 def _load_global_artifacts():
     features_path = RESULTS_DIR / GLOBAL_FEATURES_JSON
     scaler_path = RESULTS_DIR / GLOBAL_SCALER_JSON
-    model_path = RESULTS_DIR / "global_model.npz"
+    model_path = RESULTS_DIR/ "global_model.npz" if BEST_MODEL else RESULTS_DIR / "best_model.npz"
     target_path = RESULTS_DIR / "global_target.json"
 
     for p in [features_path, scaler_path, model_path, target_path]:

@@ -200,7 +200,7 @@ def apply_domain_sanity_checks(df: pd.DataFrame, cfg: CleanConfigGlobal) -> pd.D
 # -----------------------------
 # Imputazione: 0 + missing flags (NO mediana globale)
 # -----------------------------
-def impute_missing_values_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: GlobalStats) -> pd.DataFrame:
+#def impute_missing_values_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: GlobalStats) -> pd.DataFrame:
     """
     Per NN/MLP:
     - crea flag <col>__missing (0/1) sulle feature "original" (non ts__...)
@@ -219,6 +219,34 @@ def impute_missing_values_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: G
 
     out[feat] = out[feat].fillna(0.0)
     return out
+
+#con mediana
+def impute_missing_values_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: GlobalStats) -> pd.DataFrame:
+    """
+    - crea flag <col>__missing (0/1) sulle feature "original" (non ts__...)
+    - imputazione NaN con mediana globale per colonna (fallback 0.0)
+    """
+    out = df.copy()
+    feat = _select_numeric_original_cols_for_low_info(out, cfg)
+    if not feat:
+        return out
+
+    feat = [c for c in feat if not _is_quality_or_flag_col(c)]
+
+    # missing flags (come prima)
+    for c in feat:
+        if _should_add_missing_flag(c):
+            out[f"{c}__missing"] = out[c].isna().astype(np.int8)
+
+    # imputazione con mediana globale colonna-per-colonna
+    for c in feat:
+        med = gs.medians.get(c, 0.0)
+        if not np.isfinite(med):
+            med = 0.0
+        out[c] = out[c].fillna(med)
+
+    return out
+
 
 
 # -----------------------------
@@ -262,7 +290,7 @@ def handle_outliers_iqr_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: Glo
 
 
 
-def fill_remaining_nans_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: GlobalStats) -> pd.DataFrame:
+#def fill_remaining_nans_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: GlobalStats) -> pd.DataFrame:
     """
     Safety finale:
     - crea missing flags per numeriche rimaste NaN (se non già create)
@@ -295,6 +323,47 @@ def fill_remaining_nans_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: Glo
             out[miss_c] = out[c].isna().astype(np.int8)
 
     out[num_cols] = out[num_cols].fillna(0.0)
+    return out
+
+#con mediana
+def fill_remaining_nans_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: GlobalStats) -> pd.DataFrame:
+    """
+    OPZIONE: MEDIANA globale per colonna (fallback 0.0)
+    - crea missing flags per numeriche rimaste NaN (se non già create)
+    - imputazione NaN con mediana globale
+    """
+    out = df.copy()
+    exclude = {cfg.label_col, "client_id", "user_id", "source_file"}
+    if cfg.day_col:
+        exclude.add(cfg.day_col)
+
+    num_cols = [
+        c for c in out.columns
+        if c not in exclude
+        and pd.api.types.is_numeric_dtype(out[c])
+        and not c.endswith("__is_outlier")
+        and not c.endswith("__clean")
+    ]
+    if not num_cols:
+        return out
+
+    # missing flags dove mancano (solo per wearable scalari come da tua logica)
+    for c in num_cols:
+        if _is_quality_or_flag_col(c):
+            continue
+        if not _should_add_missing_flag(c):
+            continue
+        miss_c = f"{c}__missing"
+        if miss_c not in out.columns:
+            out[miss_c] = out[c].isna().astype(np.int8)
+
+    # imputazione: MEDIANA
+    for c in num_cols:
+        med = gs.medians.get(c, 0.0)
+        if not np.isfinite(med):
+            med = 0.0
+        out[c] = out[c].fillna(med)
+
     return out
 
 

@@ -56,15 +56,15 @@ def main() -> None:
     # modello
     ap.add_argument(
         "--model",
-        default="TabNet",
+        default="mlp",
         choices=MODEL_REGISTRY.keys(),
         help="Modello da usare",
     )
 
     # Optuna
-    ap.add_argument("--study-name", default="TabNet")
-    ap.add_argument("--storage", default="sqlite:///tabnet_prova.sqlite3")
-    ap.add_argument("--n-trials", type=int, default=50)
+    ap.add_argument("--study-name", default="mlp_prepro2_3")
+    ap.add_argument("--storage", default="sqlite:///Mlp_prepro2_3.sqlite3")
+    ap.add_argument("--n-trials", type=int, default=100)
 
     # training runner
     ap.add_argument("--cids", type=str, default="0-8", help="Range cids, es: '0-8' o '0,1,2,5'")

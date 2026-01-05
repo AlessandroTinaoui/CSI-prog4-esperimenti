@@ -1,0 +1,21 @@
+{
+  "server": {
+    "NUM_ROUNDS": 118,
+    "TOP_K_FEATURES": 17
+  },
+  "client": {
+    "MODEL_TYPE": "mlp",
+    "LOCAL_EPOCHS": 4,
+    "BATCH_SIZE": 32,
+    "LR": 0.0010253998973649087,
+    "WEIGHT_DECAY": 2.4974615370569566e-05,
+    "DROPOUT": 0.4787426641492484,
+    "BETA": 0.821588445474412,
+    "ES_ENABLED": false,
+    "ES_VAL_FRAC": 0.16797652792010961,
+    "ES_MIN_EPOCHS": 2,
+    "ES_PATIENCE": 2,
+    "ES_MIN_DELTA": 0.002570364268879714,
+    "ES_RESTORE_BEST": false
+  }
+}
