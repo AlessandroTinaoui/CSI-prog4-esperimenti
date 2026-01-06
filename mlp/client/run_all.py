@@ -6,7 +6,7 @@ import time
 # Configurazione manuale se config.py fallisce
 
 from mlp.server.config import HOLDOUT_CID
-from dataset.dataset_cfg import get_train_path
+from dataset.dataset_cfg import get_train_path, get_script_path
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "../../" + get_train_path())
@@ -18,6 +18,9 @@ def main():
         os.makedirs("../logs")
 
     print("--- AVVIO SISTEMA FEDERATED ---")
+    # Esegui sempre il preprocessing globale prima di qualsiasi altra cosa
+    preprocess_script = os.path.join(BASE_DIR, "../../" + get_script_path())
+    subprocess.run([sys.executable, preprocess_script], cwd=BASE_DIR, check=True)
 
     for client_id in range(9):
         if client_id == HOLDOUT_CID:

@@ -12,7 +12,7 @@ import pandas as pd
 
 from extract_ts_features import extract_ts_features, TSFeatureConfig, infer_ts_columns
 from ts_augment import TSAugmentConfig, augment_ts_dataframe
-
+from dataset.dataset_cfg import HOLDOUT
 
 # -----------------------------
 # Config
@@ -532,7 +532,13 @@ def parse_user_id(filename: str) -> str:
     return parts[parts.index("user") + 1] if "user" in parts else base
 
 
-def build_clients_with_global_stats(base_dir: str, out_dir: str, cfg: CleanConfigGlobal, gs: GlobalStats):
+def build_clients_with_global_stats(
+    base_dir: str,
+    out_dir: str,
+    cfg: CleanConfigGlobal,
+    gs: GlobalStats,
+    holdout: int = 999,
+):
     os.makedirs(out_dir, exist_ok=True)
     group_dirs = sorted(d for d in glob.glob(os.path.join(base_dir, "group*")) if os.path.isdir(d))
 
@@ -540,6 +546,13 @@ def build_clients_with_global_stats(base_dir: str, out_dir: str, cfg: CleanConfi
 
     for gdir in group_dirs:
         client_id = os.path.basename(gdir)
+        is_holdout = (0 <= int(holdout) <= 8) and (client_id == f"group{int(holdout)}")
+        cfg_client = (
+            CleanConfigGlobal(**{**cfg.__dict__, "mode": "infer", "debug": cfg.debug})
+            if is_holdout
+            else cfg
+        )
+
         user_files = sorted(glob.glob(os.path.join(gdir, "*.csv")))
         print(f"Client {client_id} | utenti: {len(user_files)}")
 
@@ -550,7 +563,7 @@ def build_clients_with_global_stats(base_dir: str, out_dir: str, cfg: CleanConfi
             df["user_id"] = parse_user_id(p)
             df["source_file"] = os.path.basename(p)
 
-            df = clean_user_df_global(df, cfg, gs)
+            df = clean_user_df_global(df, cfg_client, gs)
             dfs.append(df)
 
 
@@ -625,7 +638,7 @@ if __name__ == "__main__":
     gs = compute_global_stats_from_csvs(all_csvs, cfg)
     print("GlobalStats calcolate:", len(gs.medians), "colonne")
 
-    build_clients_with_global_stats(TRAIN_BASE_DIR, OUT_DIR, cfg, gs)
+    build_clients_with_global_stats(TRAIN_BASE_DIR, OUT_DIR, cfg, gs, holdout=HOLDOUT)
 
     with open(os.path.join(OUT_DIR, "global_stats.json"), "w", encoding="utf-8") as f:
         f.write(gs.to_json())
