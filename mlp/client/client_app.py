@@ -153,7 +153,7 @@ class NNClient(NumPyClient):
         phase = (config or {}).get("phase", "train")
 
         # -------------------------
-        # ROUND 1: SCALER STATS (X) + STATS TARGET (Y)
+        # ROUND 1: SCALER STATS (X) + STATS TARGET (Y) + SUM_XY (per top-k corr)
         # -------------------------
         if phase == "scaler":
             feat_names = self.feature_names_local
@@ -165,6 +165,11 @@ class NNClient(NumPyClient):
             y_sum = float(np.sum(ytr64))
             y_sumsq = float(np.sum(ytr64 * ytr64))
 
+            # ✅ NEW: somma prodotto X*y per feature (serve al server per top-k via correlazione)
+            # Nota: usiamo lo stesso ordine feat_names del client
+            Xtr64 = self.X_train_df.fillna(0.0)[feat_names].to_numpy(dtype=np.float64)
+            sum_xy = np.sum(Xtr64 * ytr64.reshape(-1, 1), axis=0)
+
             metrics = {
                 "feature_names": json.dumps(feat_names),
                 "n": int(n),
@@ -174,8 +179,10 @@ class NNClient(NumPyClient):
                 "y_n": y_n,
                 "y_sum": y_sum,
                 "y_sumsq": y_sumsq,
+                # x*y per top-k
+                "sum_xy": json.dumps(sum_xy.tolist()),
             }
-            self.logger.info("Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq")
+            self.logger.info("Phase=scaler: sent X n/sum/sumsq + Y n/sum/sumsq + SUM_XY")
             return [], n, metrics
 
         # -------------------------
@@ -284,7 +291,6 @@ if __name__ == "__main__":
     if not os.path.exists(data_path):
         print(f"ERRORE: Data file not found: {data_path}")
         sys.exit(1)
-
 
     from client_params import *
 

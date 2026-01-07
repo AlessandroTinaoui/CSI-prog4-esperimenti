@@ -1,5 +1,5 @@
 from mlp.server.config import HOLDOUT_CID
-DATASET = "three"  # "old" | "new" | "aug" | "two"|
+DATASET = "aug"  # "old" | "new" | "aug" | "two"|
 
 HOLDOUT = HOLDOUT_CID
 def get_train_path():
