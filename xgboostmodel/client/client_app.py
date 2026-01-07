@@ -1,51 +1,62 @@
-import os
-import sys
 import json
 import logging
+import os
+import sys
 from pathlib import Path
-from typing import Dict, List, Optional
-
-from xgboostmodel.client.model_params import ES_MAXIMIZE, ES_SAVE_BEST, ES_DATA_NAME, ES_ROUNDS
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]  # xgboostmodel/
-LOGS_DIR = PROJECT_ROOT / "logs"
-LOGS_DIR.mkdir(parents=True, exist_ok=True)
-
-CLIENTS_DATA_DIR = Path(__file__).resolve().parent / "clients_data"  # xgboostmodel/client/clients_data
-
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
 import flwr as fl
-import xgboost as xgb
 from flwr.client import NumPyClient
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 
-import model_params as mp
 
-def _bytes_from_ndarrays(parameters: List[np.ndarray]) -> Optional[bytes]:
-    if not parameters:
-        return None
-    arr = parameters[0]
-    if arr is None or getattr(arr, "size", 0) == 0:
-        return None
-    return np.array(arr, dtype=np.uint8).tobytes()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+LOGS_DIR = PROJECT_ROOT / "logs"
+LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def _load_booster_from_json_bytes(model_bytes: bytes) -> xgb.Booster:
-    bst = xgb.Booster()
-    bst.load_model(bytearray(model_bytes))
-    return bst
-
-
-class XGBoostClient(NumPyClient):
+def pseudo_huber_grad_hess(residual: np.ndarray, delta: float) -> Tuple[np.ndarray, np.ndarray]:
     """
-    - Round 1 (phase="fs"): invia feature importances (no model)
-    - Round >=2 (phase="train"): riceve modello globale (JSON bytes) + selected_features,
-      continua l'addestramento e invia il modello aggiornato (global+new trees).
+    loss = delta^2 (sqrt(1 + (r/delta)^2) - 1)
+    grad = r / sqrt(1 + (r/d)^2)
+    hess = 1 / (1 + (r/d)^2)^(3/2)
     """
+    d = float(delta)
+    z = residual / d
+    s = np.sqrt(1.0 + z * z)
+    grad = residual / s
+    hess = 1.0 / (s ** 3)
+    return grad, hess
 
+
+def parse_model_bytes(parameters: List[np.ndarray]) -> Dict:
+    if not parameters or parameters[0].size == 0:
+        return {"base_score": 0.0, "stumps": [], "selected_features": None, "bin_edges": None}
+    blob = np.array(parameters[0], dtype=np.uint8).tobytes()
+    try:
+        return json.loads(blob.decode("utf-8"))
+    except Exception:
+        return {"base_score": 0.0, "stumps": [], "selected_features": None, "bin_edges": None}
+
+
+def predict_stumps(X: pd.DataFrame, model: Dict) -> np.ndarray:
+    pred = np.full(shape=(len(X),), fill_value=float(model.get("base_score", 0.0)), dtype=float)
+    stumps = model.get("stumps", []) or []
+    for s in stumps:
+        feat = s["feature"]
+        thr = float(s["thr"])
+        wL = float(s["w_left"])
+        wR = float(s["w_right"])
+        lr = float(s.get("lr", 1.0))
+        xcol = X[feat].to_numpy(dtype=float, copy=False)
+        pred += lr * np.where(xcol <= thr, wL, wR)
+    return pred
+
+
+class HistClient(NumPyClient):
     def __init__(self, cid: int, data_path: str):
         self.cid = int(cid)
         self.data = pd.read_csv(data_path, sep=",").dropna()
@@ -62,146 +73,185 @@ class XGBoostClient(NumPyClient):
         cols_to_drop = ["day", "client_id", "user_id", "source_file"]
         self.cols_to_drop = [c for c in cols_to_drop if c in self.data.columns]
 
-        self.target_col = "label"
-        if self.target_col not in self.data.columns:
-            raise ValueError(f"Target column '{self.target_col}' non trovata nel dataset")
+        if "label" not in self.data.columns:
+            raise ValueError("Target column 'label' non trovata nel dataset")
 
-        self.X_full = self.data.drop(columns=self.cols_to_drop + [self.target_col])
-        self.y_full = self.data[self.target_col]
-        self.feature_names_full = self.X_full.columns.tolist()
+        X_full = self.data.drop(columns=self.cols_to_drop + ["label"])
+        y_full = self.data["label"].astype(float)
 
-        self.X_train_full, self.X_test_full, self.y_train, self.y_test = train_test_split(
-            self.X_full,
-            self.y_full,
-            test_size=0.2,
+        self.feature_names_full = X_full.columns.tolist()
+
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+            X_full, y_full, test_size=0.2, random_state=42
         )
 
-        self.selected_features: Optional[List[str]] = None
+    # ---- round 1: feature selection (come prima, ma senza xgboost: facciamo una importance semplice)
+    def _simple_importance(self, X: pd.DataFrame, y: pd.Series) -> np.ndarray:
+        # importanza grezza: |corr| con y (fallback robusto e velocissimo)
+        # Se vuoi, puoi rimettere XGBoost locale come nel tuo vecchio codice.
+        imps = []
+        yv = y.to_numpy(dtype=float)
+        for c in X.columns:
+            xv = X[c].to_numpy(dtype=float)
+            if np.std(xv) < 1e-12:
+                imps.append(0.0)
+                continue
+            corr = np.corrcoef(xv, yv)[0, 1]
+            if np.isnan(corr):
+                corr = 0.0
+            imps.append(abs(float(corr)))
+        return np.array(imps, dtype=float)
 
-    def _train_and_compute_importance(self, X_train_df: pd.DataFrame, y_train: pd.Series) -> np.ndarray:
-        model = xgb.XGBRegressor(
-            n_estimators=mp.N_ESTIMATORS,
-            max_depth=mp.MAX_DEPTH,
-            learning_rate=mp.LEARNING_RATE,
-            subsample=mp.SUBSAMPLE,
-            colsample_bytree=mp.COLSAMPLE_BYTREE,
-            reg_lambda=mp.REG_LAMBDA,
-            random_state=mp.RANDOM_STATE + self.cid,
-            n_jobs=mp.N_JOBS,
-            objective=mp.OBJECTIVE,
-            eval_metric=mp.EVAL_METRIC,
-            verbosity=mp.VERBOSITY,
-        )
-        model.fit(X_train_df, y_train)
-        return np.array(model.feature_importances_, dtype=float)
+    # ---- round 2: binning locale (quantili)
+    def _local_bin_edges(self, X: pd.DataFrame, selected_features: List[str], n_bins: int) -> Dict[str, List[float]]:
+        edges: Dict[str, List[float]] = {}
+        qs = np.linspace(0.0, 1.0, int(n_bins) + 1)
+        for feat in selected_features:
+            col = X[feat].to_numpy(dtype=float)
+            # quantili robusti; se costante -> tutti uguali
+            try:
+                qv = np.quantile(col, qs)
+            except Exception:
+                qv = np.array([np.min(col)] * (len(qs) - 1) + [np.max(col)], dtype=float)
+            qv = np.maximum.accumulate(qv)
+            edges[feat] = qv.tolist()
+        return edges
+
+    # ---- round >=3: istogrammi G/H per stump
+    def _build_histograms(
+        self,
+        X: pd.DataFrame,
+        y: pd.Series,
+        model: Dict,
+        bin_edges: Dict[str, List[float]],
+        selected_features: List[str],
+        huber_delta: float,
+    ) -> Tuple[Dict[str, List[float]], Dict[str, List[float]], float, float, float]:
+        # predizioni correnti
+        pred = predict_stumps(X, model)
+        residual = pred - y.to_numpy(dtype=float)
+
+        g, h = pseudo_huber_grad_hess(residual, delta=huber_delta)
+
+        total_G = float(np.sum(g))
+        total_H = float(np.sum(h))
+
+        # MAE (metrica) sul train locale
+        train_mae = float(mean_absolute_error(y, pred))
+
+        hist_g: Dict[str, List[float]] = {}
+        hist_h: Dict[str, List[float]] = {}
+
+        for feat in selected_features:
+            edges = bin_edges.get(feat)
+            if not edges or len(edges) < 3:
+                continue
+            B = len(edges) - 1
+            xcol = X[feat].to_numpy(dtype=float, copy=False)
+
+            # assegna bin index
+            # np.searchsorted ritorna in [0..len(edges)], convertiamo in [0..B-1]
+            idx = np.searchsorted(np.array(edges, dtype=float), xcol, side="right") - 1
+            idx = np.clip(idx, 0, B - 1)
+
+            g_bins = np.zeros(B, dtype=float)
+            h_bins = np.zeros(B, dtype=float)
+
+            # accumulo per bin
+            np.add.at(g_bins, idx, g)
+            np.add.at(h_bins, idx, h)
+
+            hist_g[feat] = g_bins.tolist()
+            hist_h[feat] = h_bins.tolist()
+
+        return hist_g, hist_h, total_G, total_H, train_mae
 
     def fit(self, parameters, config):
         phase = (config or {}).get("phase", "train")
 
         if phase == "fs":
             self.logger.info("Round 1: FEATURE SELECTION.")
-            importances = self._train_and_compute_importance(self.X_train_full, self.y_train)
+            imp = self._simple_importance(self.X_train, self.y_train)
             metrics = {
-                "local_feature_importance": json.dumps(importances.tolist()),
+                "local_feature_importance": json.dumps(imp.tolist()),
                 "feature_names": json.dumps(self.feature_names_full),
             }
-            return [], len(self.X_train_full), metrics
+            return [], len(self.X_train), metrics
 
         selected = (config or {}).get("selected_features", None)
         if selected is None:
             selected_features = list(self.feature_names_full)
         else:
             selected_features = json.loads(selected) if isinstance(selected, str) else list(selected)
-            selected_set = set(selected_features)
-            selected_features = [f for f in self.feature_names_full if f in selected_set]
 
-        self.selected_features = list(selected_features)
-        local_boost_round = int((config or {}).get("local_boost_round", 1))
+        # allinea all'ordine locale
+        selected_set = set(selected_features)
+        selected_features = [f for f in self.feature_names_full if f in selected_set]
 
-        X_train = self.X_train_full[self.selected_features]
-        X_test = self.X_test_full[self.selected_features]
+        if phase == "binning":
+            n_bins = int((config or {}).get("n_bins", 64))
+            edges = self._local_bin_edges(self.X_train, selected_features, n_bins=n_bins)
+            metrics = {"bin_edges": json.dumps(edges)}
+            return [], len(self.X_train), metrics
 
-        dtrain = xgb.DMatrix(X_train, label=self.y_train, feature_names=self.selected_features)
-        dtest = xgb.DMatrix(X_test, label=self.y_test, feature_names=self.selected_features)
+        # phase == "train"
+        model = parse_model_bytes(parameters)
+        bin_edges = (config or {}).get("bin_edges", None)
+        if bin_edges is None:
+            # se non arrivano, prova dal modello
+            bin_edges = model.get("bin_edges", None)
+        else:
+            bin_edges = json.loads(bin_edges) if isinstance(bin_edges, str) else bin_edges
 
-        global_bytes = _bytes_from_ndarrays(parameters)
-        booster_in: Optional[xgb.Booster] = None
-        if global_bytes:
-            try:
-                booster_in = _load_booster_from_json_bytes(global_bytes)
-            except Exception as e:
-                self.logger.info(f"Impossibile caricare modello globale: {e}")
-                booster_in = None
+        if not isinstance(bin_edges, dict):
+            # non possiamo fare hist
+            metrics = {"train_mae": float("nan")}
+            return [], len(self.X_train), metrics
 
-        xgb_params: Dict[str, object] = {
-            "objective": mp.OBJECTIVE,
-            "eval_metric": mp.EVAL_METRIC,
-            "max_depth": mp.MAX_DEPTH,
-            "eta": mp.LEARNING_RATE,
-            "subsample": mp.SUBSAMPLE,
-            "colsample_bytree": mp.COLSAMPLE_BYTREE,
-            "lambda": mp.REG_LAMBDA,
-            "seed": mp.RANDOM_STATE + self.cid,
-            "verbosity": mp.VERBOSITY,
-        }
+        huber_delta = float((config or {}).get("huber_delta", 1.0))
 
-        #early stop
-        early_stop=xgb.callback.EarlyStopping(
-            rounds = ES_ROUNDS,
-            metric_name = "mae",
-            data_name = mp.ES_DATA_NAME,
-            maximize = mp.ES_MAXIMIZE,
-            save_best = mp.ES_SAVE_BEST,
+        Xtr = self.X_train[selected_features]
+        ytr = self.y_train
+
+        hist_g, hist_h, total_G, total_H, train_mae = self._build_histograms(
+            X=Xtr,
+            y=ytr,
+            model=model,
+            bin_edges=bin_edges,
+            selected_features=selected_features,
+            huber_delta=huber_delta,
         )
-
-        bst = xgb.train(
-            params=xgb_params,
-            dtrain=dtrain,
-            num_boost_round=mp.MAX_LOCAL_ROUNDS,
-            xgb_model=booster_in,
-            evals=[(dtest, mp.ES_DATA_NAME)],
-            callbacks=[early_stop],
-            verbose_eval=False,
-        )
-
-        y_pred_train = bst.predict(dtrain)
-        mae_train = mean_absolute_error(self.y_train, y_pred_train)
-
-        # Server vuole JSON per poter fare append dei tree
-        raw_json = bst.save_raw(raw_format="json")
-        model_array = np.frombuffer(raw_json, dtype=np.uint8)
 
         metrics = {
-            "train_mae": float(mae_train),
-            "n_features": int(len(self.selected_features)),
-            "local_boost_round": int(local_boost_round),
+            "hist_g": json.dumps(hist_g),
+            "hist_h": json.dumps(hist_h),
+            "total_G": float(total_G),
+            "total_H": float(total_H),
+            "train_mae": float(train_mae),
         }
-        return [model_array], len(X_train), metrics
+
+        # Non mandiamo Parameters: mandiamo tutto in metrics (server aggrega)
+        return [], len(Xtr), metrics
 
     def evaluate(self, parameters, config):
+        model = parse_model_bytes(parameters)
+
         selected = (config or {}).get("selected_features", None)
         if selected is None:
-            selected_features = self.selected_features or list(self.feature_names_full)
+            selected_features = model.get("selected_features") or self.feature_names_full
         else:
             selected_features = json.loads(selected) if isinstance(selected, str) else list(selected)
-            selected_set = set(selected_features)
-            selected_features = [f for f in self.feature_names_full if f in selected_set]
 
-        X_test = self.X_test_full[selected_features]
-        dtest = xgb.DMatrix(X_test, label=self.y_test, feature_names=selected_features)
+        selected_set = set(selected_features)
+        selected_features = [f for f in self.feature_names_full if f in selected_set]
 
-        model_bytes = _bytes_from_ndarrays(parameters)
-        if not model_bytes:
-            return float("nan"), len(X_test), {"eval_mae": float("nan")}
+        Xte = self.X_test[selected_features]
+        yte = self.y_test
 
-        try:
-            bst = _load_booster_from_json_bytes(model_bytes)
-            y_pred = bst.predict(dtest)
-            mae = mean_absolute_error(self.y_test, y_pred)
-            return float(mae), len(X_test), {"eval_mae": float(mae)}
-        except Exception as e:
-            self.logger.info(f"Errore evaluate: {e}")
-            return float("nan"), len(X_test), {"eval_mae": float("nan")}
+        pred = predict_stumps(Xte, model)
+        mae = float(mean_absolute_error(yte, pred))
+
+        return mae, len(Xte), {"eval_mae": mae}
 
 
 if __name__ == "__main__":
@@ -214,11 +264,13 @@ if __name__ == "__main__":
     if len(sys.argv) > 2:
         data_path = sys.argv[2]
     else:
+        # fallback coerente col tuo layout
+        CLIENTS_DATA_DIR = Path(__file__).resolve().parent / "clients_data"
         data_path = str(CLIENTS_DATA_DIR / f"group{client_id}_merged_clean.csv")
 
     if not os.path.exists(data_path):
         print(f"ERRORE: Data file not found: {data_path}")
         sys.exit(1)
 
-    client = XGBoostClient(cid=client_id, data_path=data_path)
+    client = HistClient(cid=client_id, data_path=data_path)
     fl.client.start_numpy_client(server_address="localhost:8080", client=client)

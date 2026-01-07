@@ -13,14 +13,17 @@ def _server_space(trial) -> Dict[str, Any]:
 
 def _xgboost_space(trial) -> Dict[str, Any]:
     return {
-        "N_ESTIMATORS": trial.suggest_int("client.N_ESTIMATORS", 50, 500),
-        "MAX_DEPTH": trial.suggest_int("client.MAX_DEPTH", 2, 12),
-        "LEARNING_RATE": trial.suggest_float("client.LEARNING_RATE", 1e-3, 3e-1, log=True),
-        "SUBSAMPLE": trial.suggest_float("client.SUBSAMPLE", 0.5, 1.0),
-        "COLSAMPLE_BYTREE": trial.suggest_float("client.COLSAMPLE_BYTREE", 0.5, 1.0),
-        "REG_LAMBDA": trial.suggest_float("client.REG_LAMBDA", 1e-3, 10.0, log=True),
-        "MAX_LOCAL_ROUNDS": trial.suggest_int("client.MAX_LOCAL_ROUNDS", 10, 300),
-        "ES_ROUNDS": trial.suggest_int("client.ES_ROUNDS", 3, 50),
+        "NUM_ROUNDS": trial.suggest_int("server.NUM_ROUNDS", 30, 400),
+        "TOP_K_FEATURES": trial.suggest_int("server.TOP_K_FEATURES", 10, 60),
+
+        "N_BINS": trial.suggest_categorical("server.N_BINS", [16, 32, 64, 128]),
+        "HUBER_DELTA": trial.suggest_float("server.HUBER_DELTA", 0.05, 5.0, log=True),
+        "REG_LAMBDA": trial.suggest_float("server.REG_LAMBDA", 1e-3, 50.0, log=True),
+        "GAMMA": trial.suggest_float("server.GAMMA", 0.0, 5.0),
+        "LEARNING_RATE": trial.suggest_float("server.LEARNING_RATE", 1e-3, 0.5, log=True),
+
+        # opzionale: spesso meglio fissarlo o calcolarlo, vedi sotto
+        "BASE_SCORE": trial.suggest_float("server.BASE_SCORE", -5.0, 5.0),
     }
 
 
@@ -146,7 +149,8 @@ def suggest_params(trial) -> Dict[str, Any]:
     server = _server_space(trial)
 
     if model == "xgboostmodel":
-        client = _xgboost_space(trial)
+        server = _xgboost_space(trial)
+        client = {}
     elif model == "randomforest":
         client = _randomforest_space(trial)
     elif model == "extratree":

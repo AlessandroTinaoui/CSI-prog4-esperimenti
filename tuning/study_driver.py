@@ -56,7 +56,7 @@ def main() -> None:
     # modello
     ap.add_argument(
         "--model",
-        default="mlp",
+        default="xgboostmodel",
         choices=MODEL_REGISTRY.keys(),
         help="Modello da usare",
     )

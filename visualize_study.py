@@ -14,10 +14,13 @@ from optuna.visualization import (
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--storage", default="sqlite:///optuna_study.sqlite3")
-    ap.add_argument("--study-name", required=True)
+    ap.add_argument("--storage", default="sqlite:///xgboost_new.sqlite3")
+    ap.add_argument("--study-name",default="xgboost_new_xgboostmodel")
     ap.add_argument("--outdir", default="optuna_plots")
     args = ap.parse_args()
+    print("Studies in storage:")
+    for s in optuna.get_all_study_summaries(storage=args.storage):
+        print(" -", s.study_name)
 
     study = optuna.load_study(study_name=args.study_name, storage=args.storage)
 
@@ -38,9 +41,9 @@ def main() -> None:
 
     # opzionale: apre in browser automaticamente
     figs["optimization_history.html"].show()
-    figs["parallel_coordinate.html.html"].show()
-    figs["param_importances.html.html"].show()
-    figs["slice.html.html"].show()
+    figs["parallel_coordinate.html"].show()
+    figs["param_importances.html"].show()
+    figs["slice.html"].show()
 
 
 if __name__ == "__main__":
