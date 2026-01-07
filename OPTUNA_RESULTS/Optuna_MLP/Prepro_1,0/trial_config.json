@@ -1,0 +1,14 @@
+{
+  "server": {
+    "NUM_ROUNDS": 135,
+    "TOP_K_FEATURES": 29
+  },
+  "client": {
+    "MODEL_TYPE": "mlp",
+    "LOCAL_EPOCHS": 3,
+    "BATCH_SIZE": 32,
+    "LR": 0.00041359231315912955,
+    "WEIGHT_DECAY": 0.0001440181331662011,
+    "DROPOUT": 0.4466637691808774
+  }
+}

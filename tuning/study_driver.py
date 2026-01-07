@@ -62,8 +62,8 @@ def main() -> None:
     )
 
     # Optuna
-    ap.add_argument("--study-name", default="xgboost_new_prep0")
-    ap.add_argument("--storage", default="sqlite:///xgboost_new_prep0.sqlite3")
+    ap.add_argument("--study-name", default="mlp_prepro2_3")
+    ap.add_argument("--storage", default="sqlite:///Mlp_prepro2_3.sqlite3")
     ap.add_argument("--n-trials", type=int, default=100)
 
     # training runner

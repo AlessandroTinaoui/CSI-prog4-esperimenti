@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 from flwr.common import FitRes, Parameters, Scalar, ndarrays_to_parameters, parameters_to_ndarrays
 from flwr.server.client_proxy import ClientProxy
-from flwr.server.strategy import FedAvg
+from flwr.server.strategy import FedAvg, FedAvgM
 
 import torch
 
@@ -20,6 +20,9 @@ from mlp.server.config import (
     GLOBAL_SCALER_JSON,
 )
 from mlp.client.client_params import HIDDEN_SIZES, DROPOUT
+
+SELECTED_FEATURES_JSON = "selected_features.json"
+
 
 class FedAvgNNWithGlobalScaler(FedAvg):
     def __init__(self, project_root: Path, **kwargs: Any):
@@ -39,6 +42,17 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         # ✅ tracking best global eval (lower is better)
         self.best_eval_mae: float = float("inf")
         self.best_round: int = -1
+
+        # --- feature selection (offline) ---
+        self.selected_features: Optional[set[str]] = None
+        sel_path = self.results_dir / SELECTED_FEATURES_JSON
+        if sel_path.exists():
+            try:
+                self.selected_features = set(json.loads(sel_path.read_text(encoding="utf-8")))
+                print(f"[SERVER] ✅ Loaded selected_features: {len(self.selected_features)}")
+            except Exception as e:
+                print(f"[SERVER] ⚠️ Cannot read selected_features.json: {e}")
+                self.selected_features = None
 
     def configure_fit(self, server_round: int, parameters: Parameters, client_manager):
         fit_instructions = super().configure_fit(server_round, parameters, client_manager)
@@ -135,6 +149,11 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                     YSUMSQ += ysumsq
 
             global_features = sorted(list(feats_union))
+            # ✅ apply selected_features (if available)
+            if self.selected_features is not None:
+                global_features = [f for f in global_features if f in self.selected_features]
+                if len(global_features) == 0:
+                    raise RuntimeError("selected_features.json ha filtrato tutte le feature (lista vuota).")
             d = len(global_features)
             if d == 0:
                 raise RuntimeError("Nessuna feature ricevuta in round 1.")
@@ -152,7 +171,9 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 ssq = np.array(json.loads(m["sumsq"]), dtype=np.float64)
 
                 for j, f in enumerate(feat_names):
-                    gi = idx[f]
+                    gi = idx.get(f)
+                    if gi is None:
+                        continue  # feature esclusa dalla selected_features -> ignorala
                     SUM[gi] += s[j]
                     SUMSQ[gi] += ssq[j]
                 N += n

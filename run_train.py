@@ -66,7 +66,7 @@ MODELS = {
         server_dir=Path("mlp") / "server",
         client_dir=Path("mlp") / "client",
     ),
-    "tabnet": ModelPaths(
+    "TabNet": ModelPaths(
         name="TabNet",
         server_dir=Path("TabNet") / "server",
         client_dir=Path("TabNet") / "client",
@@ -262,7 +262,7 @@ def main() -> int:
     parser.add_argument(
         "--model",
         choices=sorted(MODELS.keys()),
-        default="xgboostmodel",
+        default="mlp",
         help="Modello da allenare.",
     )
     parser.add_argument("--repeats", type=int, default=N, help="Ripetizioni per ogni HOLDOUT_CID (default: 1).")
