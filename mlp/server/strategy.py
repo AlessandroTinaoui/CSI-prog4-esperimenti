@@ -19,7 +19,16 @@ from mlp.server.config import (
     GLOBAL_FEATURES_JSON,
     GLOBAL_SCALER_JSON,
 )
+
+# Feature selection dal config (se non esistono, fallback sicuro)
+try:
+    from mlp.server.config import TOP_K_FEATURES, MIN_STD_FEATURE_FS
+except Exception:
+    TOP_K_FEATURES = 0
+    MIN_STD_FEATURE_FS = 1e-8
+
 from mlp.client.client_params import HIDDEN_SIZES, DROPOUT
+
 
 class FedAvgNNWithGlobalScaler(FedAvg):
     def __init__(self, project_root: Path, **kwargs: Any):
@@ -104,7 +113,7 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             return None, {}
 
         # -------------------------
-        # ROUND 1: build global scaler (X) + target stats (Y)
+        # ROUND 1: build global scaler (X) + target stats (Y) + feature selection
         # -------------------------
         if server_round == 1:
             feats_union = set()
@@ -114,6 +123,9 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             YN = 0
             YSUM = 0.0
             YSUMSQ = 0.0
+
+            # opzionale: sum_xy per correlazione
+            has_sumxy = False
 
             for _, fit_res in results:
                 m = fit_res.metrics or {}
@@ -134,6 +146,9 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                     YSUM += ysum
                     YSUMSQ += ysumsq
 
+                if "sum_xy" in m:
+                    has_sumxy = True
+
             global_features = sorted(list(feats_union))
             d = len(global_features)
             if d == 0:
@@ -143,6 +158,7 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             N = 0
             SUM = np.zeros(d, dtype=np.float64)
             SUMSQ = np.zeros(d, dtype=np.float64)
+            SUMXY = np.zeros(d, dtype=np.float64)  # se disponibile
 
             idx = {f: i for i, f in enumerate(global_features)}
 
@@ -151,10 +167,19 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 s = np.array(json.loads(m["sum"]), dtype=np.float64)
                 ssq = np.array(json.loads(m["sumsq"]), dtype=np.float64)
 
+                sum_xy = None
+                if "sum_xy" in m:
+                    try:
+                        sum_xy = np.array(json.loads(m["sum_xy"]), dtype=np.float64)
+                    except Exception:
+                        sum_xy = None
+
                 for j, f in enumerate(feat_names):
                     gi = idx[f]
                     SUM[gi] += s[j]
                     SUMSQ[gi] += ssq[j]
+                    if sum_xy is not None and j < sum_xy.shape[0]:
+                        SUMXY[gi] += sum_xy[j]
                 N += n
 
             if N <= 1:
@@ -165,6 +190,59 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             var = np.maximum(var, 1e-12)
             std = np.sqrt(var)
 
+            # ✅ global target y mean/std (federato)
+            if YN <= 1:
+                self.y_mean = 0.0
+                self.y_std = 1.0
+            else:
+                y_mean = YSUM / YN
+                y_var = (YSUMSQ / YN) - (y_mean * y_mean)
+                y_var = float(max(y_var, 1e-12))
+                self.y_mean = float(y_mean)
+                self.y_std = float(np.sqrt(y_var))
+
+            # -------------------------
+            # FEATURE SELECTION (round 1)
+            # 1) variance filter (std >= MIN_STD_FEATURE_FS)
+            # 2) top-k per |corr(x,y)| se sum_xy presente
+            # -------------------------
+            top_k = int(TOP_K_FEATURES) if TOP_K_FEATURES is not None else 0
+            min_std = float(MIN_STD_FEATURE_FS) if MIN_STD_FEATURE_FS is not None else 1e-8
+
+            keep_mask = std >= min_std
+            if not np.all(keep_mask):
+                kept = int(np.sum(keep_mask))
+                print(f"[SERVER] Round 1 - Variance filter: kept {kept}/{d} features (std >= {min_std})")
+
+            global_features = [f for f, k in zip(global_features, keep_mask.tolist()) if k]
+            mean = mean[keep_mask]
+            std = std[keep_mask]
+            SUMXY = SUMXY[keep_mask]
+
+            # Top-k su correlazione (solo se disponibile)
+            if top_k > 0:
+                if not has_sumxy:
+                    print("[SERVER] Round 1 - TOP_K_FEATURES > 0 ma 'sum_xy' non presente: salto top-k corr.")
+                elif self.y_std is None or self.y_std <= 1e-12:
+                    print("[SERVER] Round 1 - y_std ~ 0: salto top-k corr.")
+                else:
+                    d2 = len(global_features)
+                    if d2 > 0:
+                        exy = SUMXY / float(N)
+                        cov = exy - (mean * float(self.y_mean))
+                        denom = np.maximum(std, min_std) * float(self.y_std)
+                        corr = cov / denom
+
+                        k = min(top_k, d2)
+                        order = np.argsort(-np.abs(corr))[:k]
+                        order = np.sort(order)  # stabile
+
+                        global_features = [global_features[i] for i in order.tolist()]
+                        mean = mean[order]
+                        std = std[order]
+                        print(f"[SERVER] Round 1 - Top-k corr: kept {len(global_features)}/{d2} (k={k})")
+
+            # salva artifacts finali
             self.global_features = global_features
             self.scaler_mean = mean.astype(np.float32)
             self.scaler_std = std.astype(np.float32)
@@ -178,17 +256,6 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 encoding="utf-8",
             )
 
-            # ✅ global target y mean/std (federato)
-            if YN <= 1:
-                self.y_mean = 0.0
-                self.y_std = 1.0
-            else:
-                y_mean = YSUM / YN
-                y_var = (YSUMSQ / YN) - (y_mean * y_mean)
-                y_var = float(max(y_var, 1e-12))
-                self.y_mean = float(y_mean)
-                self.y_std = float(np.sqrt(y_var))
-
             # salva anche su file per server_flwr.py
             (self.results_dir / "global_target.json").write_text(
                 json.dumps({"y_mean": self.y_mean, "y_std": self.y_std}, indent=2),
@@ -196,9 +263,10 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             )
 
             # ---- pesi iniziali coerenti per round 2 ----
+            d_final = len(self.global_features)
             torch.manual_seed(0)
             init_model = MLPRegressor(
-                input_dim=d,
+                input_dim=d_final,
                 hidden_sizes=HIDDEN_SIZES,
                 dropout=DROPOUT,
             )
@@ -206,9 +274,11 @@ class FedAvgNNWithGlobalScaler(FedAvg):
 
             return ndarrays_to_parameters(init_params), {
                 "scaler_done": 1.0,
-                "n_features": float(d),
+                "n_features": float(d_final),
                 "N": float(N),
                 "Y_N": float(YN),
+                "y_mean": float(self.y_mean),
+                "y_std": float(self.y_std),
             }
 
         # -------------------------

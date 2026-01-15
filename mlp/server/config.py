@@ -10,7 +10,7 @@ SERVER_ADDRESS = "127.0.0.1:8080"
 
 if "FL_SERVER_ADDRESS" in os.environ:
     SERVER_ADDRESS = os.environ["FL_SERVER_ADDRESS"]
-HOLDOUT_CID = 10
+HOLDOUT_CID = 2
 # --- default federated params (overridabili da trial) ---
 NUM_ROUNDS = 87
 FRACTION_FIT = 1.0
@@ -18,6 +18,9 @@ FRACTION_EVALUATE = 1.0
 MIN_FIT_CLIENTS = 8
 MIN_EVALUATE_CLIENTS = 8
 MIN_AVAILABLE_CLIENTS = 8
+TOP_K_FEATURES = 30
+MIN_STD_FEATURE_FS = 1e-8
+
 
 # --- output ---
 RESULTS_DIRNAME = "results"
