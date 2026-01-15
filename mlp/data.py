@@ -1,5 +1,3 @@
-# mlp/common/data.py
-
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple, Optional, Dict
@@ -31,7 +29,6 @@ def load_csv_dataset(
     X = df.drop(columns=drop_cols + [label_col], errors="ignore")
     y = df[label_col].astype(float)
 
-    # forza numerico
     for c in X.columns:
         X[c] = pd.to_numeric(X[c], errors="coerce")
     X = X.fillna(0.0)
@@ -51,7 +48,6 @@ def ensure_feature_order_and_fill(
     X: pd.DataFrame,
     global_features: List[str],
 ) -> np.ndarray:
-    # aggiunge colonne mancanti a 0, poi ordina
     for c in global_features:
         if c not in X.columns:
             X[c] = 0.0
@@ -63,7 +59,6 @@ def apply_standardization(X: np.ndarray, scaler: ScalerStats) -> np.ndarray:
     return (X - scaler.mean) / std
 
 def local_sums_for_scaler(X: pd.DataFrame, feature_names: List[str]) -> Tuple[int, np.ndarray, np.ndarray]:
-    # X: dataframe già numerico
     arr = X[feature_names].to_numpy(dtype=np.float64)
     n = arr.shape[0]
     s = np.sum(arr, axis=0)

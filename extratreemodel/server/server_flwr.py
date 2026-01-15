@@ -48,7 +48,7 @@ def main():
         min_available_clients=8,
     )
 
-    print("🚀 Avvio Server Flower (ExtraTrees)...")
+    print("Avvio Server Flower (ExtraTrees)...")
     try:
         fl.server.start_server(
             server_address=SERVER_ADDRESS,
@@ -56,17 +56,17 @@ def main():
             strategy=strategy,
         )
     except Exception as e:
-        print(f"❌ Errore durante il training FL: {e}")
+        print(f"Errore durante il training FL: {e}")
         sys.exit(1)
 
-    print("\n✅ FL terminato. Inizio fase di test...")
+    print("\nFL terminato. Inizio fase di test...")
 
     if not global_model_path.exists() or not global_features_path.exists():
-        print("❌ ERRORE: file global_model.pkl / global_model_features.json non creati.")
+        print("ERRORE: file global_model.pkl / global_model_features.json non creati.")
         sys.exit(1)
 
     ensemble = _load_global_ensemble(global_model_path)
-    print("✅ Ensemble globale caricato.")
+    print("Ensemble globale caricato.")
 
     train_features = json.loads(global_features_path.read_text(encoding="utf-8"))["features"]
 
@@ -94,14 +94,14 @@ def main():
             print(f"MEA valutato sul client {HOLDOUT_CID}")
             print(f"FINAL_MAE: {mae_holdout}")
         else:
-            print(f"⚠️ Holdout non trovato: {holdout_path}")
+            print(f"Holdout non trovato: {holdout_path}")
 
     # -------------------------
     # TEST FINALE SU x_test_clean.csv
     # -------------------------
     test_path = BASE_DIR / "../" / TEST_PATH
     if not test_path.exists():
-        print(f"⚠️ File x_test_clean.csv non trovato in {test_path}")
+        print(f"File x_test_clean.csv non trovato in {test_path}")
         return
 
     x_test = pd.read_csv(test_path)
@@ -126,7 +126,7 @@ def main():
     y_pred = np.clip(y_pred, 0, 100)  # se il punteggio è 0-100
     out = pd.DataFrame({"id": ids, "label": y_pred})
     out.to_csv("../results/predictions.csv", index=False)
-    print("✅ Creato predictions.csv")
+    print("Creato predictions.csv")
 
 
 if __name__ == "__main__":

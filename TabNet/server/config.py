@@ -1,4 +1,3 @@
-# config.py
 from __future__ import annotations
 
 import json
@@ -7,7 +6,6 @@ from pathlib import Path
 
 SERVER_ADDRESS = os.environ.get("FL_SERVER_ADDRESS", "127.0.0.1:8080")
 
-# se vuoi holdout di un client: metti 0..8, altrimenti >=9 per disabilitare
 HOLDOUT_CID = int(os.environ.get("HOLDOUT_CID", "0"))
 
 NUM_ROUNDS = int(os.environ.get("NUM_ROUNDS", "80"))

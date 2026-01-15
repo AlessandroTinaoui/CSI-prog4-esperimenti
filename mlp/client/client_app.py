@@ -1,5 +1,3 @@
-# mlp/client/client_app.py
-
 import os
 import sys
 import json
@@ -58,7 +56,6 @@ def train_one_client(
 ):
     model.train()
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-    # Huber loss: robusta e spesso migliore per MAE
     loss_fn = nn.SmoothL1Loss(beta=2.0)
 
     for _ in range(epochs):
@@ -89,7 +86,6 @@ def eval_one_client_real_mae(
         xb = torch.tensor(X, dtype=torch.float32, device=device)
         pred_norm = model(xb).detach().cpu().numpy()
 
-    # de-normalizza
     pred = pred_norm * y_std + y_mean
     pred = np.clip(pred, clip_min, clip_max)
     return float(mean_absolute_error(y_real, pred))
@@ -110,7 +106,6 @@ class NNClient(NumPyClient):
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
 
-        # Load CSV pre-processato
         X_df, y_sr = load_csv_dataset(data_path, label_col="label")
         self.feature_names_local = list(X_df.columns)
 
@@ -143,7 +138,6 @@ class NNClient(NumPyClient):
                 dropout=self.cfg["DROPOUT"],
             ).to(self.device)
 
-    # Flower required
     def get_parameters(self, config):
         if self.model is None:
             return []
@@ -159,14 +153,11 @@ class NNClient(NumPyClient):
             feat_names = self.feature_names_local
             n, s, ssq = local_sums_for_scaler(self.X_train_df.fillna(0.0), feat_names)
 
-            # ✅ stats y (solo somme, niente dati grezzi)
             ytr64 = self.y_train.astype(np.float64)
             y_n = int(ytr64.shape[0])
             y_sum = float(np.sum(ytr64))
             y_sumsq = float(np.sum(ytr64 * ytr64))
 
-            # ✅ NEW: somma prodotto X*y per feature (serve al server per top-k via correlazione)
-            # Nota: usiamo lo stesso ordine feat_names del client
             Xtr64 = self.X_train_df.fillna(0.0)[feat_names].to_numpy(dtype=np.float64)
             sum_xy = np.sum(Xtr64 * ytr64.reshape(-1, 1), axis=0)
 
@@ -192,7 +183,6 @@ class NNClient(NumPyClient):
         mean = np.array(json.loads(config["scaler_mean"]), dtype=np.float32)
         std = np.array(json.loads(config["scaler_std"]), dtype=np.float32)
 
-        # ✅ y global mean/std (federati)
         y_mean = float(config.get("y_mean", 0.0))
         y_std = float(config.get("y_std", 1.0))
         if y_std <= 1e-12:
@@ -207,14 +197,12 @@ class NNClient(NumPyClient):
         Xtr = apply_standardization(Xtr, self.scaler)
         Xte = apply_standardization(Xte, self.scaler)
 
-        # Build model
         self._build_model_if_needed(input_dim=Xtr.shape[1])
 
         # Set global params
         if parameters and len(parameters) > 0:
             set_model_params(self.model, parameters)
 
-        # ✅ y normalizzata per la loss
         ytr_norm = (self.y_train - y_mean) / y_std
 
         ds = TensorDataset(
@@ -232,7 +220,6 @@ class NNClient(NumPyClient):
             device=self.device,
         )
 
-        # Monitor MAE in scala reale (de-normalizza pred)
         mae_train = eval_one_client_real_mae(
             self.model,
             Xtr,

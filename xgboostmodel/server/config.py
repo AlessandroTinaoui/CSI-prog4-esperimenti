@@ -12,10 +12,6 @@ LOCAL_BOOST_ROUND = 1
 
 
 def _load_trial_config() -> dict:
-    """
-    Carica un JSON di configurazione se l'env TRIAL_CONFIG_PATH è impostata.
-    Ritorna {} se non presente o se fallisce.
-    """
     p = os.environ.get("TRIAL_CONFIG_PATH", "").strip()
     if not p:
         return {}
@@ -44,7 +40,6 @@ def _apply_overrides():
     if "LOCAL_BOOST_ROUND" in server_cfg:
         LOCAL_BOOST_ROUND = int(server_cfg["LOCAL_BOOST_ROUND"])
 
-    # Override "più forte" da env (utile per holdout loop senza riscrivere JSON)
     env_holdout = os.environ.get("HOLDOUT_CID", "").strip()
     if env_holdout != "":
         try:

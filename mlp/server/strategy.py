@@ -1,4 +1,3 @@
-# strategy.py
 
 from __future__ import annotations
 
@@ -20,7 +19,6 @@ from mlp.server.config import (
     GLOBAL_SCALER_JSON,
 )
 
-# Feature selection dal config (se non esistono, fallback sicuro)
 try:
     from mlp.server.config import TOP_K_FEATURES, MIN_STD_FEATURE_FS
 except Exception:
@@ -41,11 +39,9 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         self.scaler_mean: Optional[np.ndarray] = None
         self.scaler_std: Optional[np.ndarray] = None
 
-        # ✅ y global mean/std
         self.y_mean: Optional[float] = None
         self.y_std: Optional[float] = None
 
-        # ✅ tracking best global eval (lower is better)
         self.best_eval_mae: float = float("inf")
         self.best_round: int = -1
 
@@ -119,12 +115,10 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             feats_union = set()
             per_client = []
 
-            # accumulo anche y stats federate
             YN = 0
             YSUM = 0.0
             YSUMSQ = 0.0
 
-            # opzionale: sum_xy per correlazione
             has_sumxy = False
 
             for _, fit_res in results:
@@ -137,7 +131,6 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 feats_union.update(feat_names)
                 per_client.append((feat_names, m))
 
-                # y stats (se presenti)
                 if "y_n" in m and "y_sum" in m and "y_sumsq" in m:
                     yn = int(m["y_n"])
                     ysum = float(m["y_sum"])
@@ -154,7 +147,6 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             if d == 0:
                 raise RuntimeError("Nessuna feature ricevuta in round 1.")
 
-            # global scaler X
             N = 0
             SUM = np.zeros(d, dtype=np.float64)
             SUMSQ = np.zeros(d, dtype=np.float64)
@@ -190,7 +182,6 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             var = np.maximum(var, 1e-12)
             std = np.sqrt(var)
 
-            # ✅ global target y mean/std (federato)
             if YN <= 1:
                 self.y_mean = 0.0
                 self.y_std = 1.0
@@ -219,7 +210,7 @@ class FedAvgNNWithGlobalScaler(FedAvg):
             std = std[keep_mask]
             SUMXY = SUMXY[keep_mask]
 
-            # Top-k su correlazione (solo se disponibile)
+            # Top-k su correlazione
             if top_k > 0:
                 if not has_sumxy:
                     print("[SERVER] Round 1 - TOP_K_FEATURES > 0 ma 'sum_xy' non presente: salto top-k corr.")
@@ -235,7 +226,7 @@ class FedAvgNNWithGlobalScaler(FedAvg):
 
                         k = min(top_k, d2)
                         order = np.argsort(-np.abs(corr))[:k]
-                        order = np.sort(order)  # stabile
+                        order = np.sort(order)
 
                         global_features = [global_features[i] for i in order.tolist()]
                         mean = mean[order]
@@ -256,13 +247,12 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                 encoding="utf-8",
             )
 
-            # salva anche su file per server_flwr.py
             (self.results_dir / "global_target.json").write_text(
                 json.dumps({"y_mean": self.y_mean, "y_std": self.y_std}, indent=2),
                 encoding="utf-8",
             )
 
-            # ---- pesi iniziali coerenti per round 2 ----
+            # ---- pesi iniziali per round 2 ----
             d_final = len(self.global_features)
             torch.manual_seed(0)
             init_model = MLPRegressor(
@@ -310,7 +300,6 @@ class FedAvgNNWithGlobalScaler(FedAvg):
         if not results:
             return aggregated_loss, aggregated_metrics
 
-        # Calcolo MAE federata pesata
         total_n = 0
         weighted_mae = 0.0
 
@@ -337,7 +326,7 @@ class FedAvgNNWithGlobalScaler(FedAvg):
                     import shutil
 
                     shutil.copyfile(src, dst)
-                    print(f"[SERVER] ✅ Best model aggiornato (round {server_round}) -> {dst.resolve()}")
+                    print(f"[SERVER] Best model aggiornato (round {server_round}) -> {dst.resolve()}")
 
             aggregated_metrics = aggregated_metrics or {}
             aggregated_metrics["fed_eval_mae_real"] = float(mean_mae)

@@ -1,17 +1,15 @@
-# mlp/server/config.py
 from __future__ import annotations
 
 import json
 import os
 from pathlib import Path
 
-# --- networking / fl ---
 SERVER_ADDRESS = "127.0.0.1:8080"
 
 if "FL_SERVER_ADDRESS" in os.environ:
     SERVER_ADDRESS = os.environ["FL_SERVER_ADDRESS"]
 HOLDOUT_CID = 2
-# --- default federated params (overridabili da trial) ---
+# --- default federated params ---
 NUM_ROUNDS = 87
 FRACTION_FIT = 1.0
 FRACTION_EVALUATE = 1.0

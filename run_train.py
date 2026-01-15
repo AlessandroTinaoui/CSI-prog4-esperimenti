@@ -329,10 +329,10 @@ def main() -> int:
                 })
 
                 if rc != 0:
-                    print(f"⚠️ run_all.py exit code {rc} (vedi {client_log})")
+                    print(f"run_all.py exit code {rc} (vedi {client_log})")
 
                 if mae is None:
-                    print(f"⚠️ MAE non trovato nel server log {server_log}. "
+                    print(f"MAE non trovato nel server log {server_log}. "
                           f"Serve stampare 'FINAL_MAE: <valore>' dal server.")
 
         # ---- summary ----

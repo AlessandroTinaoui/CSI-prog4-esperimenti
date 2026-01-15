@@ -14,35 +14,15 @@ import pandas as pd
 class TSFeatureConfig:
     # Se None: inferisce automaticamente le colonne TS
     ts_cols: Optional[List[str]] = None
-
-    # Keyword per individuare colonne TS dal nome
     name_keywords: Tuple[str, ...] = ("time_series", "timeseries", "_ts", "ts_", "series")
-
-    # Se colonna object ha stringhe mediamente molto lunghe -> candidata TS
     long_string_threshold: int = 200
-
-    # Min lunghezza per calcolare dinamiche (slope/diff)
     min_len: int = 5
-
-    # Se True elimina le colonne TS originali dopo aver estratto feature
     drop_original_ts_cols: bool = True
-
-    # Prefisso per le nuove feature
     prefix: str = "ts"
-
-    # Quantili da calcolare
     quantiles: Tuple[float, ...] = (0.1, 0.25, 0.5, 0.75, 0.9)
-
-    # ✅ Rimuove valori negativi prima di calcolare le feature (train + test)
     drop_negative_values: bool = True
-
-    # ✅ aggiunge feature di qualità sulla TS raw (prima della pulizia)
     add_quality_features: bool = True
-
-    # ✅ se la TS contiene troppi negativi (sulla raw), NON si usa (used=0 e feature NaN)
     max_neg_frac_raw: float = 0.50  # es. 0.50 = più del 50% negativi => ignora
-
-    # ✅ dopo aver tolto negativi+NaN, se restano pochi punti => ignora
     min_valid_points: int = 5
 
 _NUMS_RE = re.compile(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?")
@@ -222,7 +202,7 @@ def extract_ts_features(df: pd.DataFrame, cfg: TSFeatureConfig) -> pd.DataFrame:
     """
     Estrae feature tabellari dalle colonne TS e opzionalmente rimuove le colonne TS originali.
     - Per ogni colonna TS crea nuove colonne: f"{prefix}__{col}__<feat>"
-    - ✅ Prima di calcolare le feature, elimina i valori negativi (se cfg.drop_negative_values=True)
+    - Prima di calcolare le feature, elimina i valori negativi (se cfg.drop_negative_values=True)
     """
     out = df.copy()
 

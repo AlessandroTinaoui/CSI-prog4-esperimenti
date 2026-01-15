@@ -453,13 +453,11 @@ def transform_with_params(X: pd.DataFrame, params: FittedParams, cfg: Preprocess
 def main(cfg: PreprocessConfig) -> None:
     ensure_dir(cfg.out_root)
 
-    # 1) Build merged clients
     merged_raw: Dict[int, pd.DataFrame] = {}
     for g in range(cfg.n_groups):
         group_dir = cfg.raw_root / f"group{g}"
         merged_raw[g] = build_client_from_group(group_dir, cfg)
 
-    # 2) Clean split: train-mode vs test-mode (x_test e holdout)
     clients_X: Dict[int, pd.DataFrame] = {}
     clients_y: Dict[int, Optional[pd.Series]] = {}
 

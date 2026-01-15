@@ -15,7 +15,6 @@ LR = 1e-3
 WEIGHT_DECAY = 1e-5
 
 # FedProx: forza il modello locale a non allontanarsi troppo dal globale.
-# Tipici valori: 0.001, 0.01, 0.05, 0.1
 FEDPROX_MU = 0.01
 
 # --- TABNET ARCH ---

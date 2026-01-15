@@ -23,18 +23,14 @@ class CleanConfig:
     min_non_null_frac: float = 0.40
 
     iqr_k: float = 1.5
-
-    # ✅ strategia esplicita per outlier tabellari
     outlier_strategy: str = "clean_col"
-    # "clean_col" = NON tocca la colonna originale
-
     use_ts_features: bool = True
-    debug: bool = True           # ✅ stampa info
+    debug: bool = True
     mode: str = "train"  # "train" oppure "infer"
 
     # --- NaN imputation (metodi slide) ---
-    nan_method: str = "median"          # "linear" (come richiesto)
-    nan_fill_limit: Optional[int] = 3   # riempi max 3 NaN consecutivi (consigliato)
+    nan_method: str = "median"
+    nan_fill_limit: Optional[int] = 3
 
 
 
@@ -87,7 +83,6 @@ def impute_missing_values(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
     if not feat:
         return out
 
-    # (ordinare per day serve solo a metodi temporali come linear)
     if cfg.day_col and cfg.day_col in out.columns and cfg.nan_method in {"linear"}:
         out = out.sort_values(cfg.day_col)
 
@@ -112,8 +107,6 @@ def impute_missing_values(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
 
 def fill_remaining_nans(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
     out = df.copy()
-
-    # riempiamo SOLO colonne numeriche (escludendo id/label/day)
     exclude = {cfg.label_col, "client_id", "user_id", "source_file"}
     if cfg.day_col:
         exclude.add(cfg.day_col)
@@ -168,8 +161,6 @@ def handle_outliers_iqr(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
 
     for c in feat:
         s = out[c]
-
-        # inizializza colonne anche se non abbastanza dati
         out[f"{c}__is_outlier"] = False
         out[f"{c}__clean"] = s
 
@@ -184,7 +175,6 @@ def handle_outliers_iqr(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
         lo, hi = q1 - cfg.iqr_k * iqr, q3 + cfg.iqr_k * iqr
         mask = (s < lo) | (s > hi)
 
-        # ✅ NON tocchi la colonna originale
         out[f"{c}__is_outlier"] = mask.fillna(False)
         median_non_outlier = s[~mask].median()
         out[f"{c}__clean"] = s.where(~mask, median_non_outlier)
@@ -203,7 +193,6 @@ def clean_user_df(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
     if cfg.mode not in {"train", "infer"}:
         raise ValueError(f"cfg.mode must be 'train' or 'infer', got: {cfg.mode}")
 
-    # 1️⃣ TS features
     if cfg.use_ts_features:
         ts_cfg = TSFeatureConfig(
             ts_cols=None,
@@ -299,7 +288,7 @@ def build_clients(base_dir: str, out_dir: str, cfg: CleanConfig):
         merged.to_csv(out_path, index=False)
 
         print(
-            f"✔ SALVATO {client_id}: "
+            f"SALVATO {client_id}: "
             f"{merged.shape[0]} righe | {merged.shape[1]} colonne\n"
         )
 
@@ -314,7 +303,7 @@ def build_x_test(x_test_path: str, out_path: str, cfg: CleanConfig):
     df_clean = clean_user_df(df, cfg)
     df_clean.to_csv(out_path, index=False)
 
-    print(f"✔ SALVATO X_TEST: {df_clean.shape[0]} righe | {df_clean.shape[1]} colonne -> {out_path}")
+    print(f"SALVATO X_TEST: {df_clean.shape[0]} righe | {df_clean.shape[1]} colonne -> {out_path}")
 
 def finalize_clean_columns(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
     out = df.copy()
@@ -327,7 +316,6 @@ def finalize_clean_columns(df: pd.DataFrame, cfg: CleanConfig) -> pd.DataFrame:
         if clean_c in out.columns:
             out[c] = out[clean_c]
 
-    # ✅ colonne da rimuovere ESPLICITAMENTE (solo quelle richieste)
     cols_to_drop_explicit = {
         "ts__resp_time_series__nan_frac_raw",
         "ts__stress_time_series__nan_frac_raw",
@@ -376,10 +364,10 @@ if __name__ == "__main__":
     X_TEST_OUT  = os.path.join(SCRIPT_DIR, "x_test_clean.csv")
 
     cfg_test = CleanConfig(
-        label_col="label",   # anche se non c’è nel test, non fa nulla
+        label_col="label",
         day_col="day",
         debug=True,
-        mode="infer",        # ✅ mai drop righe
+        mode="infer",
         outlier_strategy="clean_col",
         nan_method="median",
         nan_fill_limit=3

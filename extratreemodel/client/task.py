@@ -4,7 +4,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import ExtraTreesRegressor
 
 def load_data(partition_id: int, root_dir: str = "clients_data"):
-    """Load data for a specific client partition."""
     file_path = os.path.join(root_dir, f"clients_data/group{partition_id}_merged_clean.csv")
 
     if not os.path.exists(file_path):

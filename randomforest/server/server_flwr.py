@@ -7,7 +7,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import flwr as fl
-from sklearn.decomposition import non_negative_factorization
 from sklearn.metrics import mean_absolute_error
 
 from config import SERVER_ADDRESS, NUM_ROUNDS, HOLDOUT_CID
@@ -53,7 +52,6 @@ def load_semicolon_csv_keep_rows(path: str) -> pd.DataFrame:
 
 
 def clean_dataframe_soft(df: pd.DataFrame) -> pd.DataFrame:
-    """Pulizia soft: NON elimina righe."""
     # drop colonne tipo Unnamed: 0
     df = df.loc[:, ~df.columns.astype(str).str.match(r"^Unnamed")]
 
@@ -61,13 +59,11 @@ def clean_dataframe_soft(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = [str(c).strip() for c in df.columns]
     df = df.loc[:, ~df.columns.duplicated()]
 
-    # inf -> NaN (poi fillna)
     df = df.replace([np.inf, -np.inf], np.nan)
     return df
 
 WORKDIR = Path.cwd()
 
-# vuoi: WORKDIR/../results/selected_features.json
 RESULTS_DIR = (WORKDIR / ".." / "results").resolve()
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -162,13 +158,11 @@ def main():
         except Exception as e:
             print(f"[WARN] Non riesco a leggere {feat_path}: {e}. Uso tutte le colonne di x_test.")
 
-    # se train_features esiste -> allinea, altrimenti tieni tutte le colonne presenti
     if train_features is not None:
         X = X.reindex(columns=train_features)  # aggiunge mancanti come NaN, elimina extra, riordina
     else:
         print("[INFO] train_features assenti/vuote -> uso tutte le colonne di x_test (dopo drop id/label/date).")
 
-    # converti a numerico dove possibile e fill NaN/inf senza droppare righe
     X = X.apply(pd.to_numeric, errors="coerce")
 
     X = X.replace([np.inf, -np.inf], np.nan).fillna(0)
@@ -181,7 +175,7 @@ def main():
 
     out = pd.DataFrame({"id": ids, "label": y_pred})
     out.to_csv("../results/predictions.csv", index=False)
-    print("✅ Creato predictions.csv (formato: id,label)")
+    print("Creato predictions.csv (formato: id,label)")
 
 
 if __name__ == "__main__":

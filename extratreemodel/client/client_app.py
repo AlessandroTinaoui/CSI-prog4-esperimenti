@@ -119,10 +119,8 @@ class ExtraTreesClient(NumPyClient):
         if selected is None:
             selected_features = list(self.feature_names_full)
         else:
-            # ✅ FIX: ordine IDENTICO a quello del server
             selected_features = json.loads(selected) if isinstance(selected, str) else list(selected)
 
-        # ✅ crea colonne mancanti e usa quell’ordine
         self._ensure_columns(selected_features)
         self.selected_features = list(selected_features)
 
@@ -149,7 +147,6 @@ class ExtraTreesClient(NumPyClient):
         if selected is None:
             selected_features = self.selected_features or list(self.feature_names_full)
         else:
-            # ✅ FIX: ordine IDENTICO a quello del server anche in evaluate
             selected_features = json.loads(selected) if isinstance(selected, str) else list(selected)
 
         self._ensure_columns(selected_features)

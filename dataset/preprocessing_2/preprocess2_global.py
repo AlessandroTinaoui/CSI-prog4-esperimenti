@@ -22,25 +22,19 @@ class CleanConfigGlobal:
     label_col: str = "label"
     day_col: Optional[str] = "day"
 
-    # train vs infer
-    mode: str = "train"  # "train" | "infer"
+    mode: str = "train"
     drop_label_zero: bool = True
     min_non_null_frac: float = 0.8
 
     # IQR (usato SOLO per clipping)
     iqr_k: float = 1.5
 
-    # Domain sanity checks (wearable)
-    # HR
     hr_min: float = 30.0
     hr_max: float = 220.0
-    # Respiration
     resp_min: float = 5.0
     resp_max: float = 60.0
-    # Sleep/seconds bounds
     seconds_min: float = 0.0
-    seconds_max: float = 86400.0  # 24h
-    # Stress bounds (se vuoi disattivare, metti None)
+    seconds_max: float = 86400.0
     stress_min: float = 0.0
     stress_max: float = 100.0
 
@@ -454,13 +448,9 @@ def compute_global_stats_from_csvs(
 def clean_user_df_global(df: pd.DataFrame, cfg: CleanConfigGlobal, gs: GlobalStats) -> pd.DataFrame:
     out = df.copy()
     n_rows_start = len(out)
-
-    # 1) TS augmentation (prima dell'extract)
     if cfg.ts_augment:
         ts_cols = infer_ts_columns(out, TSFeatureConfig(ts_cols=None))
         out = augment_ts_dataframe(out, ts_cols=ts_cols, cfg=cfg.ts_aug_cfg)
-
-    # 2) TS features
     if cfg.use_ts_features:
         ts_cfg = TSFeatureConfig(
             ts_cols=None,
@@ -594,7 +584,7 @@ def build_x_test_with_global_stats(
 
     clean = clean_user_df_global(df, cfg_test, gs)
     clean.to_csv(out_path, index=False)
-    print(f"✔ SALVATO X_TEST: {clean.shape[0]} righe | {clean.shape[1]} colonne -> {out_path}")
+    print(f"SALVATO X_TEST: {clean.shape[0]} righe | {clean.shape[1]} colonne -> {out_path}")
 
 
 
@@ -647,4 +637,4 @@ if __name__ == "__main__":
     if os.path.exists(X_TEST_PATH):
         build_x_test_with_global_stats(X_TEST_PATH, X_TEST_OUT, cfg, gs)
     else:
-        print(f"⚠️ x_test.csv non trovato in: {X_TEST_PATH}")
+        print(f" x_test.csv non trovato in: {X_TEST_PATH}")

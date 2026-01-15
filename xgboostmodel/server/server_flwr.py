@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 def load_semicolon_csv_keep_rows(path: str) -> pd.DataFrame:
     if not os.path.exists(path):
-        print(f"⚠️ File non trovato: {path}")
+        print(f"File non trovato: {path}")
         return pd.DataFrame()
 
     with open(path, "r", encoding="utf-8", errors="replace") as f:
@@ -86,7 +86,7 @@ def main():
         min_available_clients=8,
     )
 
-    print("🚀 Avvio Server Flower...")
+    print("Avvio Server Flower...")
     try:
         fl.server.start_server(
             server_address=SERVER_ADDRESS,
@@ -94,19 +94,19 @@ def main():
             strategy=strategy,
         )
     except Exception as e:
-        print(f"❌ Errore durante il training FL: {e}")
+        print(f"Errore durante il training FL: {e}")
         sys.exit(1)
 
-    print("\n✅ FL terminato. Inizio fase di test...")
+    print("\nFL terminato. Inizio fase di test...")
 
     if not global_model_path.exists() or not global_features_path.exists():
         print(global_model_path)
         print(global_features_path)
-        print("❌ ERRORE: file global_model.json / global_model_features.json non creati.")
+        print("ERRORE: file global_model.json / global_model_features.json non creati.")
         sys.exit(1)
 
     booster = _load_global_booster(global_model_path)
-    print("✅ Modello globale caricato.")
+    print("Modello globale caricato.")
 
     train_features = json.loads(global_features_path.read_text(encoding="utf-8"))["features"]
 
@@ -141,35 +141,30 @@ def main():
             print(f"MEA valutato sul client {HOLDOUT_CID}")
             print(f"FINAL_MAE: {mae_holdout}")
         else:
-            print(f"⚠️ Holdout non trovato: {holdout_path}")
+            print(f"Holdout non trovato: {holdout_path}")
 
     # -------------------------
     # TEST FINALE SU x_test_clean.csv (già pulito)
     # -------------------------
     test_path = BASE_DIR / "../" / TEST_PATH
     if not test_path.exists():
-        print(f"⚠️ File x_test_clean.csv non trovato in {test_path}")
+        print(f"File x_test_clean.csv non trovato in {test_path}")
         return
 
-    # Se è già pulito e con separatore standard:
     x_test = pd.read_csv(test_path)
 
-    # ID (se presente) altrimenti indice
     if "id" in x_test.columns:
         ids = pd.to_numeric(x_test["id"], errors="coerce").fillna(0).astype(int).to_numpy()
     else:
         ids = np.arange(len(x_test), dtype=int)
 
-    # Feature matrix
     X = x_test.drop(columns=[c for c in ["id", "label", "date"] if c in x_test.columns], errors="ignore")
 
-    # Allinea alle feature selezionate durante FL
     for c in train_features:
         if c not in X.columns:
             X[c] = 0
     X = X[train_features]
 
-    # Allinea alle feature effettive del booster (se presenti)
     model_feats = booster.feature_names
     if model_feats:
         for c in model_feats:
@@ -183,7 +178,7 @@ def main():
     y_pred_int = np.rint(y_pred).astype(int)
     out = pd.DataFrame({"id": ids, "label": y_pred_int})
     out.to_csv("../results/predictions.csv", index=False)
-    print("✅ Creato predictions.csv")
+    print("Creato predictions.csv")
 
 
 if __name__ == "__main__":

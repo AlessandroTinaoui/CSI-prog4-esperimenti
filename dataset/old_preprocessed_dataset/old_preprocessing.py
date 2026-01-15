@@ -39,8 +39,7 @@ def drop_time_series_columns(df: pd.DataFrame, cfg) -> pd.DataFrame:
     - per euristica: colonne object con stringhe molto lunghe (time series serializzate)
     """
     out = df.copy()
-    #rimozione per nome
-    name_keywords = ["time_series", "timeseries", "_ts", "series"]
+    name_keywords = ["time_series"]
     cols_by_name = [c for c in out.columns if any(k in c.lower() for k in name_keywords)]
 
     # euristica su colonne object: stringhe mediamente molto lunghe
@@ -50,11 +49,9 @@ def drop_time_series_columns(df: pd.DataFrame, cfg) -> pd.DataFrame:
         s = out[c].dropna() #prende valori non Nan
         if s.empty: #se colonna tutta Nan salta
             continue
-        # calcola lunghezza media solo su stringhe
         s = s.astype(str) #converte tutto in stringa
         if s.map(len).mean() > 200:   # calcola la lunghezza di ogni cella, fa media lunghezze e se maggiore di 200 messa in cols_by_len
             cols_by_len.append(c)
-#unione delle colonne da eliminare
     to_drop = sorted(set(cols_by_name + cols_by_len))#cols BY name:concatena set: elimina duplicati, sorted:ordine stabile
     if to_drop:
         out = out.drop(columns=to_drop, errors="ignore") #drop elimina
@@ -375,15 +372,11 @@ def build_clients(TRAIN_BASE_DIR: str, TRAIN_OUT_DIR: str, cfg: CleanConfig) -> 
 
 #blocco di esecuzione
 if __name__ == "__main__":
-    # path robusti: partono dalla cartella dove sta questo script
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    # Nel tuo caso: .../dataset/CSV_train/client_dataset_setup.py
-    # e i group sono in: .../dataset/CSV_train/CSV_train/group0...
     TRAIN_BASE_DIR = os.path.join(SCRIPT_DIR, "../raw_dataset")  # <- vedi la tua struttura annidata
     TRAIN_OUT_DIR  = os.path.join(SCRIPT_DIR, "clients_dataset")
 
-#configurazione di pulizia
     cfg = CleanConfig(
         label_col="label",
         day_col="day",

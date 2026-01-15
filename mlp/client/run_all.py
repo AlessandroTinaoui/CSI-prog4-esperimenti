@@ -3,8 +3,6 @@ import sys
 import subprocess
 import time
 
-# Configurazione manuale se config.py fallisce
-
 from mlp.server.config import HOLDOUT_CID
 from dataset.dataset_cfg import get_train_path, get_script_path
 
@@ -18,7 +16,6 @@ def main():
         os.makedirs("../logs")
 
     print("--- AVVIO SISTEMA FEDERATED ---")
-    # Esegui sempre il preprocessing globale prima di qualsiasi altra cosa
     preprocess_script = os.path.join(BASE_DIR, "../../" + get_script_path())
     subprocess.run([sys.executable, preprocess_script], cwd=BASE_DIR, check=True)
 
@@ -29,8 +26,6 @@ def main():
         csv_path = os.path.join(DATA_DIR, "group"+str(client_id)+"_merged_clean.csv")
         cmd = [sys.executable, "client_app.py", str(client_id), csv_path]
 
-        # >>>> QUESTA È LA FIX PER IL DUMP <<<<
-        # Scriviamo stdout/stderr su file invece che nel terminale
         log_file = open(f"../logs/client_{client_id}.log", "w")
 
         p = subprocess.Popen(

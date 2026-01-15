@@ -98,7 +98,7 @@ def main():
         min_available_clients=8,
     )
 
-    print("🚀 Avvio Server Flower (NN)...")
+    print("Avvio Server Flower (NN)...")
     try:
         fl.server.start_server(
             server_address=SERVER_ADDRESS,
@@ -106,20 +106,19 @@ def main():
             strategy=strategy,
         )
     except Exception as e:
-        print(f"❌ Errore durante il training FL: {e}")
+        print(f"Errore durante il training FL: {e}")
         sys.exit(1)
 
-    print("\n✅ FL terminato. Inizio fase di test...")
+    print("\nFL terminato. Inizio fase di test...")
 
     try:
         global_features, mean, std, params, y_mean, y_std = _load_global_artifacts()
     except Exception as e:
-        print(f"❌ ERRORE artifacts globali: {e}")
+        print(f"ERRORE artifacts globali: {e}")
         sys.exit(1)
 
-    print(f"✅ Artifacts caricati: n_features={len(global_features)} | y_mean={y_mean:.4f} y_std={y_std:.4f}")
+    print(f"Artifacts caricati: n_features={len(global_features)} | y_mean={y_mean:.4f} y_std={y_std:.4f}")
 
-    # ricostruisci modello
     input_dim = len(global_features)
     model = MLPRegressor(input_dim=input_dim, hidden_sizes=[64, 32, 16], dropout=0.0)
     _set_torch_params(model, params)
@@ -133,7 +132,7 @@ def main():
             holdout = pd.read_csv(holdout_path, sep=",")
 
             if "label" not in holdout.columns:
-                print(f"⚠️ Holdout senza label: {holdout_path}")
+                print(f"Holdout senza label: {holdout_path}")
             else:
                 y_holdout = holdout["label"].astype(float).to_numpy()
 
@@ -148,14 +147,14 @@ def main():
                 print(f"MEA valutato sul client {HOLDOUT_CID}")
                 print(f"FINAL_MAE: {mae_holdout}")
         else:
-            print(f"⚠️ Holdout non trovato: {holdout_path}")
+            print(f"Holdout non trovato: {holdout_path}")
 
     # -------------------------
     # 2) PREDICT x_test_clean.csv (scala reale) + save Kaggle
     # -------------------------
     test_path = BASE_DIR / "../" / TEST_PATH
     if not test_path.exists():
-        print(f"⚠️ File x_test_clean.csv non trovato in {test_path}")
+        print(f"File x_test_clean.csv non trovato in {test_path}")
         return
 
     x_test = pd.read_csv(test_path)
@@ -170,10 +169,10 @@ def main():
     Xt = _align_and_standardize(X, global_features, mean, std)
     y_pred = _predict_real(model, Xt, y_mean, y_std)
 
-    y_pred = np.asarray(y_pred, dtype=np.float32)  # float, non arrotondare
+    y_pred = np.asarray(y_pred, dtype=np.float32)
     out = pd.DataFrame({"id": ids, "label": y_pred})
     out.to_csv("../results/predictions.csv", index=False)
-    print("✅ Creato predictions.csv")
+    print("Creato predictions.csv")
 
 
 if __name__ == "__main__":

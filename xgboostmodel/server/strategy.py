@@ -227,7 +227,7 @@ class XGBoostTreeAppendStrategy(FedAvg):
                 weights.append(n)
 
             if not importances_list or feature_names is None:
-                print("⚠️ Nessuna feature importance ricevuta. Salto la selezione.")
+                print("Nessuna feature importance ricevuta. Salto la selezione.")
                 self.feature_names = None
                 self.selected_features = None
                 return ndarrays_to_parameters([]), {"fs_done": 0.0}
@@ -284,7 +284,7 @@ class XGBoostTreeAppendStrategy(FedAvg):
             try:
                 local_dict = json.loads(local_bytes.decode("utf-8"))
             except Exception:
-                print("⚠️ Modello client non in formato JSON (serve save_raw(raw_format='json')).")
+                print("Modello client non in formato JSON (serve save_raw(raw_format='json')).")
                 continue
 
             if self._global_model_dict is None:
@@ -301,7 +301,7 @@ class XGBoostTreeAppendStrategy(FedAvg):
             trees_appended += _append_new_trees(self._global_model_dict, local_dict)
 
         if self._global_model_dict is None:
-            print("⚠️ Nessun modello valido ricevuto (round >=2).")
+            print("Nessun modello valido ricevuto (round >=2).")
             return _params_from_bytes(self._global_model_bytes), {"trees_appended": 0.0}
 
         # Persist global model bytes

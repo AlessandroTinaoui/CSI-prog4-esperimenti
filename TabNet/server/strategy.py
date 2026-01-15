@@ -64,7 +64,6 @@ class FedProxNNWithGlobalScaler(FedAvg):
             ins.config["y_mean"] = str(self.y_mean)
             ins.config["y_std"] = str(self.y_std)
 
-            # FedProx: invia mu al client
             ins.config["fedprox_mu"] = str(self.fedprox_mu)
 
             out.append((cp, ins))

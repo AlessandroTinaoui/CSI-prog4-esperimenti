@@ -170,7 +170,7 @@ class ExtraTreesEnsembleStrategy(FedAvg):
                 weights.append(n)
 
             if not importances_list or feature_names is None:
-                print("⚠️ Nessuna feature importance ricevuta. Salto la selezione.")
+                print("Nessuna feature importance ricevuta. Salto la selezione.")
                 self.feature_names = None
                 self.selected_features = None
                 return ndarrays_to_parameters([]), {"fs_done": 0.0}
@@ -221,7 +221,7 @@ class ExtraTreesEnsembleStrategy(FedAvg):
                 local_model = pickle.loads(local_bytes)
                 models.append(local_model)
             except Exception:
-                print("⚠️ Impossibile deserializzare modello client (pickle).")
+                print("Impossibile deserializzare modello client (pickle).")
                 continue
 
         if self.selected_features is None:

@@ -9,9 +9,8 @@ ET_MIN_SAMPLES_SPLIT = 18
 ET_MIN_SAMPLES_LEAF = 1
 ET_MAX_FEATURES = 1.0
 ET_BOOTSTRAP = True
-ET_CRITERION = "absolute_error"  # se lo vuoi supportare
+ET_CRITERION = "absolute_error"
 
-# ===== Override da TRIAL_CONFIG_PATH (se presente) =====
 _cfg_path = os.environ.get("TRIAL_CONFIG_PATH")
 if _cfg_path:
     p = Path(_cfg_path)
@@ -19,11 +18,8 @@ if _cfg_path:
         cfg = json.loads(p.read_text(encoding="utf-8"))
         client = cfg.get("client", {})
 
-        # supporto sia chiavi "client.N_ESTIMATORS" sia "N_ESTIMATORS" (nel dubbio)
         ET_N_ESTIMAT,ORS = int(client.get("N_ESTIMATORS", client.get("client.N_ESTIMATORS", ET_N_ESTIMATORS)))
 
-        # MAX_DEPTH: può essere None oppure un int
-        # nel tuo search_space hai anche MAX_DEPTH_IS_NONE, quindi gestiscilo
         is_none = client.get("MAX_DEPTH_IS_NONE", client.get("client.MAX_DEPTH_IS_NONE", None))
         if is_none is True:
             ET_MAX_DEPTH = None
@@ -48,7 +44,6 @@ EXTRA_TREES_PARAMS = {
     "bootstrap": ET_BOOTSTRAP,
     "min_samples_split": ET_MIN_SAMPLES_SPLIT,
     "min_samples_leaf": ET_MIN_SAMPLES_LEAF,
-    # opzionale se lo usi davvero nel costruttore
     "criterion": ET_CRITERION,
 }
 

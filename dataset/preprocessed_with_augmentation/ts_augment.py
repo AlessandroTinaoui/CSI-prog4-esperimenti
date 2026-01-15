@@ -163,7 +163,6 @@ def augment_ts_dataframe(
                     drop_idx = rng.choice(arr_aug.size, size=m, replace=False)
                     arr_aug[drop_idx] = np.nan
 
-            # opzionale: non introdurre negativi artificiali se vuoi
             if not cfg.keep_negatives:
                 arr_aug[arr_aug < 0] = np.nan
 
